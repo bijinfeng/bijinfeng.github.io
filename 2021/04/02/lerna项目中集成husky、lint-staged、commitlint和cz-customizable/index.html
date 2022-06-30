@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top">
+<head>
+    <meta charset="utf-8">
+<title>lerna项目中集成husky、lint-staged、commitlint和cz-customizable - Hexo</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
+
+
+
+
+<meta name="description" content="">
+
+
+
+
+
+    <meta name="description" content="Monorepo 是针对单仓库、多 package 的流行解决方案, lerna 是它的一种实现。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="lerna项目中集成husky、lint-staged、commitlint和cz-customizable">
+<meta property="og:url" content="https://bijinfeng.github.io/2021/04/02/lerna%E9%A1%B9%E7%9B%AE%E4%B8%AD%E9%9B%86%E6%88%90husky%E3%80%81lint-staged%E3%80%81commitlint%E5%92%8Ccz-customizable/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Monorepo 是针对单仓库、多 package 的流行解决方案, lerna 是它的一种实现。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-04-02T15:07:17.000Z">
+<meta property="article:modified_time" content="2022-03-06T08:41:46.709Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+<link rel="icon" href="/favicon.ico">
+
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Ovo|Source+Code+Pro">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/css/justifiedGallery.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+<script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+<body>
+    
+<nav class="navbar is-transparent is-fixed-top navbar-main" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                <img src="/images/logo.png" alt="" height="28">
+                
+            </a>
+            <div class="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="navbar-menu navbar-start">
+            
+            <a class="navbar-item "
+               href="/archives">归档</a>
+            
+        </div>
+        
+        <div class="navbar-menu navbar-end">
+            
+            <a class="navbar-item search" title="搜索" href="javascript:;">
+                <i class="fas fa-search"></i>
+            </a>
+            
+            
+            
+            <a class="navbar-item" title="GitHub" target="_blank" rel="noopener" href="https://github.com/bijinfeng/bijinfeng.github.io">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+               
+            
+        </div>
+    </div>
+</nav>
+
+    <section class="section">
+    <div class="container">
+    <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+            lerna项目中集成husky、lint-staged、commitlint和cz-customizable
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">
+            
+                <time datetime="2021-04-02T15:07:17.000Z" itemprop="datePublished">4月 2 2021</time>
+            
+        </span>
+        
+        
+        <span class="column is-narrow">
+            
+            
+            9 分钟 读完 (约 1278 字)
+        </span>
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+    
+        <html><head></head><body><p>Monorepo 是针对单仓库、多 package 的流行解决方案, lerna 是它的一种实现。</p>
+<span id="more"></span>
+
+
+<h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>重要package版本说明：</p>
+<ul>
+<li>“husky”: “^6.0.0”</li>
+<li>“lint-staged”: “^10.5.4”</li>
+<li>“@commitlint/cli”: “^12.0.1”</li>
+<li>“@commitlint/config-conventional”: “^12.0.1”</li>
+<li>“cz-customizable”: “^6.3.0”</li>
+</ul>
+<h2 id="配置husky"><a href="#配置husky" class="headerlink" title="配置husky"></a>配置husky</h2><p>在lerna项目根目录中安装<code>husky</code>:</p>
+<figure class="highlight bash hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn add husky -D</span><br></pre></td></tr></tbody></table></figure>
+
+<blockquote>
+<p>注意：husky v4和v6版本的配置方式大相径庭，这里只介绍v6版本的配置方式，v4的网上一搜一大把，这里不过多介绍</p>
+</blockquote>
+<ol>
+<li>在<code>package.json</code>的<code>scripts</code>中添加<code>"prepare": "husky install"</code>，并运行这条命令：</li>
+</ol>
+<figure class="highlight bash hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm set-script prepare <span class="hljs-string">"husky install"</span> &amp;&amp; npm run prepare</span><br></pre></td></tr></tbody></table></figure>
+
+<ol start="2">
+<li>添加一个hook:</li>
+</ol>
+<figure class="highlight bash hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npx husky add .husky/pre-commit <span class="hljs-string">"npm test"</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>上面这个命令会在<code>.husky</code>目录下新建一个<code>pre-commit</code>文件，其内容如下：</p>
+<figure class="highlight bash hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">#!/bin/sh</span></span><br><span class="line">. <span class="hljs-string">"<span class="hljs-subst">$(dirname <span class="hljs-string">"<span class="hljs-variable">$0</span>"</span>)</span>/_/husky.sh"</span></span><br><span class="line"></span><br><span class="line">npm <span class="hljs-built_in">test</span></span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+
+<p>以上都是手动安装<code>husky</code>的过程，当然官方也提供了一键安装和配置脚本，推荐使用：</p>
+<figure class="highlight bash hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npx husky-init &amp;&amp; npm install       <span class="hljs-comment"># npm</span></span><br><span class="line">npx husky-init &amp;&amp; yarn              <span class="hljs-comment"># Yarn 1</span></span><br><span class="line">yarn dlx husky-init --yarn2 &amp;&amp; yarn <span class="hljs-comment"># Yarn 2</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>如果使用的是v4版本的<code>husky</code>，想升级到v6，可以使用以下命名，一键迁移：</p>
+<figure class="highlight bash hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// npm</span><br><span class="line">npm install husky@6 --save-dev \</span><br><span class="line">  &amp;&amp; npx husky-init \</span><br><span class="line">  &amp;&amp; npm <span class="hljs-built_in">exec</span> -- github:typicode/husky-4-to-6 --remove-v4-config</span><br><span class="line">  </span><br><span class="line">// yarn 1</span><br><span class="line">yarn add husky@6 --dev \</span><br><span class="line">  &amp;&amp; npx husky-init \</span><br><span class="line">  &amp;&amp; npm <span class="hljs-built_in">exec</span> -- github:typicode/husky-4-to-6 --remove-v4-config</span><br><span class="line"></span><br><span class="line">// yarn 2</span><br><span class="line">yarn add husky@6 --dev \</span><br><span class="line">  &amp;&amp; yarn dlx husky-init --yarn2 \</span><br><span class="line">  &amp;&amp; npm <span class="hljs-built_in">exec</span> -- github:typicode/husky-4-to-6 --remove-v4-config</span><br></pre></td></tr></tbody></table></figure>
+
+<blockquote>
+<p>更多配置，详见官方文档：<a target="_blank" rel="noopener" href="https://typicode.github.io/husky/#/">https://typicode.github.io/husky/#/</a></p>
+</blockquote>
+<h2 id="配置lint-staged"><a href="#配置lint-staged" class="headerlink" title="配置lint-staged"></a>配置lint-staged</h2><p>在<code>lerna</code>项目中，由于所有子项目公用一个 repo 源代码仓库，因此它的 husky 钩子只能建立在最顶层目录；</p>
+<p>而每次 commit 都很有可能是多个子项目都有改动，这个时候使用 <code>lint-staged</code> 时，就不但要区分文件类型，还要区分改动文件所在的子项目（因为不同的子项目可能会有不同的校验处理）。</p>
+<p>这时，我们可以使用 lerna 命令来实现对“哪个子项目有修改”的判断；而 <code>lint-staged</code> 就需要安装在任何一个需要做校验的子项目中。</p>
+<ol>
+<li>添加或修改<code>.husky</code>目录下的<code>pre-commit</code>钩子如下：</li>
+</ol>
+<figure class="highlight plaintext hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/sh</span><br><span class="line">. "$(dirname "$0")/_/husky.sh"</span><br><span class="line"></span><br><span class="line">lerna run --concurrency 1 --stream precommit --since HEAD --exclude-dependents</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+
+
+<p>其中，<code>precommit</code> 是在<code>pre-commit</code>钩子中触发的子项目的命令</p>
+<ol start="2">
+<li>在子项目中安装和配置<code>lint-staged</code>，并添加<code>precommit</code>命令</li>
+</ol>
+<ul>
+<li>安装<code>lint-staged</code>：</li>
+</ul>
+<figure class="highlight bash hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lerna add lint-staged --scope=xxxx -D</span><br></pre></td></tr></tbody></table></figure>
+
+
+<ul>
+<li>在添加<code>precommit</code>命令：</li>
+</ul>
+<figure class="highlight plaintext hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">"precommit": "lint-staged"</span><br></pre></td></tr></tbody></table></figure>
+
+<ul>
+<li>配置<code>lint-staged</code>：</li>
+</ul>
+<figure class="highlight json hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-attr">"lint-staged"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span></span><br><span class="line">  <span class="hljs-attr">"*.{ts,tsx,js,jsx}"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span></span><br><span class="line">    <span class="hljs-string">"eslint"</span></span><br><span class="line">  <span class="hljs-punctuation">]</span></span><br><span class="line"><span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span></span><br></pre></td></tr></tbody></table></figure>
+
+<blockquote>
+<p>更多配置，详见官方文档：<a target="_blank" rel="noopener" href="https://github.com/okonet/lint-staged#readme">https://github.com/okonet/lint-staged#readme</a></p>
+</blockquote>
+<h2 id="配置commitlint和cz-customizable"><a href="#配置commitlint和cz-customizable" class="headerlink" title="配置commitlint和cz-customizable"></a>配置commitlint和cz-customizable</h2><p>每个团队对提交的commit message格式有约定俗称的要求，但是没有一个统一的规范，导致大家提交的commit message或多或少不太一样。因此，需要一个工具来帮助大家统一commit message的格式，也方便后续的分析和拓展。</p>
+<p><code>cz-customizable</code>是一个帮助书写commit message的工具，而<code>commitlint</code>是一个校验commit message的工具。</p>
+<ol>
+<li>安装<code>commitlint</code>和<code>cz-customizable</code>:</li>
+</ol>
+<figure class="highlight bash hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn add @commitlint/cli @commitlint/config-conventional cz-customizable -D</span><br></pre></td></tr></tbody></table></figure>
+
+<ol start="2">
+<li>添加<code>commit-msg</code>钩子</li>
+</ol>
+<figure class="highlight bash hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npx husky add .husky/commit-msg <span class="hljs-string">"yarn commitlint --edit"</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>生成如下文件：</p>
+<figure class="highlight bash hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">#!/bin/sh</span></span><br><span class="line">. <span class="hljs-string">"<span class="hljs-subst">$(dirname <span class="hljs-string">"<span class="hljs-variable">$0</span>"</span>)</span>/_/husky.sh"</span></span><br><span class="line"></span><br><span class="line">yarn commitlint --edit </span><br></pre></td></tr></tbody></table></figure>
+
+<ol start="3">
+<li>在<code>package.json</code>中添加以下配置：</li>
+</ol>
+<figure class="highlight json hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-punctuation">{</span></span><br><span class="line">  ...</span><br><span class="line">  <span class="hljs-attr">"config"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span></span><br><span class="line">    <span class="hljs-attr">"commitizen"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span></span><br><span class="line">      <span class="hljs-attr">"path"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"./node_modules/cz-customizable"</span></span><br><span class="line">    <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span></span><br><span class="line">    <span class="hljs-attr">"cz-customizable"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span></span><br><span class="line">      <span class="hljs-attr">"config"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"./.cz-config.js"</span></span><br><span class="line">    <span class="hljs-punctuation">}</span></span><br><span class="line">  <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span></span><br><span class="line">  ...</span><br><span class="line"><span class="hljs-punctuation">}</span></span><br></pre></td></tr></tbody></table></figure>
+
+<ol start="4">
+<li>在项目根目录中新建<code>.cz-config.js</code>文件，内容如下：</li>
+</ol>
+<figure class="highlight js hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">module</span>.<span class="hljs-property">exports</span> = {</span><br><span class="line">  <span class="hljs-attr">types</span>: [</span><br><span class="line">    { <span class="hljs-attr">value</span>: <span class="hljs-string">'feat'</span>, <span class="hljs-attr">name</span>: <span class="hljs-string">'feat:     A new feature'</span> },</span><br><span class="line">    { <span class="hljs-attr">value</span>: <span class="hljs-string">'fix'</span>, <span class="hljs-attr">name</span>: <span class="hljs-string">'fix:      A bug fix'</span> },</span><br><span class="line">    {</span><br><span class="line">      <span class="hljs-attr">value</span>: <span class="hljs-string">'style'</span>,</span><br><span class="line">      <span class="hljs-attr">name</span>:</span><br><span class="line">        <span class="hljs-string">'style:    Changes that do not affect the meaning of the code\n            (white-space, formatting, missing semi-colons, etc)'</span>,</span><br><span class="line">    },</span><br><span class="line">    {</span><br><span class="line">      <span class="hljs-attr">value</span>: <span class="hljs-string">'refactor'</span>,</span><br><span class="line">      <span class="hljs-attr">name</span>:</span><br><span class="line">        <span class="hljs-string">'refactor: A code change that neither fixes a bug nor adds a feature'</span>,</span><br><span class="line">    },</span><br><span class="line">    { <span class="hljs-attr">value</span>: <span class="hljs-string">'revert'</span>, <span class="hljs-attr">name</span>: <span class="hljs-string">'revert:   Revert to a commit'</span> },</span><br><span class="line">    {</span><br><span class="line">      <span class="hljs-attr">value</span>: <span class="hljs-string">'chore'</span>,</span><br><span class="line">      <span class="hljs-attr">name</span>:</span><br><span class="line">        <span class="hljs-string">'chore:    Changes to the build process or auxiliary tools\n            and libraries such as documentation generation'</span>,</span><br><span class="line">    },</span><br><span class="line">    { <span class="hljs-attr">value</span>: <span class="hljs-string">'docs'</span>, <span class="hljs-attr">name</span>: <span class="hljs-string">'docs:     Documentation only changes'</span> },</span><br><span class="line">    {</span><br><span class="line">      <span class="hljs-attr">value</span>: <span class="hljs-string">'perf'</span>,</span><br><span class="line">      <span class="hljs-attr">name</span>: <span class="hljs-string">'perf:     A code change that improves performance'</span>,</span><br><span class="line">    },</span><br><span class="line">    { <span class="hljs-attr">value</span>: <span class="hljs-string">'test'</span>, <span class="hljs-attr">name</span>: <span class="hljs-string">'test:     Adding missing tests'</span> },</span><br><span class="line">  ],</span><br><span class="line"></span><br><span class="line">  <span class="hljs-attr">scopes</span>: [</span><br><span class="line">    { <span class="hljs-attr">name</span>: <span class="hljs-string">'frontend'</span> },</span><br><span class="line">    { <span class="hljs-attr">name</span>: <span class="hljs-string">'backend'</span> },</span><br><span class="line">    { <span class="hljs-attr">name</span>: <span class="hljs-string">'service'</span> },</span><br><span class="line">  ],</span><br><span class="line"></span><br><span class="line">  <span class="hljs-attr">messages</span>: {</span><br><span class="line">    <span class="hljs-attr">type</span>: <span class="hljs-string">"Select the type of change that you're committing:"</span>,</span><br><span class="line">    <span class="hljs-attr">scope</span>: <span class="hljs-string">"\n Select the scope of change that you're committing:"</span>,</span><br><span class="line">    <span class="hljs-comment">// used if allowCustomScopes is true</span></span><br><span class="line">    <span class="hljs-attr">customScope</span>: <span class="hljs-string">'Denote the custom scope:'</span>,</span><br><span class="line">    <span class="hljs-attr">subject</span>: <span class="hljs-string">'Write a SHORT, IMPERATIVE tense description of the change:\n'</span>,</span><br><span class="line">    <span class="hljs-attr">body</span>:</span><br><span class="line">      <span class="hljs-string">'Provide a LONGER description of the change (optional). Use "|" to break new line:\n'</span>,</span><br><span class="line">    <span class="hljs-attr">breaking</span>: <span class="hljs-string">'List any BREAKING CHANGES (optional):\n'</span>,</span><br><span class="line">    <span class="hljs-attr">footer</span>:</span><br><span class="line">      <span class="hljs-string">'List any ISSUES CLOSED by this change (optional). E.g.: #31, #34:\n'</span>,</span><br><span class="line">    <span class="hljs-attr">confirmCommit</span>: <span class="hljs-string">'Are you sure you want to proceed with the commit above?'</span>,</span><br><span class="line">  },</span><br><span class="line"></span><br><span class="line">  <span class="hljs-attr">allowCustomScopes</span>: <span class="hljs-literal">true</span>,</span><br><span class="line">}</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+
+<ol start="5">
+<li>在项目根目录中新建<code>.commitlintrc.js</code>文件，内容如下：</li>
+</ol>
+<figure class="highlight js hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">const</span> typeEnum = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./.cz-config'</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable language_">module</span>.<span class="hljs-property">exports</span> = {</span><br><span class="line">  <span class="hljs-attr">extends</span>: [<span class="hljs-string">'@commitlint/config-conventional'</span>],</span><br><span class="line">  <span class="hljs-attr">rules</span>: {</span><br><span class="line">    <span class="hljs-string">'type-enum'</span>: [<span class="hljs-number">2</span>, <span class="hljs-string">'always'</span>, typeEnum.<span class="hljs-property">types</span>.<span class="title function_">map</span>(<span class="hljs-function">(<span class="hljs-params">i</span>) =&gt;</span> i.<span class="hljs-property">value</span>)],</span><br><span class="line">    <span class="hljs-string">'scope-enum'</span>: [<span class="hljs-number">2</span>, <span class="hljs-string">'always'</span>, typeEnum.<span class="hljs-property">scopes</span>.<span class="title function_">map</span>(<span class="hljs-function">(<span class="hljs-params">i</span>) =&gt;</span> i.<span class="hljs-property">name</span>)],</span><br><span class="line">    <span class="hljs-string">'scope-empty'</span>: [<span class="hljs-number">2</span>, <span class="hljs-string">'never'</span>],</span><br><span class="line">  },</span><br><span class="line">};</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+
+
+<p>配置完成后，每次提交commit时，可以使用<code>git cz</code>替换<code>git commit</code>命令，从而辅助我们更加规范的书写commit message。</p>
+<blockquote>
+<p>更多详细配置，可以参考这篇文章：<a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903831893966856">https://juejin.cn/post/6844903831893966856</a></p>
+</blockquote>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>以上就是我对如何在lerna项目中配置husky、lint-staged和Cz工具的一些粗略认知，当然不仅仅是lerna项目，也适用于任何前端项目。</p>
+<h2 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h2><ul>
+<li><p><a target="_blank" rel="noopener" href="https://typicode.github.io/husky/#/">husky官文文档</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://typicode.github.io/husky/#/">lint-staged官方文档</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903831893966856">Cz工具集使用介绍</a></p>
+</li>
+</ul>
+</body></html>
+    
+    </div>
+    
+    
+    <div class="columns is-mobile is-multiline article-nav">
+        <span class="column is-12-mobile is-half-desktop  article-nav-prev">
+            
+            <a href="/2021/04/19/%E5%9C%A8React%E9%A1%B9%E7%9B%AE%E4%B8%AD%E4%BC%98%E9%9B%85%E5%9C%B0%E4%BD%BF%E7%94%A8Typescript/">在 React 项目中优雅地使用 Typescript</a>
+            
+        </span>
+        <span class="column is-12-mobile is-half-desktop  article-nav-next">
+            
+            <a href="/2021/03/17/NestJS%20-%20%E9%85%8D%E7%BD%AE/">NestJS - 配置</a>
+            
+        </span>
+    </div>
+    
+</article>
+
+
+
+
+<div class="comments">
+    <h3 class="title is-4">评论</h3>
+    
+<div id="comment-container"></div>
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script>
+	const gitalk = new Gitalk({
+		clientID: '97179403871213031f27',
+		clientSecret: 'e46c411134c6d2212e25e7f5276a069e4803d2f7',
+		repo: 'bijinfeng.github.io',    
+		owner: 'bijinfeng',
+		admin: ['bijinfeng'],
+		id: '2021/04/02/lerna项目中集成husky、lint-staged、commitlint和cz-customizable/',   
+		distractionFreeMode: false,
+	})
+
+	gitalk.render('comment-container')
+</script>
+
+</div>
+
+    </div>
+</section>
+    <footer class="footer">
+    <div class="container">
+        <div class="columns content">
+            <div class="column is-narrow has-text-centered">
+                &copy; 2022 John Doe&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a
+                        target="_blank" rel="noopener" href="http://github.com/ppoffice/hexo-theme-minos">Minos</a>
+            </div>
+            <div class="column is-hidden-mobile"></div>
+
+            
+            <div class="column is-narrow">
+                <div class="columns is-mobile is-multiline is-centered">
+                
+                    
+                <a class="column is-narrow has-text-black" title="GitHub" target="_blank" rel="noopener" href="https://github.com/bijinfeng/bijinfeng.github.io">
+                    
+                    GitHub
+                    
+                </a>
+                
+                </div>
+            </div>
+            
+            
+        </div>
+    </div>
+</footer>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+
+<!-- test if the browser is outdated -->
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" target="_blank" rel="noopener" href="http://outdatedbrowser.com/">Update my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // plugin function, place inside DOM ready function
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        })
+    });
+</script>
+
+<script>
+    window.FontAwesomeConfig = {
+        searchPseudoElements: true
+    }
+    moment.locale("zh-CN");
+</script>
+
+
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        "HTML-CSS": {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+</script>
+
+    
+    
+    
+    
+<script src="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/js/lightgallery-all.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+<script>
+    (function ($) {
+        $(document).ready(function () {
+            if (typeof($.fn.lightGallery) === 'function') {
+                $('.article.gallery').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof($.fn.justifiedGallery) === 'function') {
+                $('.justified-gallery').justifiedGallery();
+            }
+        });
+    })(jQuery);
+</script>
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <style>
+        .hljs {
+            position: relative;
+        }
+
+        .hljs .clipboard-btn {
+            float: right;
+            color: #9a9a9a;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .hljs .clipboard-btn:hover {
+          color: #8a8a8a;
+        }
+
+        .hljs > .clipboard-btn {
+            display: none;
+            position: absolute;
+            right: 4px;
+            top: 4px;
+        }
+
+        .hljs:hover > .clipboard-btn {
+            display: inline;
+        }
+
+        .hljs > figcaption > .clipboard-btn {
+            margin-right: 4px;
+        }
+    </style>
+    <script>
+      $(document).ready(function () {
+        $('figure.hljs').each(function(i, figure) {
+          var codeId = 'code-' + i;
+          var code = figure.querySelector('.code');
+          var copyButton = $('<button>Copy <i class="far fa-clipboard"></i></button>');
+          code.id = codeId;
+          copyButton.addClass('clipboard-btn');
+          copyButton.attr('data-clipboard-target-id', codeId);
+
+          var figcaption = figure.querySelector('figcaption');
+
+          if (figcaption) {
+            figcaption.append(copyButton[0]);
+          } else {
+            figure.prepend(copyButton[0]);
+          }
+        })
+
+        var clipboard = new ClipboardJS('.clipboard-btn', {
+          target: function(trigger) {
+            return document.getElementById(trigger.getAttribute('data-clipboard-target-id'));
+          }
+        });
+        clipboard.on('success', function(e) {
+          e.clearSelection();
+        })
+      })
+    </script>
+
+    
+    
+
+    
+
+
+
+<script src="/js/script.js"></script>
+
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-mask"></div>
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="站内搜索" />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+    
+</body>
+</html>
