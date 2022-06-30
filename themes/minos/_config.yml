@@ -1,0 +1,71 @@
+# Website's icon url.
+favicon: /favicon.ico
+
+# Open Graph metadata (https://hexo.io/docs/helpers.html#open-graph)
+open_graph:
+  twitter_id:
+  twitter_site:
+  google_plus:
+  fb_admins:
+  fb_app_id:
+
+# Website's logo shown on the left of the navigation bar.
+# It can either be an url to an image or a string if the following option is set.
+# logo:
+#   text: <logo string>
+logo:
+
+article:
+  # Show word count and estimated reading time.
+  readtime: true
+  # Code highlight theme, please see https://highlightjs.org/static/demo/
+  highlight: atom-one-light
+  # Date format: relative | full | relative_full | full_relative
+  date_format: relative
+
+# Navigation bar menu links.
+menu:
+  归档: /archives
+
+# Search plugin settings.
+search:
+  type: insight
+
+# Navigation bar toc settings
+toc: false
+
+# Share plugin settings.
+# share:
+#   type: sharethis
+#   install_url:
+
+# Comment plugin settings.
+comment:
+  type: gitment
+  owner: bijinfeng         # (required) GitHub user name
+  repo: bijinfeng.github.io          # (required) GitHub repository name
+  client_id: 97179403871213031f27     # (required) OAuth application client id
+  client_secret: e46c411134c6d2212e25e7f5276a069e4803d2f7 # (required) OAuth application client secret
+
+
+# Other plugins and their settings.
+plugins:
+  mathjax: true
+  katex: false
+  gallery: true
+  clipboard: true
+  google-analytics:
+    tracking_id:
+
+# Additional navigation bar links on the right.
+# Links can either be text or icon. The following link is set to be an icon link whose icon
+# is set to the class name of a FontAwesome 5 icon. The `footer_links` below also gives an
+# example of setting plain text links.
+navbar_links:
+  GitHub:
+    icon: fab fa-github
+    url: https://github.com/bijinfeng/bijinfeng.github.io
+
+# Links at the bottom of the page.
+footer_links:
+  GitHub: https://github.com/bijinfeng/bijinfeng.github.io
