@@ -5,27 +5,30 @@ on:
       - master
 jobs:
   build-and-deploy:
+    environment: github-pages
+    env:
+      yuque_token: ${{ secrets.YUQUE_TOKEN }}
+      secret_id: ${{ secrets.SECRET_ID }}
+      secret_key: ${{ secrets.SECRET_KEY }}
     runs-on: ubuntu-latest
+
     steps:
-    - name: Checkout
-      uses: actions/checkout@master
-      with:
-        submodules: true
+      - name: Checkout
+        uses: actions/checkout@master
+        with:
+          submodules: true
 
-    - name: Install Dependencies
-      run: yarn install
+      - name: Install Dependencies
+        run: yarn install
 
-    - name: Sync Yuque
-      run: YUQUE_TOKEN=${{ secrets.YUQUE_TOKEN }} yarn sync
-      env:
-        SECRET_ID: ${{ secrets.SECRET_ID }}
-        SECRET_KEY: ${{ secrets.SECRET_KEY }}
+      - name: Sync Yuque
+        run: YUQUE_TOKEN=${{ env.yuque_token }} SECRET_ID=${{ env.secret_id }} SECRET_KEY=${{ env.secret_key }} yarn sync
 
-    - name: Generate
-      run: yarn build
+      - name: Generate
+        run: yarn build
 
-    - name: Deploy
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.ACCESS_TOKEN }}
-        publish_dir: ./public
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.ACCESS_TOKEN }}
+          publish_dir: ./public
