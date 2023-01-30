@@ -16,9 +16,8 @@ jobs:
       run: yarn install
 
     - name: Sync Yuque
-      run: yarn sync
+      run: YUQUE_TOKEN=${{ secrets.YUQUE_TOKEN }} yarn sync
       env:
-        YUQUE_TOKEN: ${{ secrets.YUQUE_TOKEN }}
         SECRET_ID: ${{ secrets.SECRET_ID }}
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
 
