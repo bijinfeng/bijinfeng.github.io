@@ -3,13 +3,12 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
-subtitle: ''
-description: ''
-keywords:
-author: John Doe
-language: zh-cn
-timezone: ''
+title: Kebai
+subtitle: 'Talk is cheap, show me the code.'
+avatar: 'https://avatars.githubusercontent.com/u/29982703?v=4'
+favicon: 'https://avatars.githubusercontent.com/u/29982703?v=4'
+author: bijinfeng
+language: zh-CN
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
@@ -97,7 +96,7 @@ ignore:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: minos
+theme: stellar
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment

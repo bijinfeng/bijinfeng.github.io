@@ -763,7 +763,7 @@ hexo-pagination@1.0.0:
   resolved "https://registry.npmjs.org/hexo-pagination/-/hexo-pagination-1.0.0.tgz#c9c0ca3665267b9e9d0a89fc3edcaf3276907dc1"
   integrity sha512-miEVFgxchPr2qNWxw0JWpJ9R/Yaf7HjHBZVjvCCcqfbsLyYtCvIfJDxcEwz1sDOC/fLzYPqNnhUI73uNxBHRSA==
 
-hexo-renderer-ejs@2.0.0:
+hexo-renderer-ejs@2.0.0, hexo-renderer-ejs@^2.0.0:
   version "2.0.0"
   resolved "https://registry.npmjs.org/hexo-renderer-ejs/-/hexo-renderer-ejs-2.0.0.tgz#56e0c3de5f6b0e1e68b923c65a7c8bfe9ff715eb"
   integrity sha512-qCjE1IdwgDgv65qyb0KMVCwCdSVAkH0vwAe9XihjvaKWkmb9dtt8DgErOdqCXn0HReSyWiEVP2BrLRj3gyHwOQ==
@@ -788,7 +788,7 @@ hexo-renderer-marked@5.0.0:
     jsdom "^19.0.0"
     marked "^4.0.1"
 
-hexo-renderer-stylus@2.1.0:
+hexo-renderer-stylus@2.1.0, hexo-renderer-stylus@^2.1.0:
   version "2.1.0"
   resolved "https://registry.npmjs.org/hexo-renderer-stylus/-/hexo-renderer-stylus-2.1.0.tgz#4cbae08d36c7390b791c2cc3df7c53c3ff615106"
   integrity sha512-Nef4YCr7JX8jaRaByhzXMSsWnDed+RgJj6aU/ARnYu3Bn5xz/qRz52VJG7KqD0Xuysxa9TIBdVUgNzBrSFn3DQ==
@@ -814,6 +814,14 @@ hexo-theme-landscape@0.0.3:
   version "0.0.3"
   resolved "https://registry.npmjs.org/hexo-theme-landscape/-/hexo-theme-landscape-0.0.3.tgz#87d1f4d613da9be5245dad0d4b80479eab70d386"
   integrity sha512-b0Di+TUVs4ESrNX4ULEh9uQmADpO6kr10rIJ2OGZM8suNQNFKdxn+vJUjnLfKkCPJAfVmS7/S83KCNYe4tpoNw==
+
+hexo-theme-stellar@^1.18.5:
+  version "1.18.5"
+  resolved "https://registry.npmjs.org/hexo-theme-stellar/-/hexo-theme-stellar-1.18.5.tgz#cf63a9909866cf6d5c53d0ffe4b2cd3064e91959"
+  integrity sha512-mi064I+odaBoQq+N5Uw7JqYOHq88kG2UvI7kVO5oyqjkPuI3cvZzNmHxgkJT0HhwxgjlfVwhK3vIRNLazZ2GfQ==
+  dependencies:
+    hexo-renderer-ejs "^2.0.0"
+    hexo-renderer-stylus "^2.1.0"
 
 hexo-util@^2.0.0, hexo-util@^2.5.0, hexo-util@^2.6.1:
   version "2.6.1"
