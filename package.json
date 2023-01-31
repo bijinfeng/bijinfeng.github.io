@@ -41,7 +41,8 @@
       "concurrency": 0,
       "imageBed": "upyun",
       "enabled": true,
-      "bucket": "blog-tc"
+      "bucket": "blog-tc",
+      "prefixKey": "yuque"
     }
   },
   "devDependencies": {
