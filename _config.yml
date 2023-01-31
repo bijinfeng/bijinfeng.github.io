@@ -93,5 +93,5 @@ theme: stellar
 
 inject:
   head:
-  - <meta name="google-site-verification" content="I9QHLgxQl_2VmSI4QlV_TPhNvI4HsbcF-5x7jC_opMg" />
-  - <meta name="baidu-site-verification" content="codeva-NSbnX8KXtK" />
+    - <meta name="google-site-verification" content="I9QHLgxQl_2VmSI4QlV_TPhNvI4HsbcF-5x7jC_opMg" />
+    - <meta name="baidu-site-verification" content="codeva-NSbnX8KXtK" />
