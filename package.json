@@ -41,10 +41,11 @@
     "onlyPublished": true,
     "onlyPublic": false,
     "imgCdn": {
-      "concurrency": 0,
-      "imageBed": "upyun",
+      "concurrency": 1,
+      "imageBed": "github",
       "enabled": true,
-      "bucket": "blog-tc",
+      "bucket": "image-hosting",
+      "host": "cdn.jsdelivr.net",
       "prefixKey": "yuque"
     }
   },
