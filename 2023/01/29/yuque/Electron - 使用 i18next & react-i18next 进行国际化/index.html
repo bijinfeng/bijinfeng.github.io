@@ -30,12 +30,12 @@
 <meta property="og:site_name" content="Kebai">
 <meta property="og:description" content="i18next 是社区中优秀的国际化框架，在 react 中广泛使用，我司的大量产品都使用 i18next 进行国际化，而 react-i18next 是 i18next 的一个扩展，提供了一些 HOC 及 hook 方便我们在 react 中使用 i18next。 由于 electron 是多进程机制，主进程和渲染进程都需要个 i18next 实例，但是多实例带来了一些问题，比如多实例的语言如何">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://blog-tc.test.upcdn.net/yuque/FsDOpPtW3E4bkgz4Yw4cjbE_t0Ts.jpeg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FsDOpPtW3E4bkgz4Yw4cjbE_t0Ts.jpeg">
 <meta property="article:published_time" content="2023-01-29T03:33:25.000Z">
-<meta property="article:modified_time" content="2023-01-31T12:07:52.539Z">
+<meta property="article:modified_time" content="2023-02-02T02:53:19.223Z">
 <meta property="article:author" content="bijinfeng">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://blog-tc.test.upcdn.net/yuque/FsDOpPtW3E4bkgz4Yw4cjbE_t0Ts.jpeg">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FsDOpPtW3E4bkgz4Yw4cjbE_t0Ts.jpeg">
   
   
 
@@ -115,7 +115,7 @@
 <li>渲染进程通过进程通信从主进程的实例上获取初始化语言和文案初始化实例</li>
 <li>用户在渲染进程切换语言，通过进程通信，主进程的 i18next 实例加载新语言的文案，并返回给渲染进程动态加载到渲染进程的实例中</li>
 </ol>
-<p>整个流程大致如下：<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://blog-tc.test.upcdn.net/yuque/FsDOpPtW3E4bkgz4Yw4cjbE_t0Ts.jpeg"></p>
+<p>整个流程大致如下：<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FsDOpPtW3E4bkgz4Yw4cjbE_t0Ts.jpeg"></p>
 <h2 id="主进程"><a href="#主进程" class="headerlink" title="主进程"></a>主进程</h2><p>用户选择的系统语言保存在 electron-store 中，通过 <code>getConfigStore</code>方法获取上次用户选择的系统语言，默认为中文</p>
 <figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="title class_">Store</span> <span class="keyword">from</span> <span class="string">&quot;electron-store&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">interface</span> <span class="title class_">StoreState</span> &#123;</span><br><span class="line">  <span class="attr">theme</span>: <span class="built_in">string</span>;</span><br><span class="line">  <span class="attr">config</span>: <span class="variable constant_">NOTES</span>.<span class="property">Config</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> getConfigStore = &lt;K <span class="keyword">extends</span> keyof <span class="variable constant_">NOTES</span>.<span class="property">Config</span>&gt;<span class="function">(<span class="params">key: K</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> getStore&lt;<span class="variable constant_">NOTES</span>.<span class="property">Config</span>[K]&gt;(<span class="string">`config.<span class="subst">$&#123;key&#125;</span>`</span>);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> <span class="title function_">setConfigStore</span> = (<span class="params">value: Partial&lt;NOTES.Config&gt;</span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> config = <span class="title function_">getAllConfigStore</span>();</span><br><span class="line">  <span class="keyword">return</span> <span class="title function_">setStore</span>(<span class="string">&quot;config&quot;</span>, &#123; ...config, ...value &#125;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
