@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang='zh-CN'>
+
+<head>
+  <meta name="generator" content="Hexo 6.3.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.18.5">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  <link rel='dns-prefetch' href='https://gcore.jsdelivr.net'>
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel='dns-prefetch' href='//unpkg.com'>
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>React Native 组件库 - 脚手架 - Kebai</title>
+
+  
+    <meta name="description" content="作为一个前端 er，谁不想拥有一个自己的组件库。我也想，所以它来了 - rn-vant，使用 vant 设计规范的 React Native 组件库。 组件库目前已经拥有了 40+ 组件（虽然还是很简陋，bug 也是一堆，主要还是我太懒了 😅），也算圆了我的一个梦想，现在是时候做个阶段总结了，将这段时间开发遇到的问题都记录下来，一方面是怕自己忘了，另一方面也是给看到这系列文件的朋友做个参考。 M">
+<meta property="og:type" content="article">
+<meta property="og:title" content="React Native 组件库 - 脚手架">
+<meta property="og:url" content="https://bijinfeng.github.io/2023/02/06/yuque/React%20Native%20%E7%BB%84%E4%BB%B6%E5%BA%93%20-%20%E8%84%9A%E6%89%8B%E6%9E%B6/index.html">
+<meta property="og:site_name" content="Kebai">
+<meta property="og:description" content="作为一个前端 er，谁不想拥有一个自己的组件库。我也想，所以它来了 - rn-vant，使用 vant 设计规范的 React Native 组件库。 组件库目前已经拥有了 40+ 组件（虽然还是很简陋，bug 也是一堆，主要还是我太懒了 😅），也算圆了我的一个梦想，现在是时候做个阶段总结了，将这段时间开发遇到的问题都记录下来，一方面是怕自己忘了，另一方面也是给看到这系列文件的朋友做个参考。 M">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FiLc-tc0MCkKmqcmf8JSj6BGZyZp.png">
+<meta property="article:published_time" content="2023-02-06T12:05:01.000Z">
+<meta property="article:modified_time" content="2023-02-07T05:48:26.828Z">
+<meta property="article:author" content="bijinfeng">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FiLc-tc0MCkKmqcmf8JSj6BGZyZp.png">
+  
+  
+
+  <!-- feed -->
+  
+
+  
+    
+<link rel="stylesheet" href="/css/main.css">
+
+  
+
+  
+    <link rel="shortcut icon" href="https://avatars.githubusercontent.com/u/29982703?v=4">
+  
+
+  
+
+  
+
+
+  
+    
+      <meta name="google-site-verification" content="I9QHLgxQl_2VmSI4QlV_TPhNvI4HsbcF-5x7jC_opMg" />
+    
+      <meta name="baidu-site-verification" content="codeva-NSbnX8KXtK" />
+    
+  
+</head>
+
+<body>
+  
+
+
+
+
+  <div class='l_body' id='start'>
+    <aside class='l_left' layout='post'>
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://avatars.githubusercontent.com/u/29982703?v=4" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">Kebai</div><div class="sub cap">Talk is cheap, show me the code.</div></a></div>
+
+<nav class="menu dis-select"></nav>
+</header>
+
+
+<div class="widgets">
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/blog/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"></path></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
+
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">React Native 组件库 - 脚手架</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Mono-or-Multi-Repo"><span class="toc-text">Mono or Multi Repo</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Monorepo-%E5%B7%A5%E5%85%B7"><span class="toc-text">Monorepo 工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%84%E4%BB%B6%E5%BA%93%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7"><span class="toc-text">组件库构建工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E8%B4%A8%E9%87%8F-and-%E4%BB%A3%E7%A0%81%E9%A3%8E%E6%A0%BC"><span class="toc-text">代码质量 and 代码风格</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol></div></div></widget>
+
+
+
+
+</div>
+
+
+    </aside>
+    <div class='l_main'>
+      
+
+      
+
+
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div><div id="post-meta">发布于&nbsp;<time datetime="2023-02-06T12:05:01.000Z">2023-02-06</time></div></div>
+
+<article class='md-text content post'>
+<h1 class="article-title"><span>React Native 组件库 - 脚手架</span></h1>
+<p>作为一个前端 er，谁不想拥有一个自己的组件库。我也想，所以它来了 - <a target="_blank" rel="noopener" href="https://github.com/bijinfeng/rn-vant">rn-vant</a>，使用 <a target="_blank" rel="noopener" href="https://vant-ui.github.io/vant/#/zh-CN">vant</a> 设计规范的 React Native 组件库。</p>
+<p>组件库目前已经拥有了 40+ 组件（虽然还是很简陋，bug 也是一堆，主要还是我太懒了 😅），也算圆了我的一个梦想，现在是时候做个阶段总结了，将这段时间开发遇到的问题都记录下来，一方面是怕自己忘了，另一方面也是给看到这系列文件的朋友做个参考。</p>
+<h2 id="Mono-or-Multi-Repo"><a href="#Mono-or-Multi-Repo" class="headerlink" title="Mono or Multi Repo"></a>Mono or Multi Repo</h2><blockquote>
+<p>from <a target="_blank" rel="noopener" href="https://juejin.cn/post/6949882490324516894#heading-9">https://juejin.cn/post/6949882490324516894#heading-9</a></p>
+</blockquote>
+<p>这里简单解释下什么是 MonoRepo 以及 MultiRepo，以及他们的优缺点：</p>
+<ul>
+<li>MonoRepo：把多个项目放在一个仓库里面管理。</li>
+<li>MultiRepo：每个项目都对应着一个单独的代码仓库每个项目进行分散管理。</li>
+</ul>
+<p>MonoRepo 优缺点：</p>
+<p>优点：</p>
+<ul>
+<li><strong>统一了工作流</strong>：由于所有的项目放在一个仓库当中，复用起来非常方便，如果有依赖的代码变动，那么用到这个依赖的项目当中会立马感知到</li>
+<li><strong>降低基建成本</strong>：所有项目复用一套标准的工具和规范，无需切换开发环境，如果有新的项目接入，也可以直接复用已有的基建流程，比如 CI 流程、构建和发布流程。</li>
+<li><strong>提升团队协作效率</strong>：一方面大家都在一个仓库开发，能够方便地共享和复用代码，方便检索项目源码，另一方面，git commit 的历史记录也支持以功能为单位进行提交，之前对于某个功能的提交，需要改好几个仓库，提交多个 commit，现在只需要提交一次，简化了 commit 记录，方便协作。</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li><strong>体积问题：</strong>因为所有 code 都在一个 repo 下，这就导致了随着项目越来越复杂，整个 repo 的体积会变得很大。据说某大公司员工想要修改项目中的某个小样式，需要将数以十 G 的 repo 拉到本地，听起来确实是个噩梦。</li>
+<li><strong>权限问题：</strong>Monorepo 模式下的权限是开放的。代码安全，文档安全，都会是一个需要好好考虑的问题。这个方面如果处理不好的话，对整个团队整个项目带来的后果可能是灾难性的。</li>
+<li><strong>版本控制</strong>：仓库变得太大，对版本控制技术会有很大的挑战。因为 Git 社区建议的是使用更多更小的代码库，Git 本身并不适合单个巨大的代码库。</li>
+</ul>
+<p>Monorepo 和 Multirepo 都是管理组织代码的方式，并没有什么优劣之分，还是那句话“存在即合理”，工具都是用来服务生产的，能更有效解决当下问题的，就是更好的。回到组件库上，按照最初的规划，组件库最少会产出两个 npm 包，组件库本体和 icon 组件，并且组件库会依赖 icon 组件，自然采用 Monorepo 的方式是最好的。</p>
+<h2 id="Monorepo-工具"><a href="#Monorepo-工具" class="headerlink" title="Monorepo 工具"></a>Monorepo 工具</h2><p>既然选择了 Monorepo，自然就需要看看社区里有哪些好的 Monorepo 工具：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://bit.dev/">Bit</a>：用于组件驱动开发的工具链</li>
+<li><a target="_blank" rel="noopener" href="https://turbo.build/">Turborepo</a>：用于 JavaScript 和 TypeScript 代码库的高性能构建系统。</li>
+<li><a target="_blank" rel="noopener" href="https://rushjs.io/">Rush</a>：一个可扩展的 web 单仓库管理器。</li>
+<li><a target="_blank" rel="noopener" href="https://nx.dev/">Nx</a>：具有一流的 monorepo 支持和强大集成的下一代构建系统。</li>
+<li><a target="_blank" rel="noopener" href="https://www.lernajs.cn/">Lerna</a>：用于管理包含多个软件包的项目</li>
+</ul>
+<p>上面这些工具中，我最熟悉的就是 Lerna 了，简单而不简陋，完全能够胜任组件库编排的工作，因此首选 Lerna 了。（性能确实不如其他的工具，比如 Turborepo，但是目前也并没有太大的性能诉求，以后遇到了，可以在迁移）</p>
+<h2 id="组件库构建工具"><a href="#组件库构建工具" class="headerlink" title="组件库构建工具"></a>组件库构建工具</h2><p>我们的组件库最终是需要发布到 npm 上的，因为组件库的运行环境不在浏览器中，因此只需要提供 <code>ES Module</code>和 <code>CommonJS</code>模块的组件即可，另外如果是 Typescript 工程，构建时还需要输出类型文件，在调研社区开源的组件库会锁定一个工具 - <a target="_blank" rel="noopener" href="https://github.com/callstack/react-native-builder-bob">react-native-builder-bob</a></p>
+<p>安装 <a target="_blank" rel="noopener" href="https://github.com/callstack/react-native-builder-bob">react-native-builder-bob</a>:</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn add react-native-builder-bob -D</span><br></pre></td></tr></table></figure>
+
+<p>配置及使用都很简单，在 package.json 中新增如下配置：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;scripts&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;build&quot;</span><span class="punctuation">:</span> <span class="string">&quot;bob build&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;react-native-builder-bob&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;source&quot;</span><span class="punctuation">:</span> <span class="string">&quot;src&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;output&quot;</span><span class="punctuation">:</span> <span class="string">&quot;lib&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;targets&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">      <span class="string">&quot;commonjs&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="string">&quot;module&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="punctuation">[</span></span><br><span class="line">        <span class="string">&quot;typescript&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">          <span class="attr">&quot;project&quot;</span><span class="punctuation">:</span> <span class="string">&quot;tsconfig.build.json&quot;</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">      <span class="punctuation">]</span></span><br><span class="line">    <span class="punctuation">]</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>运行 <code>yarn build</code>后，会在 lib 目录下生成相应模块的文件：<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FiLc-tc0MCkKmqcmf8JSj6BGZyZp.png"></p>
+<p>最后在 package.json 中，添加这些模块的入口说明：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;main&quot;</span><span class="punctuation">:</span> <span class="string">&quot;lib/commonjs/index&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;module&quot;</span><span class="punctuation">:</span> <span class="string">&quot;lib/module/index&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;types&quot;</span><span class="punctuation">:</span> <span class="string">&quot;lib/typescript/index.d.ts&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;react-native&quot;</span><span class="punctuation">:</span> <span class="string">&quot;src/index&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;source&quot;</span><span class="punctuation">:</span> <span class="string">&quot;src/index&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="代码质量-and-代码风格"><a href="#代码质量-and-代码风格" class="headerlink" title="代码质量 and 代码风格"></a>代码质量 and 代码风格</h2><p>代码质量目前只配置了 eslint，后面如果有更好的工具，可以尝试接入。现在使用的是 <a target="_blank" rel="noopener" href="https://github.com/youngjuning-archive/eslint-config">https://github.com/youngjuning-archive/eslint-config</a> 这个，主要看中它将 prettier 和 eslint 集成到一起了，省了自己配置（prettier 和 eslint 有些规则是冲突的，解决起来超级麻烦），而且 eslint 的规则来自 airbnb，代码质量也有了保障。</p>
+<p>代码风格用的是 prettier，因为已经集成到 <code>@youngjuning/eslint-config</code>了，只需要安装 <code>@youngjuning/prettier-config</code>，并简单配置下就能使用了。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// .prettierrc.js</span></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = <span class="built_in">require</span>(<span class="string">&quot;@youngjuning/prettier-config&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>除了 eslint 和 prettier，我们还能借助一些工具，来帮助我们更好的组织代码：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/typicode/husky">husky</a>：管理 git hook 的工具，可以在 git commit 时，强制校验和格式化代码。</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/okonet/lint-staged">lint-staged</a>：针对 git 暂存文件执行一些脚本，结合 husky 可以实现只对改动的文件，校验和格式化，毕竟改一行代码就要校验整个仓库成本还是太高了。</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/conventional-changelog/commitlint">commitlint</a>：git commit messages 风格校验工具。</li>
+</ul>
+<p>至于如何在 lerna 项目中如何集成这些工具，可以看我的另一篇博客 【<a href="https://bijinfeng.github.io/2021/04/02/lerna%E9%A1%B9%E7%9B%AE%E4%B8%AD%E9%9B%86%E6%88%90husky%E3%80%81lint-staged%E3%80%81commitlint%E5%92%8Ccz-customizable/">lerna 项目中集成 husky、lint-staged、commitlint 和 cz-customizable</a>】，里面做了详细的说明。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文主要介绍了开发一个组件库需要的一些工具的选型，实际上这些工具熟悉前端工程化的同学都不会陌生，具体的配置可以参考我的组件库项目 - <a target="_blank" rel="noopener" href="https://github.com/bijinfeng/rn-vant">rn-vant</a>。后面我会再介绍下组件方的文档及 CI&#x2F;CD 的相关配置。</p>
+
+
+<div class="article-footer reveal fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div></section></div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2023/02/02/yuque/Cropper.js%20%E5%AE%9E%E8%B7%B5/">Cropper.js 实践</a></div></section></div>
+
+
+
+
+
+
+  <div class='related-wrap md-text reveal' id="comments">
+    <section class='header cmt-title cap theme'>
+      快来参与讨论吧
+    </section>
+    <section class='body cmt-body giscus'>
+      
+
+<svg class="loading" style="vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2709"><path d="M832 512c0-176-144-320-320-320V128c211.2 0 384 172.8 384 384h-64zM192 512c0 176 144 320 320 320v64C300.8 896 128 723.2 128 512h64z" p-id="2710"></path></svg>
+
+<div id="giscus" data-repo="bijinfeng/bijinfeng.github.io" data-repo-id="R_kgDOHlXKwQ" data-category="Announcements" data-category-id="DIC_kwDOHlXKwc4CT421" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous"></div>
+
+    </section>
+  </div>
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="text"><p>本站由 <a href="/">@anonymity</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar">Stellar</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+
+      <div class='float-panel mobile-only blur' style='display:none'>
+  <button type='button' class='sidebar-toggle mobile' onclick='sidebar.toggle()'>
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"></path><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"></path></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class='scripts'>
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.18.5';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.18.5';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://gcore.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.css","js":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".swiper-slide img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+  <script>
+  function loadJS() {
+    const els = document.querySelectorAll("#comments #giscus");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.log(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+    loadJS();
+  });
+</script>
+
+
+
+
+<!-- inject -->
+
+
+  </div>
+</body>
+</html>
