@@ -1,7 +1,8 @@
 ---
 title: 在 React 项目中优雅地使用 Typescript
 date: 2021-04-19 16:00:33
-tags:
+tags: React
+categories: React
 ---
 {% img /gallery/react+ts.png %}
 TypeScript 是 Javascript 的超集，扩展了 JavaScript 的语法，给 JavaScript 带来了静态类型支持，了解如何在 React 项目中优雅地使用 Typescript，能帮助我们写出更优雅的代码。

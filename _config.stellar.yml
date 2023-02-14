@@ -5,7 +5,7 @@ comments:
   giscus:
     data-repo: bijinfeng/bijinfeng.github.io
     data-repo-id: R_kgDOHlXKwQ
-    data-category: Announcements
+    data-category: General
     data-category-id: DIC_kwDOHlXKwc4CT421
     data-mapping: pathname
     data-strict: 0
@@ -16,3 +16,53 @@ comments:
     data-lang: zh-CN
     data-loading: lazy
     crossorigin: anonymous
+
+search:
+  service: local_search # local_search, todo...
+  local_search: # 在 front-matter 中设置 indexing:false 来避免被搜索索引
+    field: all # post, page, all
+    path: /search.json # 搜索文件存放位置
+    content: true # 是否搜索内容
+    codeblock: false # 是否搜索代码块（需要content: true)
+
+# 开启图片点击放大功能
+tag_plugins:
+  # {% image %}
+  image:
+    fancybox: true
+
+sidebar:
+  widgets:
+    # 主页
+    home: search, recent, tagcloud
+    # 博客索引页
+    blog_index: search_blog, recent, timeline # for categories/tags/archives
+    # 文档索引页
+    wiki_index: search_docs, recent, timeline # for wiki
+    # 其它（404）
+    others: search, welcome, recent, timeline # for 404 and ...
+
+footer:
+  social:
+    github:
+      icon: '<img src="//gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/08a41b181ce68.svg"/>'
+      url: https://github.com/bijinfeng
+
+  sitemap:
+    "博客":
+      - "[近期](/)"
+      - "[分类](/categories/)"
+      - "[标签](/tags/"
+      - "[归档](/archives/)"
+    "项目":
+      - "[rn-vant](https://rn-vant.vercel.app/)"
+    "社交":
+      - "[友链](/friends/)"
+      - "[留言板](//about/#comments)"
+    "更多":
+      - "[GitHub](https://github.com/bijinfeng/)"
+
+  content: | # 支持 Markdown 格式
+    备案信息：[京ICP备2023002053号](https://beian.miit.gov.cn)
+    本站由 [@bijinfeng](/) 使用 [Stellar](https://github.com/xaoxuu/hexo-theme-stellar) 主题创建。
+    本博客所有文章除特别声明外，均采用 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) 许可协议，转载请注明出处。
