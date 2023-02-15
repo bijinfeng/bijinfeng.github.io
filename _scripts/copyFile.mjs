@@ -1,3 +1,5 @@
+#!/usr/bin/env zx
+
 const files = await fs.readdir('assets');
 
 await Promise.all(files.map(file => {
