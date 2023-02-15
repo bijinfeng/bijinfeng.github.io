@@ -9,7 +9,8 @@
     "server": "hexo server",
     "clean:yuque": "yuque-hexo clean",
     "sync": "yuque-hexo sync",
-    "reset": "npm run clean:yuque && npm run sync"
+    "reset": "npm run clean:yuque && npm run sync",
+    "copy:file": "./scripts/copyFile.mjs"
   },
   "hexo": {
     "version": "6.3.0"
@@ -50,6 +51,7 @@
     }
   },
   "devDependencies": {
-    "yuque-hexo": "^1.9.5"
+    "yuque-hexo": "^1.9.5",
+    "zx": "^7.1.1"
   }
 }
