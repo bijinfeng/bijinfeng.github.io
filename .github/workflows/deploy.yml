@@ -31,7 +31,7 @@ jobs:
         run: YUQUE_TOKEN=${{ env.yuque_token }} SECRET_ID=${{ env.secret_id }} SECRET_KEY=${{ env.secret_key }} yarn sync
 
       - name: Generate
-        run: yarn build & yarn copy:file
+        run: yarn build && yarn copy:file
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3

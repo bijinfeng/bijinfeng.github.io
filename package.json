@@ -10,7 +10,7 @@
     "clean:yuque": "yuque-hexo clean",
     "sync": "yuque-hexo sync",
     "reset": "npm run clean:yuque && npm run sync",
-    "copy:file": "./scripts/copyFile.mjs"
+    "copy:file": "zx ./scripts/copyFile.mjs"
   },
   "hexo": {
     "version": "6.3.0"
