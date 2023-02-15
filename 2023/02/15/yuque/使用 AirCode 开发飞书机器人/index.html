@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang='zh-CN'>
+
+<head>
+  <meta name="generator" content="Hexo 6.3.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.18.5">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  <link rel='dns-prefetch' href='https://gcore.jsdelivr.net'>
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel='dns-prefetch' href='//unpkg.com'>
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>使用 AirCode 开发飞书机器人 - Kebai</title>
+
+  
+    <meta name="description" content="在线文档：https:&#x2F;&#x2F;docs-cn.aircode.io&#x2F;  AirCode 是一个在线开发和部署 Node.js 应用的平台，为全栈工程师量身定制，目标是让开发变得简单。 并且提供一个简易的 WebIDE 和开箱即用的云服务，让开发者无需再操心后端选型、环境搭建和线上运维等一系列繁琐之事，只需打开浏览器即可完成产品开发，并部署到全球节点。 但是 AirCode 有资源限制，不建议用于高频">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 AirCode 开发飞书机器人">
+<meta property="og:url" content="https://bijinfeng.github.io/2023/02/15/yuque/%E4%BD%BF%E7%94%A8%20AirCode%20%E5%BC%80%E5%8F%91%E9%A3%9E%E4%B9%A6%E6%9C%BA%E5%99%A8%E4%BA%BA/index.html">
+<meta property="og:site_name" content="Kebai">
+<meta property="og:description" content="在线文档：https:&#x2F;&#x2F;docs-cn.aircode.io&#x2F;  AirCode 是一个在线开发和部署 Node.js 应用的平台，为全栈工程师量身定制，目标是让开发变得简单。 并且提供一个简易的 WebIDE 和开箱即用的云服务，让开发者无需再操心后端选型、环境搭建和线上运维等一系列繁琐之事，只需打开浏览器即可完成产品开发，并部署到全球节点。 但是 AirCode 有资源限制，不建议用于高频">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FlFW_FvYSduZhPFltBi7SWLLX0jR.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/Fgef8xaqFnc8YAeFLj64KAyUarl8.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/Fvs8uZYiV6G7Uyaze04iZHHy4fGJ.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/Fikvu8h83H08IU-SWzZh6HSlDYtk.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FrUFniZl2BhjdpeMdW_YZwz91OrM.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FoVDOt9icmoTxU4dy6v3rbdOF_8v.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FnSQ10iG0pu0YczJzqGXrXOCAYaq.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FmTbMRoiFBbb2C4Hy5TlIZrlqZwO.png">
+<meta property="article:published_time" content="2023-02-15T06:31:53.000Z">
+<meta property="article:modified_time" content="2023-02-15T13:41:54.570Z">
+<meta property="article:author" content="bijinfeng">
+<meta property="article:tag" content="React">
+<meta property="article:tag" content="AirCode">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FlFW_FvYSduZhPFltBi7SWLLX0jR.png">
+  
+  
+
+  <!-- feed -->
+  
+
+  
+    
+<link rel="stylesheet" href="/css/main.css">
+
+  
+
+  
+    <link rel="shortcut icon" href="https://avatars.githubusercontent.com/u/29982703?v=4">
+  
+
+  
+
+  
+
+
+  
+    
+      <meta name="google-site-verification" content="I9QHLgxQl_2VmSI4QlV_TPhNvI4HsbcF-5x7jC_opMg" />
+    
+      <meta name="baidu-site-verification" content="codeva-NSbnX8KXtK" />
+    
+  
+</head>
+
+<body>
+  
+
+
+
+
+  <div class='l_body' id='start'>
+    <aside class='l_left' layout='post'>
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://avatars.githubusercontent.com/u/29982703?v=4" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">Kebai</div><div class="sub cap">Talk is cheap, show me the code.</div></a></div>
+
+<nav class="menu dis-select"></nav>
+</header>
+
+
+<div class="widgets">
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/blog/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"></path></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
+
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">使用 AirCode 开发飞书机器人</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%88%E6%9E%9C"><span class="toc-text">效果</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9F%B3%E4%B9%90%E6%92%AD%E6%94%BE%E5%99%A8"><span class="toc-text">音乐播放器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B0%E5%BB%BA%E9%A3%9E%E4%B9%A6%E5%BA%94%E7%94%A8"><span class="toc-text">新建飞书应用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%BA%E5%99%A8%E4%BA%BA-webhook-%E6%8E%A5%E5%8F%A3%E5%BC%80%E5%8F%91"><span class="toc-text">机器人 webhook 接口开发</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol></div></div></widget>
+
+
+
+
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="https://github.com/bijinfeng" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="//gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/08a41b181ce68.svg"/></a></div></footer>
+
+    </aside>
+    <div class='l_main'>
+      
+
+      
+
+
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/tools/">tools</a></div><div id="post-meta">发布于&nbsp;<time datetime="2023-02-15T06:31:53.000Z">2023-02-15</time></div></div>
+
+<article class='md-text content post'>
+<h1 class="article-title"><span>使用 AirCode 开发飞书机器人</span></h1>
+<blockquote>
+<p>在线文档：<a target="_blank" rel="noopener" href="https://docs-cn.aircode.io/">https://docs-cn.aircode.io/</a></p>
+</blockquote>
+<p>AirCode 是一个在线开发和部署 Node.js 应用的平台，为全栈工程师量身定制，目标是让开发变得简单。</p>
+<p>并且提供一个简易的 WebIDE 和开箱即用的云服务，让开发者无需再操心后端选型、环境搭建和线上运维等一系列繁琐之事，只需打开浏览器即可完成产品开发，并部署到全球节点。</p>
+<p>但是 AirCode 有<a target="_blank" rel="noopener" href="https://docs-cn.aircode.io/about/limits.html#fair-use-policy">资源限制</a>，不建议用于高频的服务，但是我们要开发的机器人接口调用频率不会特别高，因此正适合 AirCode。</p>
+<h2 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h2><p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FlFW_FvYSduZhPFltBi7SWLLX0jR.png"></p>
+<p>@机器人 告诉它你想听的歌曲名字，机器人会返回给你最匹配的三条，点击「打开播放器」，会在右侧弹出在线播放器。</p>
+<h2 id="音乐播放器"><a href="#音乐播放器" class="headerlink" title="音乐播放器"></a>音乐播放器</h2><p>播放器使用 Github 上的开源项目「<a target="_blank" rel="noopener" href="https://github.com/mbaxszy7/music-motion-x">music-motion-x</a>」，该项目是 SSR 服务端渲染项目，但是我们需要部署带 Github Pages 上，因此需要一些改造。</p>
+<ol>
+<li>使用 Vite 新建个 react + ts 的模板：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn create vite my-vue-app --template react-ts</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><p>接下来安装并配置 <code>eslint</code>、<code>commitlint</code>、<code>husky</code>和<code>lint-staged</code>等工具，配置细节本文就不赘述了，详细配置见 <a target="_blank" rel="noopener" href="https://github.com/bijinfeng/music-motion-x">https://github.com/bijinfeng/music-motion-x</a></p>
+</li>
+<li><p>迁移代码至新项目中</p>
+</li>
+<li><p>添加 Gitub Action</p>
+</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">name: Build and Deploy</span><br><span class="line"></span><br><span class="line">on:</span><br><span class="line">  push:</span><br><span class="line">    branches:</span><br><span class="line">      - master</span><br><span class="line"></span><br><span class="line"><span class="built_in">jobs</span>:</span><br><span class="line">  build-and-deploy:</span><br><span class="line">    runs-on: ubuntu-latest</span><br><span class="line"></span><br><span class="line">    steps:</span><br><span class="line">      - name: Checkout</span><br><span class="line">        uses: actions/checkout@master</span><br><span class="line">        with:</span><br><span class="line">          submodules: <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">      - name: Install Dependencies</span><br><span class="line">        run: yarn install</span><br><span class="line"></span><br><span class="line">      - name: Generate</span><br><span class="line">        run: yarn build</span><br><span class="line"></span><br><span class="line">      - name: Deploy</span><br><span class="line">        uses: peaceiris/actions-gh-pages@v3</span><br><span class="line">        with:</span><br><span class="line">          github_token: <span class="variable">$&#123;&#123; secrets.GITHUB_TOKEN &#125;</span>&#125;</span><br><span class="line">          publish_dir: ./dist</span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>提交代码至 Github 就可以触发自动部署了</li>
+</ol>
+<h2 id="新建飞书应用"><a href="#新建飞书应用" class="headerlink" title="新建飞书应用"></a>新建飞书应用</h2><p>在<a target="_blank" rel="noopener" href="https://open.feishu.cn/app/">飞书开放平台</a>新建个应用，图标和名称自定义，添加应用后添加「网页」和「机器人」应用：<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/Fgef8xaqFnc8YAeFLj64KAyUarl8.png"><br>网页应用将主页地址配置成 Github Page 的地址<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/Fvs8uZYiV6G7Uyaze04iZHHy4fGJ.png"><br>机器人应用需要配置个消息请求地址，可以先不填，等在 AirCode 开发完成后回头再来填。<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/Fikvu8h83H08IU-SWzZh6HSlDYtk.png"><br>接下来我们还需要申请权限和订阅事件，用户机器人消息的收发：</p>
+<ul>
+<li>订阅事件：只需要个「接收消息」的事件就行，请求地址配置成上面 👆 机器人请求地址就行。</li>
+</ul>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FrUFniZl2BhjdpeMdW_YZwz91OrM.png"></p>
+<ul>
+<li>申请权限：以下权限是必须要有的，其它权限按需申请</li>
+</ul>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FoVDOt9icmoTxU4dy6v3rbdOF_8v.png"></p>
+<h2 id="机器人-webhook-接口开发"><a href="#机器人-webhook-接口开发" class="headerlink" title="机器人 webhook 接口开发"></a>机器人 webhook 接口开发</h2><p>上面应用和机器人配置好后，接下来就需要开发 webhook 接口机器人订阅。</p>
+<p>首先需要<a target="_blank" rel="noopener" href="https://aircode.io/dashboard">新建个应用</a>，然后安装两个依赖：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://axios-http.com/">axios</a> - 发送 http 请求</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/larksuite/node-sdk">@larksuiteoapi&#x2F;node-sdk</a> - 飞书开放接口 SDK</li>
+</ul>
+<ol>
+<li>新建 client.js 文件</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> lark = <span class="built_in">require</span>(<span class="string">&quot;@larksuiteoapi/node-sdk&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = <span class="keyword">new</span> lark.<span class="title class_">Client</span>(&#123;</span><br><span class="line">  <span class="attr">appId</span>: process.<span class="property">env</span>.<span class="property">app_id</span>,</span><br><span class="line">  <span class="attr">appSecret</span>: process.<span class="property">env</span>.<span class="property">app_secret</span>,</span><br><span class="line">  <span class="attr">appType</span>: lark.<span class="property">AppType</span>.<span class="property">SelfBuild</span>,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p><code>app_id</code> 和 <code>app_secret</code>这两个环境变量从飞书开放平台获取后，配置到 AirCode 的 Enviroments tab 下：<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FnSQ10iG0pu0YczJzqGXrXOCAYaq.png"></p>
+<ol start="2">
+<li>新建 image.js 文件</li>
+</ol>
+<p>飞书的消息卡片要插入图片，必须要先将图片上传到飞书中才行，因此该文件的作用是将网络图片上传到飞书中，并返回图片的 image_key。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> aircode = <span class="built_in">require</span>(<span class="string">&quot;aircode&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> axios = <span class="built_in">require</span>(<span class="string">&quot;axios&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> querystring = <span class="built_in">require</span>(<span class="string">&quot;querystring&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> client = <span class="built_in">require</span>(<span class="string">&quot;./client&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = <span class="keyword">async</span> (&#123; url &#125;) =&gt; &#123;</span><br><span class="line">  <span class="comment">// 如果已经上传过了，从数据库中取出缓存</span></span><br><span class="line">  <span class="keyword">const</span> <span class="title class_">ImagesTable</span> = aircode.<span class="property">db</span>.<span class="title function_">table</span>(<span class="string">&quot;images&quot;</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 查询数据库</span></span><br><span class="line">  <span class="keyword">const</span> result = <span class="keyword">await</span> <span class="title class_">ImagesTable</span>.<span class="title function_">where</span>(&#123; url &#125;).<span class="title function_">find</span>();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (result.<span class="property">length</span> &gt; <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> result[<span class="number">0</span>].<span class="property">imageKey</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 添加 param=200y200 的参数，使用小尺寸图片</span></span><br><span class="line">  <span class="keyword">const</span> splitUrl = url.<span class="title function_">split</span>(<span class="string">&quot;?&quot;</span>);</span><br><span class="line">  <span class="keyword">const</span> querys = querystring.<span class="title function_">parse</span>(splitUrl[<span class="number">1</span>] || <span class="string">&quot;&quot;</span>);</span><br><span class="line">  <span class="keyword">const</span> queryString = querystring.<span class="title function_">stringify</span>(&#123; ...querys, <span class="attr">param</span>: <span class="string">&quot;200y200&quot;</span> &#125;);</span><br><span class="line">  <span class="keyword">const</span> newUrl = <span class="string">`<span class="subst">$&#123;splitUrl[<span class="number">0</span>]&#125;</span>?<span class="subst">$&#123;queryString&#125;</span>`</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 上传图片到飞书中</span></span><br><span class="line">  <span class="keyword">const</span> response = <span class="keyword">await</span> axios.<span class="title function_">get</span>(newUrl, &#123; <span class="attr">responseType</span>: <span class="string">&quot;arraybuffer&quot;</span> &#125;);</span><br><span class="line">  <span class="keyword">const</span> &#123; image_key &#125; = <span class="keyword">await</span> client.<span class="property">im</span>.<span class="property">image</span>.<span class="title function_">create</span>(&#123;</span><br><span class="line">    <span class="attr">data</span>: &#123;</span><br><span class="line">      <span class="attr">image_type</span>: <span class="string">&quot;message&quot;</span>,</span><br><span class="line">      <span class="attr">image</span>: <span class="title class_">Buffer</span>.<span class="title function_">from</span>(response.<span class="property">data</span>, <span class="string">&quot;utf-8&quot;</span>),</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 保存到数据库中</span></span><br><span class="line">  <span class="title class_">ImagesTable</span>.<span class="title function_">save</span>(&#123;</span><br><span class="line">    <span class="attr">url</span>: newUrl,</span><br><span class="line">    <span class="attr">imageKey</span>: image_key,</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> image_key;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>新建 search.js 文件</li>
+</ol>
+<p>使用网易云音乐的搜索接口根据关键词搜索音乐，可以根据<a target="_blank" rel="noopener" href="https://neteasecloudmusicapi.vercel.app/#/">该文档</a>自建 API，这里不多赘述了。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> axios = <span class="built_in">require</span>(<span class="string">&quot;axios&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> imageUpload = <span class="built_in">require</span>(<span class="string">&quot;./image&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> request = axios.<span class="title function_">create</span>(&#123;</span><br><span class="line">  <span class="attr">baseURL</span>: process.<span class="property">env</span>.<span class="property">music_api</span>,</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 搜索歌曲</span></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = <span class="keyword">async</span> <span class="keyword">function</span> (<span class="params">params</span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> &#123; keyword &#125; = params;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> result = <span class="keyword">await</span> request.<span class="title function_">get</span>(<span class="string">`/search?keywords=<span class="subst">$&#123;keyword&#125;</span>&amp;type=1018`</span>);</span><br><span class="line">  <span class="comment">// 取前三首</span></span><br><span class="line">  <span class="keyword">const</span> songs = result.<span class="property">data</span>.<span class="property">result</span>.<span class="property">song</span>.<span class="property">songs</span>.<span class="title function_">slice</span>(<span class="number">0</span>, <span class="number">3</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> _list = <span class="keyword">await</span> songs.<span class="title function_">map</span>(<span class="function">(<span class="params">data</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> artistNames = data.<span class="property">ar</span>.<span class="property">length</span></span><br><span class="line">      ? [...data.<span class="property">ar</span>]</span><br><span class="line">          .<span class="title function_">reverse</span>()</span><br><span class="line">          .<span class="title function_">reduce</span>(<span class="function">(<span class="params">ac, a</span>) =&gt;</span> <span class="string">`<span class="subst">$&#123;a.name&#125;</span> <span class="subst">$&#123;ac&#125;</span>`</span>, <span class="string">&quot;&quot;</span>)</span><br><span class="line">          .<span class="title function_">trim</span>()</span><br><span class="line">      : <span class="string">&quot;&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      <span class="attr">imgUrl</span>: data.<span class="property">al</span>.<span class="property">picUrl</span>,</span><br><span class="line">      <span class="attr">title</span>: <span class="string">`<span class="subst">$&#123;data.name&#125;</span>`</span>,</span><br><span class="line">      <span class="attr">desc</span>: <span class="string">`<span class="subst">$&#123;artistNames&#125;</span> · <span class="subst">$&#123;data.al.name&#125;</span>`</span>,</span><br><span class="line">      <span class="attr">artistId</span>: data.<span class="property">ar</span>[<span class="number">0</span>].<span class="property">id</span>,</span><br><span class="line">      <span class="attr">albumId</span>: data.<span class="property">al</span>.<span class="property">id</span>,</span><br><span class="line">      <span class="attr">artistName</span>: artistNames,</span><br><span class="line">      <span class="attr">albumName</span>: data.<span class="property">al</span>.<span class="property">name</span>,</span><br><span class="line">      <span class="attr">id</span>: data.<span class="property">id</span>,</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> imageKeys = <span class="keyword">await</span> <span class="title class_">Promise</span>.<span class="title function_">all</span>(</span><br><span class="line">    _list.<span class="title function_">map</span>(<span class="function">(<span class="params">data</span>) =&gt;</span> <span class="title function_">imageUpload</span>(&#123; <span class="attr">url</span>: data.<span class="property">imgUrl</span> &#125;))</span><br><span class="line">  );</span><br><span class="line">  <span class="keyword">const</span> list = _list.<span class="title function_">map</span>(<span class="function">(<span class="params">data, index</span>) =&gt;</span> (&#123;</span><br><span class="line">    ...data,</span><br><span class="line">    <span class="attr">imageKey</span>: imageKeys[index],</span><br><span class="line">  &#125;));</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> list;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>新建 reaction.js 文件</li>
+</ol>
+<p>该文件就是用来生成消息卡片富文本，富文本 JSON 可以先下飞书的<a target="_blank" rel="noopener" href="https://open.feishu.cn/tool/cardbuilder">消息卡片搭建工具</a>先搭建好，再复制到该文件中。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 生成消息卡片</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">generatePath</span> = (<span class="params">id</span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">`https://applink.feishu.cn/client/web_app/open?appId=<span class="subst">$&#123;process.env.app_id&#125;</span>&amp;mode=sidebar&amp;id=<span class="subst">$&#123;id&#125;</span>`</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">generateHeader</span> = (<span class="params">keyword</span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    <span class="attr">template</span>: <span class="string">&quot;turquoise&quot;</span>,</span><br><span class="line">    <span class="attr">title</span>: &#123;</span><br><span class="line">      <span class="attr">content</span>: <span class="string">`🎵 <span class="subst">$&#123;keyword&#125;</span>`</span>,</span><br><span class="line">      <span class="attr">tag</span>: <span class="string">&quot;plain_text&quot;</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">generateCard</span> = (<span class="params">data</span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    <span class="attr">tag</span>: <span class="string">&quot;div&quot;</span>,</span><br><span class="line">    <span class="attr">text</span>: &#123;</span><br><span class="line">      <span class="attr">tag</span>: <span class="string">&quot;lark_md&quot;</span>,</span><br><span class="line">      <span class="attr">content</span>: <span class="string">`**<span class="subst">$&#123;data.title&#125;</span>**\n<span class="subst">$&#123;data.desc&#125;</span>\n[打开播放器](<span class="subst">$&#123;generatePath(</span></span></span><br><span class="line"><span class="subst"><span class="string">        data.id</span></span></span><br><span class="line"><span class="subst"><span class="string">      )&#125;</span>)`</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">extra</span>: &#123;</span><br><span class="line">      <span class="attr">tag</span>: <span class="string">&quot;img&quot;</span>,</span><br><span class="line">      <span class="attr">img_key</span>: data.<span class="property">imageKey</span>,</span><br><span class="line">      <span class="attr">alt</span>: &#123;</span><br><span class="line">        <span class="attr">tag</span>: <span class="string">&quot;plain_text&quot;</span>,</span><br><span class="line">        <span class="attr">content</span>: data.<span class="property">title</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = <span class="function">(<span class="params">&#123; keyword, list &#125;</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;search keyword: &quot;</span>, keyword);</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;search result: &quot;</span>, list);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> header = <span class="title function_">generateHeader</span>(keyword);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> elements = list.<span class="title function_">reduce</span>(<span class="function">(<span class="params">result, item, index</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> card = <span class="title function_">generateCard</span>(item);</span><br><span class="line">    <span class="keyword">if</span> (index &gt; <span class="number">0</span>) &#123;</span><br><span class="line">      result.<span class="title function_">push</span>(&#123; <span class="attr">tag</span>: <span class="string">&quot;hr&quot;</span> &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> [...result, card];</span><br><span class="line">  &#125;, []);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    <span class="attr">config</span>: &#123;</span><br><span class="line">      <span class="attr">wide_screen_mode</span>: <span class="literal">true</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    elements,</span><br><span class="line">    header,</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>新建 index.js 文件</li>
+</ol>
+<p>最后再新建个入口文件，集合下前面的几个模块：</p>
+<ol>
+<li>首先飞书开放平台会向接口发送个验证请求，请求为 JSON 格式，带 challenge 参数。应用接收此请求后，需解析出 challenge 值，并在 1 秒内回复 challenge 值。可以通过 params.type &#x3D;&#x3D;&#x3D; ‘url_verification’ 来判断请求是否是验证请求。</li>
+<li>通过 register 方法注册时间的回调，目前我们只订阅了 <code>im.message.receive_v1</code>这一个事件。</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// @see https://docs.aircode.io/guide/functions/</span></span><br><span class="line"><span class="keyword">const</span> aircode = <span class="built_in">require</span>(<span class="string">&quot;aircode&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> lark = <span class="built_in">require</span>(<span class="string">&quot;@larksuiteoapi/node-sdk&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> client = <span class="built_in">require</span>(<span class="string">&quot;./client&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> search = <span class="built_in">require</span>(<span class="string">&quot;./search&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> reaction = <span class="built_in">require</span>(<span class="string">&quot;./reaction&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">sendMessage</span> = (<span class="params">chatId, content, type = <span class="string">&quot;text&quot;</span></span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">return</span> client.<span class="property">im</span>.<span class="property">message</span>.<span class="title function_">create</span>(&#123;</span><br><span class="line">    <span class="attr">params</span>: &#123;</span><br><span class="line">      <span class="attr">receive_id_type</span>: <span class="string">&quot;chat_id&quot;</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">data</span>: &#123;</span><br><span class="line">      <span class="attr">receive_id</span>: chatId,</span><br><span class="line">      <span class="attr">content</span>: <span class="title class_">JSON</span>.<span class="title function_">stringify</span>(content),</span><br><span class="line">      <span class="attr">msg_type</span>: type,</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> eventDispatcher = <span class="keyword">new</span> lark.<span class="title class_">EventDispatcher</span>(&#123;&#125;).<span class="title function_">register</span>(&#123;</span><br><span class="line">  <span class="string">&quot;im.message.receive_v1&quot;</span>: <span class="keyword">async</span> (data) =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> open_chat_id = data.<span class="property">message</span>.<span class="property">chat_id</span>;</span><br><span class="line">    <span class="keyword">const</span> msg = <span class="title class_">JSON</span>.<span class="title function_">parse</span>(data.<span class="property">message</span>.<span class="property">content</span>).<span class="property">text</span>;</span><br><span class="line">    <span class="keyword">const</span> keyword = msg.<span class="title function_">replace</span>(<span class="regexp">/^@\w+/</span>, <span class="string">&quot;&quot;</span>).<span class="title function_">trim</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> res;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!keyword) &#123;</span><br><span class="line">      res = <span class="keyword">await</span> <span class="title function_">sendMessage</span>(open_chat_id, &#123;</span><br><span class="line">        <span class="attr">text</span>: <span class="string">&quot;请告诉我一些关键词，比如歌名，歌手名，歌单名，用户名等~&quot;</span>,</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> list = <span class="keyword">await</span> <span class="title function_">search</span>(&#123; keyword &#125;);</span><br><span class="line">      <span class="keyword">const</span> interactive = <span class="title function_">reaction</span>(&#123; keyword, list &#125;);</span><br><span class="line">      res = <span class="keyword">await</span> <span class="title function_">sendMessage</span>(open_chat_id, interactive, <span class="string">&quot;interactive&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = <span class="keyword">async</span> <span class="keyword">function</span> (<span class="params">params, context</span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;Received params:&quot;</span>, params);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// url 验证</span></span><br><span class="line">  <span class="keyword">if</span> (params.<span class="property">type</span> === <span class="string">&quot;url_verification&quot;</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123; <span class="attr">challenge</span>: params.<span class="property">challenge</span> &#125;;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 根据 message_id 去重复消息</span></span><br><span class="line">  <span class="keyword">const</span> message_id = params.<span class="property">event</span>.<span class="property">message</span>.<span class="property">message_id</span>;</span><br><span class="line">  <span class="keyword">const</span> <span class="title class_">LogsTable</span> = aircode.<span class="property">db</span>.<span class="title function_">table</span>(<span class="string">&quot;logs&quot;</span>);</span><br><span class="line">  <span class="keyword">const</span> findResult = <span class="keyword">await</span> <span class="title class_">LogsTable</span>.<span class="title function_">where</span>(&#123; message_id &#125;).<span class="title function_">find</span>();</span><br><span class="line">  <span class="keyword">if</span> (findResult.<span class="property">length</span> &gt; <span class="number">0</span>) <span class="keyword">return</span> <span class="string">`重复消息 - <span class="subst">$&#123;message_id&#125;</span>`</span>;</span><br><span class="line">  <span class="title class_">LogsTable</span>.<span class="title function_">save</span>(&#123; message_id &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">await</span> eventDispatcher.<span class="title function_">invoke</span>(params);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ol start="6">
+<li>点击 <code>Deploy</code>按钮，发布所有函数，复制 index.js 的公网请求路径到飞书应用设置中</li>
+</ol>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FmTbMRoiFBbb2C4Hy5TlIZrlqZwO.png"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>AirCode 用来开发机器人相当方面，替我们省掉了数据库，文件服务，线上运维等一系类繁琐的事情，使用一个浏览器就能快速的开发上线。再搭配上 Github Page 就能白嫖到底。</p>
+
+
+<div class="article-footer reveal fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div></section></div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2023/02/06/yuque/React%20Native%20%E7%BB%84%E4%BB%B6%E5%BA%93%20-%20%E8%84%9A%E6%89%8B%E6%9E%B6/">React Native 组件库 - 脚手架</a></div></section></div>
+
+
+
+
+
+
+  <div class='related-wrap md-text reveal' id="comments">
+    <section class='header cmt-title cap theme'>
+      快来参与讨论吧
+    </section>
+    <section class='body cmt-body giscus'>
+      
+
+<svg class="loading" style="vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2709"><path d="M832 512c0-176-144-320-320-320V128c211.2 0 384 172.8 384 384h-64zM192 512c0 176 144 320 320 320v64C300.8 896 128 723.2 128 512h64z" p-id="2710"></path></svg>
+
+<div id="giscus" data-repo="bijinfeng/bijinfeng.github.io" data-repo-id="R_kgDOHlXKwQ" data-category="General" data-category-id="DIC_kwDOHlXKwc4CT421" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous"></div>
+
+    </section>
+  </div>
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="sitemap"><div class="sitemap-group"><span class="fs14">博客</span><a href="/">近期</a><a href="/categories/">分类</a><a href="/tags">标签</a><a href="/archives/">归档</a></div><div class="sitemap-group"><span class="fs14">项目</span><a target="_blank" rel="noopener" href="https://rn-vant.vercel.app/">rn-vant</a></div><div class="sitemap-group"><span class="fs14">社交</span><a href="/friends/">友链</a><a target="_blank" rel="noopener" href="//about/#comments">留言板</a></div><div class="sitemap-group"><span class="fs14">更多</span><a target="_blank" rel="noopener" href="https://github.com/bijinfeng/">GitHub</a></div></div><div class="text"><p>备案信息：<a target="_blank" rel="noopener" href="https://beian.miit.gov.cn/">京ICP备2023002053号</a><br>本站由 <a href="/">@bijinfeng</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar">Stellar</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+
+      <div class='float-panel mobile-only blur' style='display:none'>
+  <button type='button' class='sidebar-toggle mobile' onclick='sidebar.toggle()'>
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"></path><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"></path></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class='scripts'>
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.18.5';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.18.5';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://gcore.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"codeblock":false,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.css","js":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".swiper-slide img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+  <script>
+  function loadJS() {
+    const els = document.querySelectorAll("#comments #giscus");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.log(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+    loadJS();
+  });
+</script>
+
+
+
+
+<!-- inject -->
+
+
+  </div>
+</body>
+</html>

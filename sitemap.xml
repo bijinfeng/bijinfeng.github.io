@@ -38,6 +38,15 @@
   </url>
   
   <url>
+    <loc>https://bijinfeng.github.io/2023/02/15/yuque/%E4%BD%BF%E7%94%A8%20AirCode%20%E5%BC%80%E5%8F%91%E9%A3%9E%E4%B9%A6%E6%9C%BA%E5%99%A8%E4%BA%BA/</loc>
+    
+    <lastmod>2023-02-15</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://bijinfeng.github.io/2023/01/29/yuque/Electron%20-%20%E4%BD%BF%E7%94%A8%20i18next%20&%20react-i18next%20%E8%BF%9B%E8%A1%8C%E5%9B%BD%E9%99%85%E5%8C%96/</loc>
     
     <lastmod>2023-02-15</lastmod>
@@ -107,10 +116,24 @@
     <priority>0.2</priority>
   </url>
   
+  <url>
+    <loc>https://bijinfeng.github.io/tags/AirCode/</loc>
+    <lastmod>2023-02-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
 
   
   <url>
     <loc>https://bijinfeng.github.io/categories/React/</loc>
+    <lastmod>2023-02-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://bijinfeng.github.io/categories/tools/</loc>
     <lastmod>2023-02-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
