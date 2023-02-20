@@ -117,6 +117,20 @@
   </url>
   
   <url>
+    <loc>https://bijinfeng.github.io/tags/i18next/</loc>
+    <lastmod>2023-02-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://bijinfeng.github.io/tags/Electron/</loc>
+    <lastmod>2023-02-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://bijinfeng.github.io/tags/React-Native/</loc>
     <lastmod>2023-02-20</lastmod>
     <changefreq>weekly</changefreq>
@@ -134,6 +148,13 @@
   
   <url>
     <loc>https://bijinfeng.github.io/categories/React/</loc>
+    <lastmod>2023-02-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://bijinfeng.github.io/categories/React/Electron/</loc>
     <lastmod>2023-02-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>

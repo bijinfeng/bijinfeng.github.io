@@ -11,9 +11,12 @@ https://bijinfeng.github.io/2021/04/02/lerna%E9%A1%B9%E7%9B%AE%E4%B8%AD%E9%9B%86
 https://bijinfeng.github.io/2020/08/29/Javascript%20%E6%A8%A1%E5%9D%97%E7%AE%A1%E7%90%86/
 https://bijinfeng.github.io/
 https://bijinfeng.github.io/tags/React/
+https://bijinfeng.github.io/tags/i18next/
+https://bijinfeng.github.io/tags/Electron/
 https://bijinfeng.github.io/tags/React-Native/
 https://bijinfeng.github.io/tags/AirCode/
 https://bijinfeng.github.io/categories/React/
+https://bijinfeng.github.io/categories/React/Electron/
 https://bijinfeng.github.io/categories/React-Native/
 https://bijinfeng.github.io/categories/tools/
 https://bijinfeng.github.io/categories/React-Native/%E7%BB%84%E4%BB%B6%E5%BA%93/
