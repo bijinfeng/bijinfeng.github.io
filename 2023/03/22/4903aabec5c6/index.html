@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang='zh-CN'>
+
+<head>
+  <meta name="generator" content="Hexo 6.3.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.18.5">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  <link rel='dns-prefetch' href='https://gcore.jsdelivr.net'>
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel='dns-prefetch' href='//unpkg.com'>
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>详解 Polyfill.io - Kebai</title>
+
+  
+    <meta name="description" content="今天看了篇文章「用了 babel 还需要 polyfill 吗？？？」，文章中明确回答了用了 babel 后还需要 polyfill。babel 只是一个平台，本生不提供任何功能，需要实现各种特性，必须依赖各种插件。如果 babel 没有使用任何插件，那么代码经过 babel 编译后会原封不动的返回。 什么是 Polyfill ? A polyfill is a piece of code (us">
+<meta property="og:type" content="article">
+<meta property="og:title" content="详解 Polyfill.io">
+<meta property="og:url" content="https://bijinfeng.github.io/2023/03/22/4903aabec5c6/index.html">
+<meta property="og:site_name" content="Kebai">
+<meta property="og:description" content="今天看了篇文章「用了 babel 还需要 polyfill 吗？？？」，文章中明确回答了用了 babel 后还需要 polyfill。babel 只是一个平台，本生不提供任何功能，需要实现各种特性，必须依赖各种插件。如果 babel 没有使用任何插件，那么代码经过 babel 编译后会原封不动的返回。 什么是 Polyfill ? A polyfill is a piece of code (us">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/12711679/1679888679391-75e1b24c-984e-4f1f-a375-0a6ef61c4f50.png#averageHue=%23a09c74&clientId=uf4114d5b-88f9-4&from=paste&height=154&id=ucd273871&name=image.png&originHeight=308&originWidth=1202&originalType=binary%E2%88%B6=2&rotation=0&showTitle=false&size=74390&status=done&style=none&taskId=u4206061a-a953-4951-a36b-ff2c66d94ba&title=&width=601">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/12711679/1679888707942-308cefc6-0b07-4ae8-9727-94b63465c799.png#averageHue=%23d2c28a&clientId=uf4114d5b-88f9-4&from=paste&height=153&id=ua4818558&name=image.png&originHeight=306&originWidth=1002&originalType=binary%E2%88%B6=2&rotation=0&showTitle=false&size=41488&status=done&style=none&taskId=u8e6e75a2-3d05-4743-9a4d-a05870190c2&title=&width=501">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/12711679/1679906188037-24be514c-064b-4eb9-97d0-3e662625ac8f.png#averageHue=%23e5e5e5&clientId=u38fe4022-4615-4&from=paste&height=327&id=u13b4de75&name=image.png&originHeight=653&originWidth=1917&originalType=binary%E2%88%B6=2&rotation=0&showTitle=false&size=422408&status=done&style=none&taskId=ua92eccc9-5516-4780-b6c7-efc905f674f&title=&width=958.5">
+<meta property="article:published_time" content="2023-03-22T22:29:00.000Z">
+<meta property="article:modified_time" content="2023-03-27T09:11:38.367Z">
+<meta property="article:author" content="bijinfeng">
+<meta property="article:tag" content="前端,React,Vue,博客,Typescript,全站">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2023/png/12711679/1679888679391-75e1b24c-984e-4f1f-a375-0a6ef61c4f50.png#averageHue=%23a09c74&clientId=uf4114d5b-88f9-4&from=paste&height=154&id=ucd273871&name=image.png&originHeight=308&originWidth=1202&originalType=binary%E2%88%B6=2&rotation=0&showTitle=false&size=74390&status=done&style=none&taskId=u4206061a-a953-4951-a36b-ff2c66d94ba&title=&width=601">
+  
+  
+
+  <!-- feed -->
+  
+
+  
+    
+<link rel="stylesheet" href="/css/main.css">
+
+  
+
+  
+    <link rel="shortcut icon" href="https://avatars.githubusercontent.com/u/29982703?v=4">
+  
+
+  
+
+  
+
+
+  
+    
+      <meta name="google-site-verification" content="I9QHLgxQl_2VmSI4QlV_TPhNvI4HsbcF-5x7jC_opMg" />
+    
+      <meta name="baidu-site-verification" content="codeva-NSbnX8KXtK" />
+    
+      <script src="https://cdn.jsdelivr.net/npm/highlight.run@latest"></script>
+    
+      <script>window.H.init('ldw6nweo')</script>
+    
+  
+</head>
+
+<body>
+  
+
+
+
+
+  <div class='l_body' id='start'>
+    <aside class='l_left' layout='post'>
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://avatars.githubusercontent.com/u/29982703?v=4" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">Kebai</div><div class="sub cap">Talk is cheap, show me the code.</div></a></div>
+
+<nav class="menu dis-select"></nav>
+</header>
+
+
+<div class="widgets">
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/blog/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"></path></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
+
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">详解 Polyfill.io</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-Polyfill"><span class="toc-text">什么是 Polyfill ?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Polyfill-%E6%96%B9%E6%A1%88"><span class="toc-text">Polyfill 方案</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#core-js-x2F-babel-x2F-polyfill"><span class="toc-text">core-js &#x2F; @babel&#x2F;polyfill</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#babel-x2F-preset-env"><span class="toc-text">@babel&#x2F;preset-env</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#useBuiltIns-entry"><span class="toc-text">useBuiltIns: entry</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#useBuiltIns-usage"><span class="toc-text">useBuiltIns: usage</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%8B%E5%8A%A8%E5%BC%95%E5%85%A5"><span class="toc-text">手动引入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%A8%E7%BA%BF%E8%A1%A5%E4%B8%81"><span class="toc-text">在线补丁</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%8C%E6%95%B4-Pollyfill-%E6%96%B9%E6%A1%88"><span class="toc-text">完整 Pollyfill 方案</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-text">参考</span></a></li></ol></div></div></widget>
+
+
+
+
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="https://github.com/bijinfeng" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="//gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/08a41b181ce68.svg"/></a></div></footer>
+
+    </aside>
+    <div class='l_main'>
+      
+
+      
+
+
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div><div id="post-meta">发布于&nbsp;<time datetime="2023-03-22T22:29:00.000Z">2023-03-23</time></div></div>
+
+<article class='md-text content post'>
+<h1 class="article-title"><span>详解 Polyfill.io</span></h1>
+<p>今天看了篇文章「<a target="_blank" rel="noopener" href="https://juejin.cn/post/6845166891015602190">用了 babel 还需要 polyfill 吗？？？</a>」，文章中明确回答了用了 babel 后还需要 polyfill。babel 只是一个平台，本生不提供任何功能，需要实现各种特性，必须依赖各种插件。如果 babel 没有使用任何插件，那么代码经过 babel 编译后会原封不动的返回。</p>
+<h2 id="什么是-Polyfill"><a href="#什么是-Polyfill" class="headerlink" title="什么是 Polyfill ?"></a>什么是 Polyfill ?</h2><blockquote>
+<p>A polyfill is a piece of code (usually JavaScript on the Web) used to provide modern functionality on older browsers that do not natively support it.</p>
+</blockquote>
+<p>polyfill 就是一段补丁代码，它能够让当前浏览器不支持的方法通过用支持的方法重写来获得支持。<br>比如 <a target="_blank" rel="noopener" href="https://caniuse.com/#feat=promises">IE11 不支持 Promise</a>，而我们又需要在项目里用到，写了这样的代码：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">  <span class="title class_">Promise</span>.<span class="title function_">resolve</span>(<span class="string">&quot;bar&quot;</span>).<span class="title function_">then</span>(<span class="keyword">function</span> (<span class="params">foo</span>) &#123;</span></span><br><span class="line"><span class="language-javascript">    <span class="variable language_">document</span>.<span class="title function_">write</span>(foo);</span></span><br><span class="line"><span class="language-javascript">  &#125;);</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>这时在 IE 下运行就会报错了<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.nlark.com/yuque/0/2023/png/12711679/1679888679391-75e1b24c-984e-4f1f-a375-0a6ef61c4f50.png#averageHue=%23a09c74&clientId=uf4114d5b-88f9-4&from=paste&height=154&id=ucd273871&name=image.png&originHeight=308&originWidth=1202&originalType=binary%E2%88%B6=2&rotation=0&showTitle=false&size=74390&status=done&style=none&taskId=u4206061a-a953-4951-a36b-ff2c66d94ba&title=&width=601" alt="image.png"><br>然后在此之前加上补丁</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.min.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">  <span class="title class_">Promise</span>.<span class="title function_">resolve</span>(<span class="string">&quot;bar&quot;</span>).<span class="title function_">then</span>(<span class="keyword">function</span> (<span class="params">foo</span>) &#123;</span></span><br><span class="line"><span class="language-javascript">    <span class="variable language_">document</span>.<span class="title function_">write</span>(foo);</span></span><br><span class="line"><span class="language-javascript">  &#125;);</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>刷新浏览器，就可以正常运行了<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.nlark.com/yuque/0/2023/png/12711679/1679888707942-308cefc6-0b07-4ae8-9727-94b63465c799.png#averageHue=%23d2c28a&clientId=uf4114d5b-88f9-4&from=paste&height=153&id=ua4818558&name=image.png&originHeight=306&originWidth=1002&originalType=binary%E2%88%B6=2&rotation=0&showTitle=false&size=41488&status=done&style=none&taskId=u8e6e75a2-3d05-4743-9a4d-a05870190c2&title=&width=501" alt="image.png"></p>
+<h2 id="Polyfill-方案"><a href="#Polyfill-方案" class="headerlink" title="Polyfill 方案"></a>Polyfill 方案</h2><h3 id="core-js-x2F-babel-x2F-polyfill"><a href="#core-js-x2F-babel-x2F-polyfill" class="headerlink" title="core-js &#x2F; @babel&#x2F;polyfill"></a>core-js &#x2F; @babel&#x2F;polyfill</h3><blockquote>
+<p>Core-js 是 JavaScript 标准库中最流行也最常用的 polyfill，为最新的 ECMAScript 标准和提案提供支持，包括古老的 ES5 功能到迭代器助手等前沿选项；</p>
+</blockquote>
+<p><code>[@babel/polyfill](https://babeljs.io/docs/en/next/babel-polyfill.html)</code> 这是 <code>core-js</code>的一个包装器，引入的是 core-js 的 stable 特性，因此从 Babel 7.4.0 之后，这个包就不再维护了，取而代之的是直接引用 <code>core-js/stable</code>：<br>Babel 7.4.0 之前：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&quot;@babel/polyfill&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>Babel 7.4.0 之后改为：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&quot;core-js/stable&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;regenerator-runtime/runtime&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>因为 core-js 中 JavaScript 标准库的一个 polyfill，不仅支持最新的 ECMAScript 标准，而且连标准库提案都包含在内，因此引入这一个库，es6，es7 等新特性就可以随便写了，不然担心兼容性问题。</p>
+<p>但是与此同时，这也带来个很大的缺点，不管你浏览器是否支持，也不管你项目是否有用到，都全量引入了，这在一些性能和带宽严苛的环境下会带来很大的麻烦。</p>
+<h3 id="babel-x2F-preset-env"><a href="#babel-x2F-preset-env" class="headerlink" title="@babel&#x2F;preset-env"></a>@babel&#x2F;preset-env</h3><blockquote>
+<p>@babel&#x2F;preset-env 是 babel 的一组预设，其中就有 pollyfill 的相关配置</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://babeljs.io/docs/en/next/babel-preset-env#usebuiltins">@babel&#x2F;preset-env</a> 有两种不同的模式，可以通过 <code>useBuiltIns</code>选项启用，其有三个参数：</p>
+<ul>
+<li>entry</li>
+<li>usage</li>
+<li>false</li>
+</ul>
+<p>其中，<code>entry</code>和 <code>usage</code>都可以优化 core-js 的引用，其区别在于：</p>
+<h4 id="useBuiltIns-entry"><a href="#useBuiltIns-entry" class="headerlink" title="useBuiltIns: entry"></a>useBuiltIns: entry</h4><p>使用该选项，<code>@babel/preset-env</code>将找到入口文件里引入的 core-js，并替换为 targets 浏览器&#x2F;环境需要的补丁列表<br>.babelrc 配置如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;presets&quot;</span>: [</span><br><span class="line">    [<span class="string">&quot;@babel/env&quot;</span>, &#123;</span><br><span class="line">      <span class="attr">useBuiltIns</span>: <span class="string">&#x27;entry&#x27;</span>,</span><br><span class="line">      <span class="attr">targets</span>: &#123; <span class="attr">chrome</span>: <span class="number">72</span> &#125;</span><br><span class="line">    &#125;]</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>入口文件引入 core-js：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&quot;core-js/stable&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;regenerator-runtime/runtime&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>转换目标是 chrome 72 时，将被转化为：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&quot;core-js/modules/es.array.unscopables.flat&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;core-js/modules/es.array.unscopables.flat-map&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;core-js/modules/es.object.from-entries&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;core-js/modules/web.immediate&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>如果转化目标是 chrome 73（完全支持 ES2019 标准库），将得到个更简短的引入：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&quot;core-js/modules/web.immediate&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<h4 id="useBuiltIns-usage"><a href="#useBuiltIns-usage" class="headerlink" title="useBuiltIns: usage"></a>useBuiltIns: usage</h4><p>当启用这个选项时，<code>@babel/preset-env</code>只会在每个文件顶部添加仅用于当前使用的、目标环境不支持的功能的 polyfills<br>例如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> set = <span class="keyword">new</span> <span class="title class_">Set</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]);</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>].<span class="title function_">includes</span>(<span class="number">2</span>);</span><br></pre></td></tr></table></figure>
+
+<p>当转化目标是老旧的低版本浏览器，比如 <code>ie 11</code>，上面的代码将被转化为：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&quot;core-js/modules/es.array.includes&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;core-js/modules/es.array.iterator&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;core-js/modules/es.object.to-string&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;core-js/modules/es.set&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> set = <span class="keyword">new</span> <span class="title class_">Set</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]);</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>].<span class="title function_">includes</span>(<span class="number">2</span>);</span><br></pre></td></tr></table></figure>
+
+<p>当目标是 <code>chrome 72</code>时，不会导入任何 polyfills，因为目标环境不需要这些 polyfills：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> set = <span class="keyword">new</span> <span class="title class_">Set</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]);</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>].<span class="title function_">includes</span>(<span class="number">2</span>);</span><br></pre></td></tr></table></figure>
+
+<p>上面不管是 <code>entry</code>还是 <code>usage</code>都能够实现 polyfill 一定的按需引入，好是好，但是仔细想想，还是有不少问题的：</p>
+<ul>
+<li>特性列表是按浏览器整理的，那怎么知道哪些特性我用了，哪些没有用到，没有用到的部分也引入了是不是也是冗余？</li>
+<li>补丁是打包到静态文件的，如果我配置 targets 为 chrome: 62, ie: 9，那意味着 chrome 62 也得载入 ie 9 相关的补丁，这也是一份冗余</li>
+<li>我们是基于 core-js 打的补丁，所以只会包含 ecmascript 规范里的内容，其他比如说 dom 里的补丁，就不在此列，应该如何处理？</li>
+</ul>
+<h3 id="手动引入"><a href="#手动引入" class="headerlink" title="手动引入"></a>手动引入</h3><p>前面的方案都是基于 babel 编译器的方案，虽然低效但是直观有用。如果是在一些特别在乎性能的场景，比如 H5 营销页面，宁可牺牲效率也要最求性能。那么可以手动引入 <a target="_blank" rel="noopener" href="https://github.com/zloirock/core-js/tree/v2/modules">core-js&#x2F;modules</a> 下的文件，缺啥加啥就好。</p>
+<h3 id="在线补丁"><a href="#在线补丁" class="headerlink" title="在线补丁"></a>在线补丁</h3><p>上面啰嗦了一大堆，和本文的主题 Polyfill.io 有什么关系？前面都是为了解决如何引入特性列表的问题，有了特性列表，要做到按需下载，就需要用到在线补丁的服务了。这就到了本文的主题，<a target="_blank" rel="noopener" href="https://polyfill.io/">polyfill.io</a> - 目前最流行的在线补丁服务。</p>
+<p>你可以尝试在不同的浏览器下访问 <a target="_blank" rel="noopener" href="https://polyfill.io/v3/polyfill.min.js">https://polyfill.io/v3/polyfill.min.js</a> 这个文件，Polyfill.io 服务端会根据用户访问携带的浏览器 UA 返回不同的 pollfill 文件，真正做到了按需加载。你需要做的仅仅是在页面上引入这个文件：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src=<span class="string">&quot;https://polyfill.io/v3/polyfill.min.js&quot;</span>&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<p>然后在 Chrome（作者用的 Chrome 是 111 版本）下的输出是：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* Polyfill service v3.111.0</span></span><br><span class="line"><span class="comment"> * Disable minification (remove `.min` from URL path) for more info */</span></span><br></pre></td></tr></table></figure>
+
+<p>啥都没有，因为新版本的 Chrome 已经完整支持了 ECMAScript 标准和提案的所有特性，没啥需要 pollyfill 的。</p>
+<p>Polyfill.io 不仅提供了 CDN 服务，还开源了 <a target="_blank" rel="noopener" href="https://github.com/financial-times/polyfill-service">polyfill-service</a> 供我们自己搭建使用。针对国内访问 Polyfill.io 较慢的问题，可以使用阿里云的 polyfill 服务替换</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">https</span>:<span class="comment">//polyfill.alicdn.com/polyfill.min.js</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>阿里云不仅仅是 Polyfill.io，它还做了一些优化，在作者的 chrome 上访问上面的链接：<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.nlark.com/yuque/0/2023/png/12711679/1679906188037-24be514c-064b-4eb9-97d0-3e662625ac8f.png#averageHue=%23e5e5e5&clientId=u38fe4022-4615-4&from=paste&height=327&id=u13b4de75&name=image.png&originHeight=653&originWidth=1917&originalType=binary%E2%88%B6=2&rotation=0&showTitle=false&size=422408&status=done&style=none&taskId=ua92eccc9-5516-4780-b6c7-efc905f674f&title=&width=958.5" alt="image.png"><br>会加载一些额外的代码，这表现和 Polyfill.io 不一样，因此不能简单的把阿里云的 polyfill 当成 Polyfill.io 的平替，至于阿里云做了哪些优化，本文就不再讨论了，有机会另开文章介绍。</p>
+</blockquote>
+<p>当然改方案也不是完美的，最起码它有以下两个缺点：</p>
+<ul>
+<li>多了一次 http 请求</li>
+<li>针对国内乱七八糟的浏览器是否能够准确识别从而返回需要的 polyfill 代码就不得而知了</li>
+</ul>
+<h2 id="完整-Pollyfill-方案"><a href="#完整-Pollyfill-方案" class="headerlink" title="完整 Pollyfill 方案"></a>完整 Pollyfill 方案</h2><p>本文关于 Polyfill 方案的介绍大部分都是来自大佬们的文章，同时也包含了一些自己的思考。是时候来个总结，关于 Pollyfill 我认为 <strong>按需特性探测 + 在线补丁</strong> 才是一个比较完整的方案：<br>按需特性探测可以使用 <code>@babel/preset-env</code>配上 <code>targets</code>以及 <code>useBuiltIns: usage</code>，可以保障特性集的最小化。<br>在线补丁可以使用 Polyfill.io 的方案（大公司可以使用自己搭建的服务），可以保障遇到目标浏览器不支持的特性是能做到按需加载，给业务再做一层兜底。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://juejin.cn/post/6845166891015602190#heading-2">https://juejin.cn/post/6845166891015602190#heading-2</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/sorrycc/blog/issues/80">https://github.com/sorrycc/blog/issues/80</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/zloirock/core-js/blob/master/docs/2019-03-19-core-js-3-babel-and-a-look-into-the-future.md">https://github.com/zloirock/core-js/blob/master/docs/2019-03-19-core-js-3-babel-and-a-look-into-the-future.md</a></li>
+</ul>
+
+
+<div class="article-footer reveal fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div></section></div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2023/03/02/23c511e540c1/">【转载】CSS 内在尺寸教程（min-content、max-content 和 fit-content ）</a></div></section></div>
+
+
+
+
+
+
+  <div class='related-wrap md-text reveal' id="comments">
+    <section class='header cmt-title cap theme'>
+      快来参与讨论吧
+    </section>
+    <section class='body cmt-body giscus'>
+      
+
+<svg class="loading" style="vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2709"><path d="M832 512c0-176-144-320-320-320V128c211.2 0 384 172.8 384 384h-64zM192 512c0 176 144 320 320 320v64C300.8 896 128 723.2 128 512h64z" p-id="2710"></path></svg>
+
+<div id="giscus" data-repo="bijinfeng/bijinfeng.github.io" data-repo-id="R_kgDOHlXKwQ" data-category="General" data-category-id="DIC_kwDOHlXKwc4CT421" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous"></div>
+
+    </section>
+  </div>
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="sitemap"><div class="sitemap-group"><span class="fs14">博客</span><a href="/">近期</a><a href="/categories/">分类</a><a href="/tags">标签</a><a href="/archives/">归档</a></div><div class="sitemap-group"><span class="fs14">项目</span><a target="_blank" rel="noopener" href="https://rn-vant.vercel.app/">rn-vant</a></div><div class="sitemap-group"><span class="fs14">社交</span><a href="/friends/">友链</a><a target="_blank" rel="noopener" href="//about/#comments">留言板</a></div><div class="sitemap-group"><span class="fs14">更多</span><a target="_blank" rel="noopener" href="https://github.com/bijinfeng/">GitHub</a></div></div><div class="text"><p>本站由 <a href="/">@bijinfeng</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar">Stellar</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+
+      <div class='float-panel mobile-only blur' style='display:none'>
+  <button type='button' class='sidebar-toggle mobile' onclick='sidebar.toggle()'>
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"></path><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"></path></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class='scripts'>
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.18.5';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.18.5';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://gcore.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"codeblock":false,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.css","js":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".swiper-slide img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+  <script>
+  function loadJS() {
+    const els = document.querySelectorAll("#comments #giscus");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.log(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+    loadJS();
+  });
+</script>
+
+
+
+
+<!-- inject -->
+
+
+  </div>
+</body>
+</html>
