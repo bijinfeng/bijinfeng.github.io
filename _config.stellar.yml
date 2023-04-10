@@ -47,6 +47,9 @@ footer:
     github:
       icon: '<img src="//gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/08a41b181ce68.svg"/>'
       url: https://github.com/bijinfeng
+    qexo:
+      icon: '<img src="//unpkg.com/qexo-static@1.4.0/assets/img/brand/favicon.ico" />'
+      url: https://qexo-omega-vert.vercel.app
 
   sitemap:
     "博客":
