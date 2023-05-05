@@ -107,6 +107,5 @@ inject:
     - <meta name="google-site-verification" content="I9QHLgxQl_2VmSI4QlV_TPhNvI4HsbcF-5x7jC_opMg" />
     - <meta name="baidu-site-verification" content="codeva-NSbnX8KXtK" />
     - <script src="https://js.sentry-cdn.com/c35c3d4f9668489aae96910ce676dab7.min.js" crossorigin="anonymous"></script>
-    - <script>Sentry.onLoad(function() { Sentry.init({sampleRate: 0.5}) })</script>
     - <script src="https://cdn.jsdelivr.net/npm/highlight.run@latest"></script>
     - <script>window.H.init('ldw6nweo')</script>
