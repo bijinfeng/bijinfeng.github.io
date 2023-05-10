@@ -3,7 +3,7 @@
 
 <head>
   <meta name="generator" content="Hexo 6.3.0">
-  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.18.5">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0">
   <meta charset="utf-8">
   
 
@@ -33,7 +33,7 @@
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FhXND0uwCT-gU8JdQl7t2IRsQMlN.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/Fu8MgSj6h20I7v427wOlVrYvZSV_.png">
 <meta property="article:published_time" content="2023-02-20T04:12:35.000Z">
-<meta property="article:modified_time" content="2023-05-10T13:22:29.230Z">
+<meta property="article:modified_time" content="2023-05-10T13:30:26.527Z">
 <meta property="article:author" content="bijinfeng">
 <meta property="article:tag" content="React">
 <meta property="article:tag" content="React Native">
@@ -41,6 +41,8 @@
 <meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FhXND0uwCT-gU8JdQl7t2IRsQMlN.png">
   
   
+  
+  <meta name="keywords" content="React,React Native">
 
   <!-- feed -->
   
@@ -112,6 +114,7 @@
       
 
 
+
 <div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/React-Native/">React Native</a> <span class="sep"></span> <a class="cap breadcrumb-link" href="/categories/React-Native/%E7%BB%84%E4%BB%B6%E5%BA%93/">组件库</a></div><div id="post-meta">发布于&nbsp;<time datetime="2023-02-20T04:12:35.000Z">2023-02-20</time></div></div>
 
 <article class='md-text content post'>
@@ -126,10 +129,14 @@
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> <span class="title class_">React</span> <span class="keyword">from</span> <span class="string">&quot;react&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="title class_">Svg</span>, &#123; <span class="title class_">SvgProps</span>, <span class="title class_">Path</span> &#125; <span class="keyword">from</span> <span class="string">&quot;react-native-svg&quot;</span>;</span><br><span class="line"><span class="comment">/* SVGR has dropped some elements not supported by react-native-svg: title */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">SvgComponent</span> = (<span class="params">props: SvgProps</span>) =&gt; (</span><br><span class="line">  <span class="language-xml"><span class="tag">&lt;<span class="name">Svg</span> <span class="attr">width</span>=<span class="string">&#123;48&#125;</span> <span class="attr">height</span>=<span class="string">&#123;1&#125;</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://www.w3.org/2000/svg&quot;</span> &#123;<span class="attr">...props</span>&#125;&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">Path</span> <span class="attr">d</span>=<span class="string">&quot;M0 0h48v1H0z&quot;</span> <span class="attr">fill</span>=<span class="string">&quot;#063855&quot;</span> <span class="attr">fillRule</span>=<span class="string">&quot;evenodd&quot;</span> /&gt;</span></span></span><br><span class="line"><span class="language-xml">  <span class="tag">&lt;/<span class="name">Svg</span>&gt;</span></span></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title class_">SvgComponent</span>;</span><br></pre></td></tr></table></figure>
 
 <p>在 React Native 使用 svg，基本就相当于把代码从 React 中 copy 过来，将所有的 svg 元素换成驼峰样式的自定义组件，然后从 react-native-svg 中引入。</p>
-<p>这里推荐个工具 <a target="_blank" rel="noopener" href="https://react-svgr.com/playground/?native=true&typescript=true">SVGR Playground</a>，可以将 svg 转换成 React &amp; React Native 组件，省去手动修改的麻烦。<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FhXND0uwCT-gU8JdQl7t2IRsQMlN.png"></p>
+<p>这里推荐个工具 <a target="_blank" rel="noopener" href="https://react-svgr.com/playground/?native=true&typescript=true">SVGR Playground</a>，可以将 svg 转换成 React &amp; React Native 组件，省去手动修改的麻烦。</p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FhXND0uwCT-gU8JdQl7t2IRsQMlN.png" fancybox="true"/></div></div>
+
 <h2 id="图标管理"><a href="#图标管理" class="headerlink" title="图标管理"></a>图标管理</h2><p>上面介绍了在 React Native 中使用 svg 图标的姿势，但是一个图标组件库中，少则几十多则几百个图标，如何管理这些图标就是一个问题了。</p>
 <p>最简单粗暴的方式就是直接放在源码了，但是当你需要修改和预览图标时，你就会体验到什么到痛苦。</p>
-<p>更好的方式是借助图标管理平台，比如 <a target="_blank" rel="noopener" href="https://www.iconfont.cn/">iconfont</a>，<a target="_blank" rel="noopener" href="https://iconpark.oceanengine.com/">iconpark</a> 等，这里推荐 iconfont，原因见下面：<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/Fu8MgSj6h20I7v427wOlVrYvZSV_.png"></p>
+<p>更好的方式是借助图标管理平台，比如 <a target="_blank" rel="noopener" href="https://www.iconfont.cn/">iconfont</a>，<a target="_blank" rel="noopener" href="https://iconpark.oceanengine.com/">iconpark</a> 等，这里推荐 iconfont，原因见下面：</p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/Fu8MgSj6h20I7v427wOlVrYvZSV_.png" fancybox="true"/></div></div>
+
 <h2 id="图标组件生成"><a href="#图标组件生成" class="headerlink" title="图标组件生成"></a>图标组件生成</h2><p>图标管理的问题解决了，接下来就要解决如何将 iconfont 上的图标转换成可使用的图标组件的问题了，这里需要借助个工具 - <a target="_blank" rel="noopener" href="https://github.com/iconfont-cli/react-native-iconfont-cli">react-native-iconfont-cli</a>，这里贴下 react-native-iconfont-cli 需要解决的痛点，体验下它的强大之处：<br>引用自：<a target="_blank" rel="noopener" href="https://github.com/iconfont-cli/react-native-iconfont-cli">https://github.com/iconfont-cli/react-native-iconfont-cli</a></p>
 <blockquote>
 <p>通常地，当我们想在 RN 里使用 iconfont，我们可能会借助 react-native-vector-icons 导入 ttf 字体文件，或者直接手动下载各个 svg 文件到本地，然后单个使用。<br>使用 ttf 字体有一个弊端，就是每次更新图标，都要相应的更新 ttf 文件，然后再次打包发布 APP。而且 ttf 不支持多种色彩的图标，导致所有图标都是单色。如果你是借助 react-native-vector-icons，该库内置了 10 多套 ttf 文件，合起来有 2M 左右；你可能用不到它们，但是它们仍然会被打包进你的 APP 里。<br>下载 svg 到本地也不方便，因为你需要额外维护一份图标字体，有可能造成线上和本地的图标不一致问题。而且如果你想动态地改变 svg 的渲染色彩，基本上是不可能的，只能渲染原图的颜色。</p>
@@ -144,6 +151,7 @@
 
 <p>发布到 npm 就不过多介绍，老生常谈的问题了，一般 Mono Repo 项目里都有自己的发布命令，比如，lerna 项目就用 <code>lerna publish</code>，一般 Multi Repo 项目使用 <code>npm publish</code>就可以了。如果不想手动发布，可以借助 CI&#x2F;CD 工具做到自动发布，这些不在本文讨论范围内，就不多赘述了。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>得益于前端强大的社区，在 React Native 中使用 SVG 图标并不是一件多么麻烦的事情，借助一些工具，甚至能做到开发体验丝滑到飞起。有时不得不感叹一句前端发展太快了，早已脱离了刀耕火种的时代，各种先进的工具不断涌现，目不暇接，现在最大的问题反而是工具太多，学不过来的问题！</p>
+
 
 
 <div class="article-footer reveal fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
@@ -251,6 +259,9 @@
     // 从 butterfly 和 volantis 获得灵感
     loadScript: (src, opt) => new Promise((resolve, reject) => {
       var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
       script.src = src;
       if (opt) {
         for (let key of Object.keys(opt)) {
@@ -279,8 +290,8 @@
       }
     }
   };
-  stellar.version = '1.18.5';
-  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.18.5';
+  stellar.version = '1.19.0';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0';
   stellar.config = {
     date_suffix: {
       just: '刚刚',
@@ -289,6 +300,7 @@
       day: '天前',
       month: '个月前',
     },
+    root : '/',
   };
 
   // required plugins (only load if needs)
@@ -327,6 +339,9 @@
   }
   if ('false' == 'true') {
     stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied"});
   }
 </script>
 

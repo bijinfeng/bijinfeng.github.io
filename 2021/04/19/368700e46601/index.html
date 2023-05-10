@@ -3,7 +3,7 @@
 
 <head>
   <meta name="generator" content="Hexo 6.3.0">
-  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.18.5">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0">
   <meta charset="utf-8">
   
 
@@ -39,6 +39,8 @@
 <meta name="twitter:image" content="https://bijinfeng.github.io/gallery/react+ts.png">
   
   
+  
+  <meta name="keywords" content="React">
 
   <!-- feed -->
   
@@ -110,6 +112,7 @@
       
 
 
+
 <div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/React/">React</a></div><div id="post-meta">发布于&nbsp;<time datetime="2021-04-19T08:00:33.000Z">2021-04-19</time></div></div>
 
 <article class='md-text content post'>
@@ -169,6 +172,7 @@
 
 <p>在React中，所有事件（包括<a target="_blank" rel="noopener" href="https://reactjs.org/docs/events.html#form-events">FormEvent</a>、<a target="_blank" rel="noopener" href="https://reactjs.org/docs/events.html#keyboard-events">KeyboardEvent</a>、<a target="_blank" rel="noopener" href="https://reactjs.org/docs/events.html#mouse-events">MouseEvent</a>等）都是<a target="_blank" rel="noopener" href="https://reactjs.org/docs/events.html">SyntheticEvent</a>的子类型。他们在@types&#x2F;react中定义如下：</p>
 <figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// DOM事件的基本属性都定义在这里</span></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">BaseSyntheticEvent</span>&lt;E = <span class="built_in">object</span>, C = <span class="built_in">any</span>, T = <span class="built_in">any</span>&gt; &#123;</span><br><span class="line">  <span class="attr">nativeEvent</span>: E;</span><br><span class="line">  <span class="attr">currentTarget</span>: C;</span><br><span class="line">  <span class="attr">target</span>: T;</span><br><span class="line">  <span class="attr">bubbles</span>: <span class="built_in">boolean</span>;</span><br><span class="line">  <span class="attr">cancelable</span>: <span class="built_in">boolean</span>;</span><br><span class="line">  <span class="attr">defaultPrevented</span>: <span class="built_in">boolean</span>;</span><br><span class="line">  <span class="attr">eventPhase</span>: <span class="built_in">number</span>;</span><br><span class="line">  <span class="attr">isTrusted</span>: <span class="built_in">boolean</span>;</span><br><span class="line">  <span class="title function_">preventDefault</span>(): <span class="built_in">void</span>;</span><br><span class="line">  <span class="title function_">isDefaultPrevented</span>(): <span class="built_in">boolean</span>;</span><br><span class="line">  <span class="title function_">stopPropagation</span>(): <span class="built_in">void</span>;</span><br><span class="line">  <span class="title function_">isPropagationStopped</span>(): <span class="built_in">boolean</span>;</span><br><span class="line">  <span class="title function_">persist</span>(): <span class="built_in">void</span>;</span><br><span class="line">  <span class="attr">timeStamp</span>: <span class="built_in">number</span>;</span><br><span class="line">  <span class="attr">type</span>: <span class="built_in">string</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">SyntheticEvent</span>&lt;T = <span class="title class_">Element</span>, E = <span class="title class_">Event</span>&gt; <span class="keyword">extends</span> <span class="title class_">BaseSyntheticEvent</span>&lt;E, <span class="title class_">EventTarget</span> &amp; T, <span class="title class_">EventTarget</span>&gt; &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 具体的事件类型：</span></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">FormEvent</span>&lt;T = <span class="title class_">Element</span>&gt; <span class="keyword">extends</span> <span class="title class_">SyntheticEvent</span>&lt;T&gt; &#123;&#125;</span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">KeyboardEvent</span>&lt;T = <span class="title class_">Element</span>&gt; <span class="keyword">extends</span> <span class="title class_">SyntheticEvent</span>&lt;T, <span class="title class_">NativeKeyboardEvent</span>&gt; &#123;</span><br><span class="line">  <span class="attr">altKey</span>: <span class="built_in">boolean</span>;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">MouseEvent</span>&lt;T = <span class="title class_">Element</span>, E = <span class="title class_">NativeMouseEvent</span>&gt; <span class="keyword">extends</span> <span class="title class_">SyntheticEvent</span>&lt;T, E&gt; &#123;</span><br><span class="line">  <span class="attr">altKey</span>: <span class="built_in">boolean</span>;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// ...</span></span><br></pre></td></tr></table></figure>
+
 
 
 
@@ -280,6 +284,9 @@
     // 从 butterfly 和 volantis 获得灵感
     loadScript: (src, opt) => new Promise((resolve, reject) => {
       var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
       script.src = src;
       if (opt) {
         for (let key of Object.keys(opt)) {
@@ -308,8 +315,8 @@
       }
     }
   };
-  stellar.version = '1.18.5';
-  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.18.5';
+  stellar.version = '1.19.0';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0';
   stellar.config = {
     date_suffix: {
       just: '刚刚',
@@ -318,6 +325,7 @@
       day: '天前',
       month: '个月前',
     },
+    root : '/',
   };
 
   // required plugins (only load if needs)
@@ -356,6 +364,9 @@
   }
   if ('false' == 'true') {
     stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied"});
   }
 </script>
 
