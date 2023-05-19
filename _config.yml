@@ -109,3 +109,4 @@ inject:
     - <script src="https://js.sentry-cdn.com/c35c3d4f9668489aae96910ce676dab7.min.js" crossorigin="anonymous"></script>
     - <script src="https://cdn.jsdelivr.net/npm/highlight.run@latest"></script>
     - <script>window.H.init('ldw6nweo')</script>
+    - <script async src="https://analytics.umami.is/script.js" data-website-id="dd058429-ccb6-4ce1-bd34-f1d455cb338a"></script>
