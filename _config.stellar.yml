@@ -50,6 +50,9 @@ footer:
     qexo:
       icon: '<img src="//unpkg.com/qexo-static@1.4.0/assets/img/brand/favicon.ico" />'
       url: https://qexo-omega-vert.vercel.app
+    umami:
+      icon: '<img src="//analytics.umami.is/favicon.ico" />'
+      url: https://analytics.umami.is/websites/dd058429-ccb6-4ce1-bd34-f1d455cb338a
 
   sitemap:
     "博客":
