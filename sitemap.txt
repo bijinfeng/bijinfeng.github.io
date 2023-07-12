@@ -8,6 +8,7 @@ https://bijinfeng.github.io/2023/03/02/23c511e540c1/
 https://bijinfeng.github.io/2023/03/22/4903aabec5c6/
 https://bijinfeng.github.io/2023/04/02/93b995cb58f9/
 https://bijinfeng.github.io/2023/06/05/4ff7282e236f/
+https://bijinfeng.github.io/2023/07/11/5d26d957a5fc/
 https://bijinfeng.github.io/2023/01/28/6c1ff1435713/
 https://bijinfeng.github.io/2022/04/18/51f956ea22d7/
 https://bijinfeng.github.io/2023/04/18/40fc3d9c3a91/
@@ -34,6 +35,6 @@ https://bijinfeng.github.io/categories/React-Native/
 https://bijinfeng.github.io/categories/Typescript/
 https://bijinfeng.github.io/categories/CSS/
 https://bijinfeng.github.io/categories/tools/
-https://bijinfeng.github.io/categories/Babel/
 https://bijinfeng.github.io/categories/React-Native/%E7%BB%84%E4%BB%B6%E5%BA%93/
+https://bijinfeng.github.io/categories/Babel/
 https://bijinfeng.github.io/categories/Babel/Polyfill/
