@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang='zh-CN'>
+
+<head>
+  <meta name="generator" content="Hexo 6.3.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  <link rel='dns-prefetch' href='https://gcore.jsdelivr.net'>
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel='dns-prefetch' href='//unpkg.com'>
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>编程规范工具链 - Kebai</title>
+
+  
+    <meta name="description" content="当多个开发人员合作开发一个前端项目时，代码质量和一致性是非常重要的。在大型项目中，代码质量和一致性的缺失可能会导致团队之间的沟通问题和代码维护的困难。为了确保代码质量和一致性，前端编程规范工具链是必不可少的。它可以帮助团队在整个开发周期内保持代码风格的一致性，减少错误和冲突，并提高代码质量和效率。在这篇文章中，我们将介绍一些常用的前端编程规范工具，以及它们如何帮助团队提高代码质量和效率。 Husk">
+<meta property="og:type" content="article">
+<meta property="og:title" content="编程规范工具链">
+<meta property="og:url" content="https://bijinfeng.github.io/2023/07/17/da58cef2f1e5/index.html">
+<meta property="og:site_name" content="Kebai">
+<meta property="og:description" content="当多个开发人员合作开发一个前端项目时，代码质量和一致性是非常重要的。在大型项目中，代码质量和一致性的缺失可能会导致团队之间的沟通问题和代码维护的困难。为了确保代码质量和一致性，前端编程规范工具链是必不可少的。它可以帮助团队在整个开发周期内保持代码风格的一致性，减少错误和冲突，并提高代码质量和效率。在这篇文章中，我们将介绍一些常用的前端编程规范工具，以及它们如何帮助团队提高代码质量和效率。 Husk">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/Fus7Yv4KK_ZrSJvVat_vt3rkoigv.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FhYVCx3YyqQLgGjWiByQgzmwaf-p.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/Fu94zxzUVVeR_gm3d2KkZH47A-YU.png">
+<meta property="article:published_time" content="2023-07-17T23:36:31.000Z">
+<meta property="article:modified_time" content="2023-07-31T09:47:30.448Z">
+<meta property="article:author" content="bijinfeng">
+<meta property="article:tag" content="前端,React,Vue,博客,Typescript,全站">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/Fus7Yv4KK_ZrSJvVat_vt3rkoigv.png">
+  
+  
+  
+  <meta name="keywords" content="前端,React,Vue,博客,Typescript,全站">
+
+  <!-- feed -->
+  
+
+  
+    
+<link rel="stylesheet" href="/css/main.css">
+
+  
+
+  
+    <link rel="shortcut icon" href="https://avatars.githubusercontent.com/u/29982703?v=4">
+  
+
+  
+
+  
+
+
+  
+    
+      <meta name="google-site-verification" content="I9QHLgxQl_2VmSI4QlV_TPhNvI4HsbcF-5x7jC_opMg" />
+    
+      <meta name="baidu-site-verification" content="codeva-NSbnX8KXtK" />
+    
+      <script src="https://js.sentry-cdn.com/c35c3d4f9668489aae96910ce676dab7.min.js" crossorigin="anonymous"></script>
+    
+      <script src="https://cdn.jsdelivr.net/npm/highlight.run@latest"></script>
+    
+      <script>window.H.init('ldw6nweo')</script>
+    
+      <script async src="https://analytics.umami.is/script.js" data-website-id="dd058429-ccb6-4ce1-bd34-f1d455cb338a"></script>
+    
+  
+</head>
+
+<body>
+  
+
+
+
+
+  <div class='l_body' id='start'>
+    <aside class='l_left' layout='post'>
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://avatars.githubusercontent.com/u/29982703?v=4" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">Kebai</div><div class="sub cap">Talk is cheap, show me the code.</div></a></div>
+
+<nav class="menu dis-select"></nav>
+</header>
+
+
+<div class="widgets">
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/blog/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"></path></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
+
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">编程规范工具链</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Husky"><span class="toc-text">Husky</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Git-Hook"><span class="toc-text">Git Hook</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Husky-%E4%BD%8E%E7%89%88%E6%9C%AC%E5%AE%89%E8%A3%85"><span class="toc-text">Husky 低版本安装</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Husky-%E9%AB%98%E7%89%88%E6%9C%AC%E5%AE%89%E8%A3%85%EF%BC%88%E4%BB%8E-v6-0-%E4%B9%8B%E5%90%8E%EF%BC%89"><span class="toc-text">Husky 高版本安装（从 v6.0 之后）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lint-Staged"><span class="toc-text">Lint-Staged</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Prettier"><span class="toc-text">Prettier</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ESLint"><span class="toc-text">ESLint</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE-Eslint"><span class="toc-text">配置 Eslint</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3-Eslint-%E5%92%8C-Prettier-%E5%86%B2%E7%AA%81%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-text">解决 Eslint 和 Prettier 冲突的问题</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Commitlint"><span class="toc-text">Commitlint</span></a></li></ol></div></div></widget>
+
+
+
+
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="https://github.com/bijinfeng" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="//gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/08a41b181ce68.svg"/></a><a class="social" href="https://qexo-omega-vert.vercel.app" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="//unpkg.com/qexo-static@1.4.0/assets/img/brand/favicon.ico" /></a><a class="social" href="https://analytics.umami.is/websites/dd058429-ccb6-4ce1-bd34-f1d455cb338a" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="//analytics.umami.is/favicon.ico" /></a></div></footer>
+
+    </aside>
+    <div class='l_main'>
+      
+
+      
+
+
+
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div><div id="post-meta">发布于&nbsp;<time datetime="2023-07-17T23:36:31.000Z">2023-07-18</time></div></div>
+
+<article class='md-text content post'>
+<h1 class="article-title"><span>编程规范工具链</span></h1>
+<p>当多个开发人员合作开发一个前端项目时，代码质量和一致性是非常重要的。在大型项目中，代码质量和一致性的缺失可能会导致团队之间的沟通问题和代码维护的困难。为了确保代码质量和一致性，前端编程规范工具链是必不可少的。<br>它可以帮助团队在整个开发周期内保持代码风格的一致性，减少错误和冲突，并提高代码质量和效率。在这篇文章中，我们将介绍一些常用的前端编程规范工具，以及它们如何帮助团队提高代码质量和效率。</p>
+<h2 id="Husky"><a href="#Husky" class="headerlink" title="Husky"></a>Husky</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/typicode/husky">https://github.com/typicode/husky</a></p>
+</blockquote>
+<p>Husky 是一个 Git 钩子工具，可以在 Git 操作（例如提交或推送）之前运行脚本。它可以帮助团队确保代码符合前端编程规范，并在提交或推送之前运行 ESLint、Prettier 和 Stylelint 等工具。</p>
+<h4 id="Git-Hook"><a href="#Git-Hook" class="headerlink" title="Git Hook"></a>Git Hook</h4><p>Git hook 都被存储在 Git 目录下的 hooks 子目录中。 也即绝大部分项目中的 .git&#x2F;hooks 。 这些以 .sample 结尾的文件都是在 git init 初始化时，git 默认安装的示例文件，这些文件都是 shell 脚本，移除后缀就可以启动了。</p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/Fus7Yv4KK_ZrSJvVat_vt3rkoigv.png" fancybox="true"/></div></div>
+<p>这些钩子的执行时机和作用如下：</p>
+<table>
+<thead>
+<tr>
+<th><strong>分类</strong></th>
+<th><strong>钩子</strong></th>
+<th><strong>描述</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>提交工作流钩子</td>
+<td>pre-commit</td>
+<td>git commit 前运行，可以检查代码风格是否一致、单元测试等</td>
+</tr>
+<tr>
+<td></td>
+<td>prepare-commit-msg</td>
+<td>钩子在启动提交信息编辑器之前，默认信息被创建之后运行。 它允许你编辑提交者所看到的默认信息。</td>
+</tr>
+<tr>
+<td></td>
+<td>commit-msg</td>
+<td>接收一个参数，git commit 信息的文件路径（默认为.git&#x2F;COMMIT_EDITMSG）</td>
+</tr>
+<tr>
+<td></td>
+<td>post-msg</td>
+<td>git commit 之后运行，一般用于通知之类的事情，如：git log -1 HEAD</td>
+</tr>
+<tr>
+<td>电子邮件工作流钩子</td>
+<td>applypatch-msg</td>
+<td>它接收单个参数：包含请求合并信息的临时文件的名字。 如果脚本返回非零值，Git 将放弃该补丁。 你可以用该脚本来确保提交信息符合格式，或直接用脚本修正格式错误。</td>
+</tr>
+<tr>
+<td></td>
+<td>pre-applypatch</td>
+<td>它正好运行于应用补丁之后，产生提交之前，所以你可以用它在提交前检查快照。 你可以用这个脚本运行测试或检查工作区。 如果有什么遗漏，或测试未能通过，脚本会以非零值退出，中断 git am 的运行，这样补丁就不会被提交</td>
+</tr>
+<tr>
+<td></td>
+<td>post-applypatch</td>
+<td>运行于提交产生之后，是在 git am 运行期间最后被调用的钩子。 你可以用它把结果通知给一个小组或所拉取的补丁的作者。 但你没办法用它停止打补丁的过程</td>
+</tr>
+<tr>
+<td>其它客户端钩子</td>
+<td>pre-rebase</td>
+<td>git rebase 之前</td>
+</tr>
+<tr>
+<td></td>
+<td>post-rewrite</td>
+<td>被那些会替换提交记录的命令调用，比如 git commit –amend 和 git rebase（不过不包括 git filter-branch）</td>
+</tr>
+<tr>
+<td></td>
+<td>post-checkout</td>
+<td>git checkout 成功运行后</td>
+</tr>
+<tr>
+<td></td>
+<td>post-merge</td>
+<td>在 git merge 成功运行后</td>
+</tr>
+<tr>
+<td></td>
+<td>pre-push</td>
+<td>会在 git push 运行期间， 更新了远程引用但尚未传送对象时被调用</td>
+</tr>
+<tr>
+<td>服务器端钩子</td>
+<td>pre-receive</td>
+<td>处理来自客户端的推送操作时，最先被调用的脚本是 pre-receive。</td>
+</tr>
+<tr>
+<td></td>
+<td>update</td>
+<td>update 脚本和 pre-receive 脚本十分类似，不同之处在于它会为每一个准备更新的分支各运行一次。</td>
+</tr>
+<tr>
+<td></td>
+<td>post-receive</td>
+<td>post-receive 挂钩在整个过程完结以后运行，可以用来更新其他系统服务或者通知用户。</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>这里只是简单的介绍了下各个钩子的作用，要想更深入的了解这些钩子，请看官方文档：<a target="_blank" rel="noopener" href="https://git-scm.com/book/zh/v2/%E8%87%AA%E5%AE%9A%E4%B9%89-Git-Git-%E9%92%A9%E5%AD%90">自定义 Git - Git 钩子</a></p>
+</blockquote>
+<p>既然把一个正确命名（不带扩展名）且可执行的文件放入 .git 目录下的 hooks 子目录中，即可激活该钩子脚本。为什么还要使用 <a target="_blank" rel="noopener" href="https://github.com/typicode/husky">husky</a> ，这是因为 .git 目录下的文件变动 git 本身是无法监听到的，无法统一管理 hook 脚本。</p>
+<h4 id="Husky-低版本安装"><a href="#Husky-低版本安装" class="headerlink" title="Husky 低版本安装"></a>Husky 低版本安装</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#1、安装husky</span></span><br><span class="line">npm install husky --save-dev</span><br><span class="line"></span><br><span class="line"><span class="comment">#2、在package.json中添加使用钩子</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;husky&quot;</span>: &#123;</span><br><span class="line">    <span class="string">&quot;hooks&quot;</span>: &#123;</span><br><span class="line">      <span class="string">&quot;pre-commit&quot;</span>: <span class="string">&quot;npm run test&quot;</span>, // 在commit之前先执行npm run <span class="built_in">test</span>命令</span><br><span class="line">      <span class="string">&quot;commit-msg&quot;</span>: <span class="string">&quot;commitlint -e <span class="variable">$HUSKY_GIT_PARAMS</span>&quot;</span> // 校验commit时msg是否符合我们要求的规范</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="Husky-高版本安装（从-v6-0-之后）"><a href="#Husky-高版本安装（从-v6-0-之后）" class="headerlink" title="Husky 高版本安装（从 v6.0 之后）"></a>Husky 高版本安装（从 v6.0 之后）</h4><p>使用方法 1:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#1、安装 husky</span></span><br><span class="line">npm install husky --save-dev</span><br><span class="line"></span><br><span class="line"><span class="comment">#2、Enable Git hooks</span></span><br><span class="line">npx husky install</span><br><span class="line"></span><br><span class="line"><span class="comment">#3、为了在项目 npm install 之后，运行第二步，在 package.json 中添加如下内容</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="string">&quot;scripts&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;prepare&quot;</span>: <span class="string">&quot;husky install&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>推荐使用方法：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装 husky，修改 package.json 配置，默认添加 pre-commit hook</span></span><br><span class="line">npx husky-init &amp;&amp; npm install</span><br></pre></td></tr></table></figure>
+
+<p>添加其他 git hook 如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npx husky add .husky/commit-msg <span class="string">&#x27;npx --no-install commitlint --edit &quot;$1&quot;&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>npx husky install 做了两件事：</p>
+<ol>
+<li>在根目录新建.husky 目录，用于存放 git hook；</li>
+</ol>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FhYVCx3YyqQLgGjWiByQgzmwaf-p.png" fancybox="true"/></div></div>
+
+<ol start="2">
+<li>修改 .git&#x2F;config 配置文件，core.hooksPath &#x3D; .husky(指向 husky 新建的目录)</li>
+</ol>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/Fu94zxzUVVeR_gm3d2KkZH47A-YU.png" fancybox="true"/></div></div>
+
+<p>huksy 在 6.0 时有个破坏性升级，hook 配置方式和之前皆然不同，为什么放弃之前的配置方式：</p>
+<ul>
+<li><a href="https://link.juejin.cn/?target=https://blog.typicode.com/husky-git-hooks-javascript-config/">Why husky has dropped conventional JS config</a></li>
+<li><a href="https://link.juejin.cn/?target=https://blog.typicode.com/husky-git-hooks-autoinstall/">Why husky doesn’t autoinstall anymore</a></li>
+</ul>
+<p>中文可以参考这篇<a href="https://link.juejin.cn/?target=https://zhuanlan.zhihu.com/p/366786798">husky 使用总结</a></p>
+<h2 id="Lint-Staged"><a href="#Lint-Staged" class="headerlink" title="Lint-Staged"></a>Lint-Staged</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/okonet/lint-staged">https://github.com/okonet/lint-staged</a></p>
+</blockquote>
+<p>lint-staged 是一个 Git 钩子工具，可以在 Git 操作（例如提交或推送）之前运行脚本。它可以帮助团队<strong>仅对更改过的文件（暂存区中的文件）</strong>运行 ESLint、Prettier 和 Stylelint 等工具，从而提高效率并减少不必要的检查。</p>
+<ol>
+<li>安装 lint-staged</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#</span></span><br><span class="line">npm install lint-staged --save-dev</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>在 husky 中添加 pre-commit 钩子，执行 lint-staged 命令</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/sh</span></span><br><span class="line">. &quot;$(dirname &quot;$0&quot;)/_/husky.sh&quot;</span><br><span class="line"></span><br><span class="line">pnpm exec lint-staged</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>在 package.json 中添加配置</li>
+</ol>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;lint-staged&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;*.&#123;vue,js,ts,jsx,tsx,md,json&#125;&quot;</span><span class="punctuation">:</span> <span class="string">&quot;eslint --fix&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Prettier"><a href="#Prettier" class="headerlink" title="Prettier"></a>Prettier</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/prettier/prettier">https://github.com/prettier/prettier</a></p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://prettier.io/playground/">Prettier</a><br>Prettier 是一个自动化代码格式化工具，可以根据预定义的规则自动格式化代码。它支持多种编程语言，并且可以与 ESLint 集成以确保代码风格的一致性。Prettier 可以与大多数编辑器和 IDE 集成，以便在编写代码时自动格式化代码。</p>
+<p>Prettier 不仅仅是一个代码格式化工具，还是一整套风格指南，并且大部分规则不可改变。作者在在 Prettier 官方文档的 “<a target="_blank" rel="noopener" href="https://prettier.io/docs/en/why-prettier.html">Why Prettier?</a>”章节中，详细回答了这么做的原因。虽然有一个通用的代码风格对项目和团队来说很有好处，但是编码是个特别情绪化的过程，就像一千个读者就有一千个哈姆雷特一样，每个人钟意的风格都不一样，开发已经很累了，没必要浪费时间讨论风格问题。Prettier 使用争议最小的编码风格，足以让大部分人满意了，考虑到 Prettier 的独特优势，这些“牺牲”还是值得的。</p>
+<ol>
+<li>安装 prettier</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev --save-exact prettier</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>配置 prettier 风格</li>
+</ol>
+<p>prettier 支持多种格式的配置文件 <a target="_blank" rel="noopener" href="https://prettier.io/docs/en/configuration.html">Configuration File · Prettier</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo &#123;&#125;&gt; .prettierrc.json</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>添加个空的配置文件是为了告诉 vscode，你的项目正在使用 prettier，配合 [Prettier - Code formatter](Prettier - Code formatter) 插件可以实现保存时自动格式化</p>
+</blockquote>
+<ol start="3">
+<li>添加忽略文件</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Ignore artifacts:</span></span><br><span class="line">build</span><br><span class="line">coverage</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>格式化</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npx prettier . --write</span><br></pre></td></tr></table></figure>
+
+<p>直接使用 <code>**npx prettier . --write**</code> 会格式化整个项目的所有代码，这很没必要，配合 lint-staged，只格式化改动的代码。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;lint-staged&quot;: &#123;</span><br><span class="line">    &quot;*.&#123;vue,js,ts,jsx,tsx,md,json&#125;&quot;: &quot;prettier . --write&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="ESLint"><a href="#ESLint" class="headerlink" title="ESLint"></a>ESLint</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/eslint/eslint">https://github.com/eslint/eslint</a></p>
+</blockquote>
+<p>ESLint 是一个非常流行的 JavaScript 代码检查工具，可以帮助团队确保代码风格的一致性。它支持大多数 JavaScript 代码风格，并且可以通过插件进行扩展以满足团队的特定需求。ESLint 还可以与许多编辑器和集成开发环境（IDE）集成，以便在编写代码时自动检查代码。</p>
+<h4 id="配置-Eslint"><a href="#配置-Eslint" class="headerlink" title="配置 Eslint"></a>配置 Eslint</h4><ol>
+<li>安装 eslint</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev eslint</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>添加任一<a target="_blank" rel="noopener" href="https://zh-hans.eslint.org/docs/latest/use/configure/configuration-files#%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F">支持的配置文件格式</a>的 .eslintrc 文件。</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">创建 JavaScript 配置文件</span></span><br><span class="line">touch .eslintrc.js</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>添加配置</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">// .eslintrc.js 示例</span><br><span class="line">module.exports = &#123;</span><br><span class="line">  &quot;env&quot;: &#123;</span><br><span class="line">      &quot;browser&quot;: true,</span><br><span class="line">      &quot;es2021&quot;: true</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;extends&quot;: &quot;eslint:recommended&quot;,</span><br><span class="line">  &quot;parserOptions&quot;: &#123;</span><br><span class="line">      &quot;ecmaVersion&quot;: &quot;latest&quot;,</span><br><span class="line">      &quot;sourceType&quot;: &quot;module&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>具体的 Eslint 规则配置这里不多介绍了，可以看下这篇文章 - <a target="_blank" rel="noopener" href="https://juejin.cn/post/7129771851638636575?searchId=2023073110082689628C4338808496B1FE">看完这篇文章，我不信你还对 eslint 一知半解</a></p>
+</blockquote>
+<ol start="4">
+<li>执行检查命令</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npx eslint project-dir/ file1.js</span><br></pre></td></tr></table></figure>
+
+<h4 id="解决-Eslint-和-Prettier-冲突的问题"><a href="#解决-Eslint-和-Prettier-冲突的问题" class="headerlink" title="解决 Eslint 和 Prettier 冲突的问题"></a>解决 Eslint 和 Prettier 冲突的问题</h4><p>当在项目中同时配置 Eslint 和 Prettier 时就会出现冲突的问题，这是因为 Eslint 可以同时进行代码风格及质量校验，因此在代码风格方面就和 Prettier 冲突了，这个时候我们希望代码格式由 Prettier 负责就好，而 Eslint 只需负责代码质量。</p>
+<p>解决方案时借助 eslint-config-prettier 和 eslint-plugin-prettier。</p>
+<ul>
+<li>eslint-config-prettier 作用是关闭 eslint 中与 prettier 冲突的规则。</li>
+<li>eslint-plugin-prettier 作用是让 eslint 用 prettier 来格式化，相当于当代码格式不符合 prettier 的配置的时候，也可以报错一个 eslint 错误。</li>
+</ul>
+<p>修改配置如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">  <span class="attr">extends</span>: [</span><br><span class="line">    <span class="comment">// 新增如下的配置，实际上就是eslint-plugin-prettier的推荐规则集</span></span><br><span class="line">    <span class="comment">// 而eslint-plugin-prettier实际上就是依赖eslint-config-prettier来关闭冲突的，使用前需同时安装这两个包</span></span><br><span class="line">    <span class="string">&quot;plugin:prettier/recommended&quot;</span>,</span><br><span class="line">  ],</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>最后同样使用 lint-staged 只格式化改动的文件：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;lint-staged&quot;</span>: &#123;</span><br><span class="line">    <span class="string">&quot;*.&#123;vue,js,ts,jsx,tsx,md,json&#125;&quot;</span>: <span class="string">&quot;eslint --fix&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>如果在上一步你的 vscode 配置了保存后 prettier 自动格式化，那么就会出现 prettier 格式化后，eslint 报错的问题，其解决方案也很简单，使用 eslint 去格式化：</p>
+</blockquote>
+<p>使用 prettier 格式化配置如下:</p>
+<blockquote>
+<p>“editor.formatOnSave”: true, &#x2F;&#x2F; 保存后自动格式化<br>“editor.defaultFormatter”: “esbenp.prettier-vscode”, &#x2F;&#x2F; 默认使用 prettier 格式化<br>“[javascript]”: { &#x2F;&#x2F; 手动配置各种文件的格式化工具<br>“editor.defaultFormatter”: “esbenp.prettier-vscode”<br>}</p>
+<p>修改后，使用 eslint 格式化<br>“editor.formatOnSave”: true, &#x2F;&#x2F; 保存后自动格式化<br>“editor.codeActionsOnSave”: {<br>“source.fixAll.eslint”: true<br>}</p>
+</blockquote>
+<h2 id="Commitlint"><a href="#Commitlint" class="headerlink" title="Commitlint"></a>Commitlint</h2><p>Commitlint 是一个 Git 提交消息检查工具，可以帮助团队确保 Git 提交消息的一致性和规范性。它可以检查提交消息的格式、结构和内容，并提供有用的错误提示和建议。Commitlint 可以与 Husky 集成，以便在提交代码时自动运行。</p>
+
+
+
+<div class="article-footer reveal fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div></section></div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2023/07/11/5d26d957a5fc/">初探 Plasm 框架</a></div></section></div>
+
+
+
+
+
+
+  <div class='related-wrap md-text reveal' id="comments">
+    <section class='header cmt-title cap theme'>
+      快来参与讨论吧
+    </section>
+    <section class='body cmt-body giscus'>
+      
+
+<svg class="loading" style="vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2709"><path d="M832 512c0-176-144-320-320-320V128c211.2 0 384 172.8 384 384h-64zM192 512c0 176 144 320 320 320v64C300.8 896 128 723.2 128 512h64z" p-id="2710"></path></svg>
+
+<div id="giscus" data-repo="bijinfeng/bijinfeng.github.io" data-repo-id="R_kgDOHlXKwQ" data-category="General" data-category-id="DIC_kwDOHlXKwc4CT421" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous"></div>
+
+    </section>
+  </div>
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="sitemap"><div class="sitemap-group"><span class="fs14">博客</span><a href="/">近期</a><a href="/categories/">分类</a><a href="/tags">标签</a><a href="/archives/">归档</a></div><div class="sitemap-group"><span class="fs14">项目</span><a target="_blank" rel="noopener" href="https://rn-vant.vercel.app/">rn-vant</a></div><div class="sitemap-group"><span class="fs14">社交</span><a href="/friends/">友链</a><a target="_blank" rel="noopener" href="//about/#comments">留言板</a></div><div class="sitemap-group"><span class="fs14">更多</span><a target="_blank" rel="noopener" href="https://github.com/bijinfeng/">GitHub</a></div></div><div class="text"><p>本站由 <a href="/">@bijinfeng</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar">Stellar</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+
+      <div class='float-panel mobile-only blur' style='display:none'>
+  <button type='button' class='sidebar-toggle mobile' onclick='sidebar.toggle()'>
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"></path><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"></path></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class='scripts'>
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.19.0';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://gcore.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"codeblock":false,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.css","js":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".swiper-slide img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+  <script>
+  function loadJS() {
+    const els = document.querySelectorAll("#comments #giscus");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.log(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+    loadJS();
+  });
+</script>
+
+
+
+
+<!-- inject -->
+
+
+  </div>
+</body>
+</html>
