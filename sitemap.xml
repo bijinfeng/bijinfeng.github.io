@@ -256,20 +256,6 @@
   </url>
   
   <url>
-    <loc>https://bijinfeng.github.io/tags/Tools/</loc>
-    <lastmod>2023-08-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://bijinfeng.github.io/tags/Plasm/</loc>
-    <lastmod>2023-08-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://bijinfeng.github.io/tags/Babel/</loc>
     <lastmod>2023-08-01</lastmod>
     <changefreq>weekly</changefreq>
@@ -342,21 +328,7 @@
   </url>
   
   <url>
-    <loc>https://bijinfeng.github.io/categories/Tools/</loc>
-    <lastmod>2023-08-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://bijinfeng.github.io/categories/Babel/</loc>
-    <lastmod>2023-08-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://bijinfeng.github.io/categories/Tools/Plasm/</loc>
     <lastmod>2023-08-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>

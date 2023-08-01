@@ -28,8 +28,6 @@ https://bijinfeng.github.io/tags/React-Native/
 https://bijinfeng.github.io/tags/Typescript/
 https://bijinfeng.github.io/tags/CSS/
 https://bijinfeng.github.io/tags/AirCode/
-https://bijinfeng.github.io/tags/Tools/
-https://bijinfeng.github.io/tags/Plasm/
 https://bijinfeng.github.io/tags/Babel/
 https://bijinfeng.github.io/tags/Polyfill/
 https://bijinfeng.github.io/categories/React/
@@ -40,7 +38,5 @@ https://bijinfeng.github.io/categories/Typescript/
 https://bijinfeng.github.io/categories/CSS/
 https://bijinfeng.github.io/categories/tools/
 https://bijinfeng.github.io/categories/React-Native/%E7%BB%84%E4%BB%B6%E5%BA%93/
-https://bijinfeng.github.io/categories/Tools/
 https://bijinfeng.github.io/categories/Babel/
-https://bijinfeng.github.io/categories/Tools/Plasm/
 https://bijinfeng.github.io/categories/Babel/Polyfill/
