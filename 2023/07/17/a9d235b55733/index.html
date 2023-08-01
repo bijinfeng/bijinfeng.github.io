@@ -20,13 +20,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="theme-color" content="#f8f8f8">
   
-  <title>编程规范工具链 - Kebai</title>
+  <title>前端编程规范工具链 - Kebai</title>
 
   
     <meta name="description" content="当多个开发人员合作开发一个前端项目时，代码质量和一致性是非常重要的。在大型项目中，代码质量和一致性的缺失可能会导致团队之间的沟通问题和代码维护的困难。为了确保代码质量和一致性，前端编程规范工具链是必不可少的。它可以帮助团队在整个开发周期内保持代码风格的一致性，减少错误和冲突，并提高代码质量和效率。在这篇文章中，我们将介绍一些常用的前端编程规范工具，以及它们如何帮助团队提高代码质量和效率。 Husk">
 <meta property="og:type" content="article">
-<meta property="og:title" content="编程规范工具链">
-<meta property="og:url" content="https://bijinfeng.github.io/2023/07/17/da58cef2f1e5/index.html">
+<meta property="og:title" content="前端编程规范工具链">
+<meta property="og:url" content="https://bijinfeng.github.io/2023/07/17/a9d235b55733/index.html">
 <meta property="og:site_name" content="Kebai">
 <meta property="og:description" content="当多个开发人员合作开发一个前端项目时，代码质量和一致性是非常重要的。在大型项目中，代码质量和一致性的缺失可能会导致团队之间的沟通问题和代码维护的困难。为了确保代码质量和一致性，前端编程规范工具链是必不可少的。它可以帮助团队在整个开发周期内保持代码风格的一致性，减少错误和冲突，并提高代码质量和效率。在这篇文章中，我们将介绍一些常用的前端编程规范工具，以及它们如何帮助团队提高代码质量和效率。 Husk">
 <meta property="og:locale" content="zh_CN">
@@ -36,7 +36,7 @@
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/Fqv_p6QkNtQZhGCXVTVjuZI8wTlQ.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/Fg1qrMSMvrQy9bdEmfY5MQNZJ3Yz.png">
 <meta property="article:published_time" content="2023-07-17T23:36:31.000Z">
-<meta property="article:modified_time" content="2023-08-01T06:16:13.335Z">
+<meta property="article:modified_time" content="2023-08-01T07:33:31.199Z">
 <meta property="article:author" content="bijinfeng">
 <meta property="article:tag" content="前端,React,Vue,博客,Typescript,全站">
 <meta name="twitter:card" content="summary">
@@ -103,7 +103,7 @@
 <widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/blog/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"></path></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
 
 
-<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">编程规范工具链</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Husky"><span class="toc-text">Husky</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Git-Hook"><span class="toc-text">Git Hook</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Husky-%E4%BD%8E%E7%89%88%E6%9C%AC%E5%AE%89%E8%A3%85"><span class="toc-text">Husky 低版本安装</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Husky-%E9%AB%98%E7%89%88%E6%9C%AC%E5%AE%89%E8%A3%85%EF%BC%88%E4%BB%8E-v6-0-%E4%B9%8B%E5%90%8E%EF%BC%89"><span class="toc-text">Husky 高版本安装（从 v6.0 之后）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lint-Staged"><span class="toc-text">Lint-Staged</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Prettier"><span class="toc-text">Prettier</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ESLint"><span class="toc-text">ESLint</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE-Eslint"><span class="toc-text">配置 Eslint</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3-Eslint-%E5%92%8C-Prettier-%E5%86%B2%E7%AA%81%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-text">解决 Eslint 和 Prettier 冲突的问题</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Commitlint"><span class="toc-text">Commitlint</span></a></li></ol></div></div></widget>
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">前端编程规范工具链</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Husky"><span class="toc-text">Husky</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Git-Hook"><span class="toc-text">Git Hook</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Husky-%E4%BD%8E%E7%89%88%E6%9C%AC%E5%AE%89%E8%A3%85"><span class="toc-text">Husky 低版本安装</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Husky-%E9%AB%98%E7%89%88%E6%9C%AC%E5%AE%89%E8%A3%85%EF%BC%88%E4%BB%8E-v6-0-%E4%B9%8B%E5%90%8E%EF%BC%89"><span class="toc-text">Husky 高版本安装（从 v6.0 之后）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lint-Staged"><span class="toc-text">Lint-Staged</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Prettier"><span class="toc-text">Prettier</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ESLint"><span class="toc-text">ESLint</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE-Eslint"><span class="toc-text">配置 Eslint</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3-Eslint-%E5%92%8C-Prettier-%E5%86%B2%E7%AA%81%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-text">解决 Eslint 和 Prettier 冲突的问题</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Commitlint"><span class="toc-text">Commitlint</span></a></li></ol></div></div></widget>
 
 
 
@@ -122,7 +122,7 @@
 <div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div><div id="post-meta">发布于&nbsp;<time datetime="2023-07-17T23:36:31.000Z">2023-07-18</time></div></div>
 
 <article class='md-text content post'>
-<h1 class="article-title"><span>编程规范工具链</span></h1>
+<h1 class="article-title"><span>前端编程规范工具链</span></h1>
 <p>当多个开发人员合作开发一个前端项目时，代码质量和一致性是非常重要的。在大型项目中，代码质量和一致性的缺失可能会导致团队之间的沟通问题和代码维护的困难。为了确保代码质量和一致性，前端编程规范工具链是必不可少的。<br>它可以帮助团队在整个开发周期内保持代码风格的一致性，减少错误和冲突，并提高代码质量和效率。在这篇文章中，我们将介绍一些常用的前端编程规范工具，以及它们如何帮助团队提高代码质量和效率。</p>
 <h2 id="Husky"><a href="#Husky" class="headerlink" title="Husky"></a>Husky</h2><blockquote>
 <p><a target="_blank" rel="noopener" href="https://github.com/typicode/husky">https://github.com/typicode/husky</a></p>
