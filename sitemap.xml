@@ -110,6 +110,15 @@
   </url>
   
   <url>
+    <loc>https://bijinfeng.github.io/2023/07/31/096fe8cfde27/</loc>
+    
+    <lastmod>2023-08-01</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://bijinfeng.github.io/2023/01/28/6c1ff1435713/</loc>
     
     <lastmod>2023-08-01</lastmod>
@@ -326,14 +335,14 @@
   </url>
   
   <url>
-    <loc>https://bijinfeng.github.io/categories/Tools/</loc>
+    <loc>https://bijinfeng.github.io/categories/React-Native/%E7%BB%84%E4%BB%B6%E5%BA%93/</loc>
     <lastmod>2023-08-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://bijinfeng.github.io/categories/React-Native/%E7%BB%84%E4%BB%B6%E5%BA%93/</loc>
+    <loc>https://bijinfeng.github.io/categories/Tools/</loc>
     <lastmod>2023-08-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>

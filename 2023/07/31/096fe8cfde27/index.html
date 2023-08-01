@@ -20,16 +20,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="theme-color" content="#f8f8f8">
   
-  <title>Kebai</title>
+  <title>Vue3 + JSX + Typescript 使用手册 - Kebai</title>
 
   
-    <meta name="description" content="kebai 的开源前端博客">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Kebai">
-<meta property="og:url" content="https://bijinfeng.github.io/index.html">
+    <meta name="description" content="背景知识对标题提到的知识不熟悉的，这里推荐几个学习的地方：  Vue3 - https:&#x2F;&#x2F;cn.vuejs.org&#x2F;guide&#x2F;introduction.html JSX - https:&#x2F;&#x2F;cn.vuejs.org&#x2F;guide&#x2F;extras&#x2F;render-function.html Typescript - https:&#x2F;&#x2F;ts.xcatliu.com&#x2F;introduction&#x2F;what-is">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vue3 + JSX + Typescript 使用手册">
+<meta property="og:url" content="https://bijinfeng.github.io/2023/07/31/096fe8cfde27/index.html">
 <meta property="og:site_name" content="Kebai">
-<meta property="og:description" content="kebai 的开源前端博客">
+<meta property="og:description" content="背景知识对标题提到的知识不熟悉的，这里推荐几个学习的地方：  Vue3 - https:&#x2F;&#x2F;cn.vuejs.org&#x2F;guide&#x2F;introduction.html JSX - https:&#x2F;&#x2F;cn.vuejs.org&#x2F;guide&#x2F;extras&#x2F;render-function.html Typescript - https:&#x2F;&#x2F;ts.xcatliu.com&#x2F;introduction&#x2F;what-is">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-07-31T23:36:11.000Z">
+<meta property="article:modified_time" content="2023-08-01T07:46:58.827Z">
 <meta property="article:author" content="bijinfeng">
 <meta property="article:tag" content="前端,React,Vue,博客,Typescript,全站">
 <meta name="twitter:card" content="summary">
@@ -77,8 +79,10 @@
   
 
 
+
+
   <div class='l_body' id='start'>
-    <aside class='l_left' layout=''>
+    <aside class='l_left' layout='post'>
     
 
   
@@ -90,94 +94,63 @@
 
 
 <div class="widgets">
-<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" placeholder="站内搜索"><svg t="1670596976048" class="icon search-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"></path></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/blog/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"></path></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
 
-<widget class="widget-wrapper recent"><div class="widget-header cap theme dis-select"><span class="name">最近更新</span></div><div class="widget-body related-posts fs14"><a class="item title" href="/2023/01/29/0c6c2b4b35c0/"><span class="title">JS - 字符串函数表达式</span></a><a class="item title" href="/2023/01/31/5e91c1995fd8/"><span class="title">语雀同步到 Github Hexo</span></a><a class="item title" href="/2023/02/02/1b69b3598f64/"><span class="title">Cropper.js 实践</span></a><a class="item title" href="/2023/02/06/8f5436bb4e35/"><span class="title">React Native 组件库 - 脚手架</span></a><a class="item title" href="/2023/02/14/7a3b3abbe76f/"><span class="title">使用 AirCode 开发飞书机器人</span></a></div></widget>
 
-<widget class="widget-wrapper tagcloud"><div class="widget-header cap theme dis-select"><span class="name">标签云</span></div><div class="widget-body fs14"><a href="/tags/AirCode/" style="font-size: 12px;" class="tag -0">AirCode</a> <a href="/tags/Babel/" style="font-size: 12px;" class="tag -0">Babel</a> <a href="/tags/CSS/" style="font-size: 12px;" class="tag -0">CSS</a> <a href="/tags/Electron/" style="font-size: 12px;" class="tag -0">Electron</a> <a href="/tags/Plasm/" style="font-size: 12px;" class="tag -0">Plasm</a> <a href="/tags/Polyfill/" style="font-size: 12px;" class="tag -0">Polyfill</a> <a href="/tags/React/" style="font-size: 24px;" class="tag -10">React</a> <a href="/tags/React-Native/" style="font-size: 18px;" class="tag -5">React Native</a> <a href="/tags/Remix/" style="font-size: 18px;" class="tag -5">Remix</a> <a href="/tags/Tools/" style="font-size: 12px;" class="tag -0">Tools</a> <a href="/tags/Typescript/" style="font-size: 12px;" class="tag -0">Typescript</a> <a href="/tags/i18next/" style="font-size: 12px;" class="tag -0">i18next</a></div></widget>
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">Vue3 + JSX + Typescript 使用手册</span></div><div class="widget-body fs14"><div class="doc-tree active"></div></div></widget>
+
+
+
+
 </div>
 <footer class="footer dis-select"><div class="social-wrap"><a class="social" href="https://github.com/bijinfeng" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="//gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/08a41b181ce68.svg"/></a><a class="social" href="https://qexo-omega-vert.vercel.app" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="//unpkg.com/qexo-static@1.4.0/assets/img/brand/favicon.ico" /></a><a class="social" href="https://analytics.umami.is/websites/dd058429-ccb6-4ce1-bd34-f1d455cb338a" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="//analytics.umami.is/favicon.ico" /></a></div></footer>
 
     </aside>
-    <div class='l_main list'>
+    <div class='l_main'>
       
-  
-
-<header class="header mobile-only"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://avatars.githubusercontent.com/u/29982703?v=4" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">Kebai</div><div class="sub cap">Talk is cheap, show me the code.</div></a></div></header>
-
-
 
       
 
 
-  
 
-<div class="nav-wrap"><nav class="sub post cap"><a class="active" href="/">近期发布</a><a href="/categories">分类</a><a href="/tags">标签</a><a href="/archives">归档</a></nav></div>
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div><div id="post-meta">发布于&nbsp;<time datetime="2023-07-31T23:36:11.000Z">2023-08-01</time></div></div>
 
-  <div class="post-list post"><a class="post-card post " href="/2023/07/31/096fe8cfde27/">
-<article class="md-text"><h2 class="post-title">Vue3 + JSX + Typescript 使用手册</h2><div class="excerpt"><p>背景知识对标题提到的知识不熟悉的，这里推荐几个学习的地方：
+<article class='md-text content post'>
+<h1 class="article-title"><span>Vue3 + JSX + Typescript 使用手册</span></h1>
+<h1 id="背景知识"><a href="#背景知识" class="headerlink" title="背景知识"></a>背景知识</h1><p>对标题提到的知识不熟悉的，这里推荐几个学习的地方：</p>
+<ul>
+<li>Vue3 - <a target="_blank" rel="noopener" href="https://cn.vuejs.org/guide/introduction.html">https://cn.vuejs.org/guide/introduction.html</a></li>
+<li>JSX - <a target="_blank" rel="noopener" href="https://cn.vuejs.org/guide/extras/render-function.html">https://cn.vuejs.org/guide/extras/render-function.html</a></li>
+<li>Typescript - <a target="_blank" rel="noopener" href="https://ts.xcatliu.com/introduction/what-is-typescript.html">https://ts.xcatliu.com/introduction/what-is-typescript.html</a></li>
+</ul>
+<h1 id="工程搭建"><a href="#工程搭建" class="headerlink" title="工程搭建"></a>工程搭建</h1>
 
-Vue3 - https://cn.vuejs.org/guide/introduction.html
-JSX - https://cn.vuejs.org/guide/extras/render-function.html
-Typescript - https://ts.xcatliu.com/introduction/what...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2023-07-31T23:36:11.000Z">2023-08-01</time></span></div></article>
-</a><a class="post-card post " href="/2023/07/17/a9d235b55733/">
-<article class="md-text"><h2 class="post-title">前端编程规范工具链</h2><div class="excerpt"><p>当多个开发人员合作开发一个前端项目时，代码质量和一致性是非常重要的。在大型项目中，代码质量和一致性的缺失可能会导致团队之间的沟通问题和代码维护的困难。为了确保代码质量和一致性，前端编程规范工具链是必不可少的。它可以帮助团队在整个开发周期内保持代码风格的一致性，减少错误和冲突，并提高代码质量和效率。在这篇文章中，我们将介绍一些常用的前端编程规范工具，以及它们如何帮助团队提高代码质量和效率。
-H...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2023-07-17T23:36:31.000Z">2023-07-18</time></span></div></article>
-</a><a class="post-card post " href="/2023/07/11/5d26d957a5fc/">
-<article class="md-text"><h2 class="post-title">初探 Plasm 框架</h2><div class="excerpt"><p>Plasm 是什么？Plasmo 是个浏览器插件开发框架，号称浏览器扩展界的 Next.js ！
-其框架提供的特性如下：
 
-一流的 React + Typescript 支持
-声明式开发（自动生成 manifest.json）
-将 UI 组件渲染到网页
-扩展内置页面
-扩展热重载 + React 模块热更新
-.env* 文件
-扩展储存 API
-扩展通信 API
-远程代码打包 (例如 Googl...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2023-07-11T23:46:34.000Z">2023-07-12</time></span><span class="cap breadcrumb">Tools</span></div></article>
-</a><a class="post-card post " href="/2023/06/05/4ff7282e236f/">
-<article class="md-text"><h2 class="post-title">TS 中常见工具类型的使用及实现</h2><div class="excerpt"><p>Pick&lt;Type, Keys&gt;
-作用： 从 Type 选择一组 Keys 属性
-使用：
+<div class="article-footer reveal fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div></section></div>
 
-123456789101112export interface Todo &#123;  remark: string;  required: boolean;  hobby: string[];&#125;const A: Pick&lt;Todo, &quot;remark&quot;...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2023-06-05T19:35:00.000Z">2023-06-06</time></span><span class="cap breadcrumb">Typescript</span></div></article>
-</a><a class="post-card post " href="/2023/04/18/40fc3d9c3a91/">
-<article class="md-text"><h2 class="post-title">Remix - 表单&接口入参校验</h2><div class="excerpt"><p>前言Remix 是 React Router 团队开发的基于 React 框架的全栈 Web 框架。既然是基于 React 框架，那么在 React 中能够使用的表单校验方案，同样适用于 Remix。
-Remix 中的客户端表单校验可以采用 React 的表单校验方案，但是 Remix 作为一个全栈框架，自然是有服务端接口的，那么其入参校验也是否可以采用 node 后端通用的参数校验方案？
-...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2023-04-18T02:20:24.000Z">2023-04-18</time></span><span class="cap breadcrumb">React</span></div></article>
-</a><a class="post-card post " href="/2023/04/02/93b995cb58f9/">
-<article class="md-text"><h2 class="post-title">React Native 组件库 - Portal 组件</h2><div class="excerpt"><p>React 中的 Portal 组件想必对 React 熟悉的同学都不会陌生，它提供了一种将子节点脱离父节点渲染到其它 DOM 节点的方案。
+</article>
 
-createPortal 文档：https://react.dev/reference/react-dom/createPortal#usage
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2023/07/17/a9d235b55733/">前端编程规范工具链</a></div></section></div>
 
-默认下情况下 JSX 中的元素顺序就是其渲染到真实 DOM 的顺序：
-12345678function...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2023-04-02T18:47:01.000Z">2023-04-03</time></span></div></article>
-</a><a class="post-card post " href="/2023/03/22/4903aabec5c6/">
-<article class="md-text"><h2 class="post-title">详解 Polyfill.io</h2><div class="excerpt"><p>今天看了篇文章「用了 babel 还需要 polyfill 吗？？？」，文章中明确回答了用了 babel 后还需要 polyfill。babel 只是一个平台，本生不提供任何功能，需要实现各种特性，必须依赖各种插件。如果 babel 没有使用任何插件，那么代码经过 babel 编译后会原封不动的返回。
-什么是 Polyfill ?
-A polyfill is a piece of code ...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2023-03-22T22:29:00.000Z">2023-03-23</time></span><span class="cap breadcrumb">Babel</span></div></article>
-</a><a class="post-card post " href="/2023/03/02/23c511e540c1/">
-<article class="md-text"><h2 class="post-title">【转载】CSS 内在尺寸教程（min-content、max-content 和 fit-content ）</h2><div class="excerpt"><p>
-原文链接：Intrinsic Sizing In CSS，by Ahmad Shadeed
 
-CSS 中存在两种尺寸：内在尺寸（intrinsic）和外在尺寸（extrinsic）。为元素的 width、height 设置的固定属性值，就是指外部尺寸，这是最常用的方式。而内部尺寸，则是由元素包含的内容量决定的。本篇将会详细介绍控制内在尺寸的每个值，看看它们的使用能带来什么好处。同时，我还会...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2023-03-02T19:18:52.000Z">2023-03-03</time></span><span class="cap breadcrumb">CSS</span></div></article>
-</a><a class="post-card post " href="/2023/02/20/44cb562ca4b6/">
-<article class="md-text"><h2 class="post-title">React Native 组件库 - 图标组件</h2><div class="excerpt"><p>背景图标组件是组件库里不可或缺的一个组件，随着前端的不断发展，其实现方式也是在不断的迭代，从雪碧图到字体图标再到 svg 图标，并且再配合 Typescript 和 Tree Shaking 图标组件也能轻松的获得代码提示和按需加载。
-在 web 中使用 svg 图标很简单，浏览器原生支持 svg 元素，但是 React Native 内置的组件中没有 SVG 组件，要使用 SVG，需要自己...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2023-02-20T04:12:35.000Z">2023-02-20</time></span><span class="cap breadcrumb">React Native</span></div></article>
-</a><a class="post-card post " href="/2023/02/14/7a3b3abbe76f/">
-<article class="md-text"><h2 class="post-title">使用 AirCode 开发飞书机器人</h2><div class="excerpt"><p>
-在线文档：https://docs-cn.aircode.io/
 
-AirCode 是一个在线开发和部署 Node.js 应用的平台，为全栈工程师量身定制，目标是让开发变得简单。
-并且提供一个简易的 WebIDE 和开箱即用的云服务，让开发者无需再操心后端选型、环境搭建和线上运维等一系列繁琐之事，只需打开浏览器即可完成产品开发，并部署到全球节点。
-但是 AirCode 有资源限制，不建议用...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2023-02-14T22:31:53.000Z">2023-02-15</time></span><span class="cap breadcrumb">tools</span></div></article>
-</a></div>
-  
-  <div class='paginator-wrap dis-select'>
-  <span class="extend prev" rel="prev"></span><span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"></a>
+
+
+
+  <div class='related-wrap md-text reveal' id="comments">
+    <section class='header cmt-title cap theme'>
+      快来参与讨论吧
+    </section>
+    <section class='body cmt-body giscus'>
+      
+
+<svg class="loading" style="vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2709"><path d="M832 512c0-176-144-320-320-320V128c211.2 0 384 172.8 384 384h-64zM192 512c0 176 144 320 320 320v64C300.8 896 128 723.2 128 512h64z" p-id="2710"></path></svg>
+
+<div id="giscus" data-repo="bijinfeng/bijinfeng.github.io" data-repo-id="R_kgDOHlXKwQ" data-category="General" data-category-id="DIC_kwDOHlXKwc4CT421" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous"></div>
+
+    </section>
   </div>
-
 
 
 
@@ -352,6 +325,34 @@ AirCode 是一个在线开发和部署 Node.js 应用的平台，为全栈工程
 
 
 <!-- optional -->
+
+  <script>
+  function loadJS() {
+    const els = document.querySelectorAll("#comments #giscus");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.log(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+    loadJS();
+  });
+</script>
+
 
 
 
