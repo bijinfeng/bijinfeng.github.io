@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang='zh-CN'>
+
+<head>
+  <meta name="generator" content="Hexo 6.3.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  <link rel='dns-prefetch' href='https://gcore.jsdelivr.net'>
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel='dns-prefetch' href='//unpkg.com'>
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>markdown-it：添加代码复制功能 - Kebai</title>
+
+  
+    <meta name="description" content="markdown-it 渲染出来的代码块如下面左图一样，光秃秃的一块，也没有任何交互功能，现在我们来美化一下，添加一个 copy 代码的按钮，将代码块的语言也一并显示出来。   开发插件要实现上面的功能，光用 CSS 来做是不够的，我们需要借助 markdown-it 的插件机制，用插件实现上面的功能。  我们的插件用 TypeScript 开发，所以先安装 markdown-it 的类型文件，获">
+<meta property="og:type" content="article">
+<meta property="og:title" content="markdown-it：添加代码复制功能">
+<meta property="og:url" content="https://bijinfeng.github.io/2023/09/01/d24e5effb3b7/index.html">
+<meta property="og:site_name" content="Kebai">
+<meta property="og:description" content="markdown-it 渲染出来的代码块如下面左图一样，光秃秃的一块，也没有任何交互功能，现在我们来美化一下，添加一个 copy 代码的按钮，将代码块的语言也一并显示出来。   开发插件要实现上面的功能，光用 CSS 来做是不够的，我们需要借助 markdown-it 的插件机制，用插件实现上面的功能。  我们的插件用 TypeScript 开发，所以先安装 markdown-it 的类型文件，获">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/Flm428aje2DfueM3T-rqKG_pyrg4.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FiL48vpLzsLpJetsupSYvcbq9Xqb.png">
+<meta property="article:published_time" content="2023-09-01T00:39:12.000Z">
+<meta property="article:modified_time" content="2023-09-01T09:09:15.008Z">
+<meta property="article:author" content="bijinfeng">
+<meta property="article:tag" content="前端,React,Vue,博客,Typescript,全站">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/Flm428aje2DfueM3T-rqKG_pyrg4.png">
+  
+  
+  
+  <meta name="keywords" content="前端,React,Vue,博客,Typescript,全站">
+
+  <!-- feed -->
+  
+
+  
+    
+<link rel="stylesheet" href="/css/main.css">
+
+  
+
+  
+    <link rel="shortcut icon" href="https://avatars.githubusercontent.com/u/29982703?v=4">
+  
+
+  
+
+  
+
+
+  
+    
+      <meta name="google-site-verification" content="I9QHLgxQl_2VmSI4QlV_TPhNvI4HsbcF-5x7jC_opMg" />
+    
+      <meta name="baidu-site-verification" content="codeva-NSbnX8KXtK" />
+    
+      <script src="https://js.sentry-cdn.com/c35c3d4f9668489aae96910ce676dab7.min.js" crossorigin="anonymous"></script>
+    
+      <script src="https://cdn.jsdelivr.net/npm/highlight.run@latest"></script>
+    
+      <script>window.H.init('ldw6nweo')</script>
+    
+      <script async src="https://analytics.umami.is/script.js" data-website-id="dd058429-ccb6-4ce1-bd34-f1d455cb338a"></script>
+    
+  
+</head>
+
+<body>
+  
+
+
+
+
+  <div class='l_body' id='start'>
+    <aside class='l_left' layout='post'>
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://avatars.githubusercontent.com/u/29982703?v=4" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">Kebai</div><div class="sub cap">Talk is cheap, show me the code.</div></a></div>
+
+<nav class="menu dis-select"></nav>
+</header>
+
+
+<div class="widgets">
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/blog/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"></path></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
+
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">markdown-it：添加代码复制功能</span></div><div class="widget-body fs14"><div class="doc-tree active"></div></div></widget>
+
+
+
+
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="https://github.com/bijinfeng" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="//gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/08a41b181ce68.svg"/></a><a class="social" href="https://qexo-omega-vert.vercel.app" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="//unpkg.com/qexo-static@1.4.0/assets/img/brand/favicon.ico" /></a><a class="social" href="https://analytics.umami.is/websites/dd058429-ccb6-4ce1-bd34-f1d455cb338a" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="//analytics.umami.is/favicon.ico" /></a></div></footer>
+
+    </aside>
+    <div class='l_main'>
+      
+
+      
+
+
+
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div><div id="post-meta">发布于&nbsp;<time datetime="2023-09-01T00:39:12.000Z">2023-09-01</time></div></div>
+
+<article class='md-text content post'>
+<h1 class="article-title"><span>markdown-it：添加代码复制功能</span></h1>
+<p>markdown-it 渲染出来的代码块如下面左图一样，光秃秃的一块，也没有任何交互功能，现在我们来美化一下，添加一个 copy 代码的按钮，将代码块的语言也一并显示出来。</p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/Flm428aje2DfueM3T-rqKG_pyrg4.png" fancybox="true"/></div></div><div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FiL48vpLzsLpJetsupSYvcbq9Xqb.png" fancybox="true"/></div></div>
+
+<h1 id="开发插件"><a href="#开发插件" class="headerlink" title="开发插件"></a>开发插件</h1><p>要实现上面的功能，光用 CSS 来做是不够的，我们需要借助 markdown-it 的插件机制，用插件实现上面的功能。</p>
+<ol>
+<li>我们的插件用 TypeScript 开发，所以先安装 markdown-it 的类型文件，获取类型说明</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pnpm add @types/markdown-it -D</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>添加一个插件模板</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">import <span class="built_in">type</span> MarkdownIt from <span class="string">&quot;markdown-it&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> default (md: MarkdownIt) =&gt; &#123;</span><br><span class="line">	<span class="comment"># .....</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>实现功能（由于插件比较简单，这里不多做解释，直接看注释就行）</li>
+</ol>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="keyword">type</span> <span class="title class_">MarkdownIt</span> <span class="keyword">from</span> <span class="string">&quot;markdown-it&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="keyword">type</span> <span class="title class_">Renderer</span> <span class="keyword">from</span> <span class="string">&quot;markdown-it/lib/renderer&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="title class_">ClipboardJS</span> <span class="keyword">from</span> <span class="string">&quot;clipboard&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="built_in">escape</span> &#125; <span class="keyword">from</span> <span class="string">&quot;lodash-es&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> clipboard = <span class="keyword">new</span> <span class="title class_">ClipboardJS</span>(<span class="string">&quot;.markdown-it-code-copy&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 未 copy 时按钮的 innerHTML</span></span><br><span class="line"><span class="keyword">const</span> copyInnerHTML = <span class="string">`</span></span><br><span class="line"><span class="string">  &lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; role=&quot;img&quot; class=&quot;octicon octicon-copy&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;12&quot; height=&quot;12&quot; fill=&quot;currentColor&quot; style=&quot;display: inline-block; user-select: none; vertical-align: text-bottom; overflow: visible;&quot;&gt;&lt;path d=&quot;M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z&quot;&gt;&lt;/path&gt;&lt;path d=&quot;M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;</span></span><br><span class="line"><span class="string">  &lt;span&gt;Copy&lt;/span&gt;</span></span><br><span class="line"><span class="string">`</span>;</span><br><span class="line"><span class="comment">// copy 后按钮的 innerHTML</span></span><br><span class="line"><span class="keyword">const</span> copiedInnerHTML = <span class="string">`</span></span><br><span class="line"><span class="string">  &lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; role=&quot;img&quot; class=&quot;octicon octicon-check&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;12&quot; height=&quot;12&quot; fill=&quot;currentColor&quot; style=&quot;display: inline-block; user-select: none; vertical-align: text-bottom; overflow: visible;&quot;&gt;&lt;path d=&quot;M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;</span></span><br><span class="line"><span class="string">  &lt;span&gt;Copied!&lt;/span&gt;</span></span><br><span class="line"><span class="string">`</span>;</span><br><span class="line"></span><br><span class="line">clipboard.<span class="title function_">on</span>(<span class="string">&quot;success&quot;</span>, <span class="function">(<span class="params">e</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> trigger = e.<span class="property">trigger</span>;</span><br><span class="line">  e.<span class="title function_">clearSelection</span>();</span><br><span class="line"></span><br><span class="line">  trigger.<span class="property">innerHTML</span> = copiedInnerHTML;</span><br><span class="line">  <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    trigger.<span class="property">innerHTML</span> = copyInnerHTML;</span><br><span class="line">  &#125;, <span class="number">3000</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 用正则提取出 code 的语言</span></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">getCodeLangFragment</span> = (<span class="params">htmlString: <span class="built_in">string</span></span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> regex = <span class="regexp">/&lt;code class=&quot;hljs (language-([a-z]+))&quot;&gt;/</span>;</span><br><span class="line">  <span class="keyword">const</span> match = htmlString.<span class="title function_">match</span>(regex);</span><br><span class="line">  <span class="keyword">return</span> match?.[<span class="number">2</span>] || <span class="string">&quot;&quot;</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> renderCode = (<span class="attr">renderer</span>: <span class="title class_">Renderer</span>.<span class="property">RenderRule</span>): <span class="title class_">Renderer</span>.<span class="property">RenderRule</span> =&gt; &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function">(<span class="params">...args</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> [tokens, idx] = args;</span><br><span class="line">    <span class="keyword">const</span> content = <span class="built_in">escape</span>(tokens[idx].<span class="property">content</span>);</span><br><span class="line">    <span class="keyword">const</span> origRendered = renderer.<span class="title function_">apply</span>(<span class="variable language_">this</span>, args);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (content.<span class="property">length</span> === <span class="number">0</span>) <span class="keyword">return</span> origRendered;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> lang = <span class="title function_">getCodeLangFragment</span>(origRendered);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="string">`</span></span><br><span class="line"><span class="string">      &lt;div class=&quot;code-enhance&quot;&gt;</span></span><br><span class="line"><span class="string">        &lt;div class=&quot;code-enhance-header&quot;&gt;</span></span><br><span class="line"><span class="string">          &lt;span&gt;<span class="subst">$&#123;lang&#125;</span>&lt;/span&gt;</span></span><br><span class="line"><span class="string">          &lt;span class=&quot;markdown-it-code-copy code-enhance-copy&quot; data-clipboard-text=&quot;<span class="subst">$&#123;content&#125;</span>&quot;&gt;</span></span><br><span class="line"><span class="string">            <span class="subst">$&#123;copyInnerHTML&#125;</span></span></span><br><span class="line"><span class="string">          &lt;/span&gt;</span></span><br><span class="line"><span class="string">        &lt;/div&gt;</span></span><br><span class="line"><span class="string">        &lt;div class=&quot;code-enhance-content&quot;&gt;</span></span><br><span class="line"><span class="string">          <span class="subst">$&#123;origRendered&#125;</span></span></span><br><span class="line"><span class="string">        &lt;/div&gt;</span></span><br><span class="line"><span class="string">      &lt;/div&gt;</span></span><br><span class="line"><span class="string">    `</span>;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * markdown-it 的插件，添加代码语言显示和 copy 代码按钮</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> (<span class="attr">md</span>: <span class="title class_">MarkdownIt</span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">if</span> (md.<span class="property">renderer</span>.<span class="property">rules</span>.<span class="property">code_block</span> != <span class="literal">null</span>) &#123;</span><br><span class="line">    md.<span class="property">renderer</span>.<span class="property">rules</span>.<span class="property">code_block</span> = <span class="title function_">renderCode</span>(md.<span class="property">renderer</span>.<span class="property">rules</span>.<span class="property">code_block</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (md.<span class="property">renderer</span>.<span class="property">rules</span>.<span class="property">fence</span> != <span class="literal">null</span>) &#123;</span><br><span class="line">    md.<span class="property">renderer</span>.<span class="property">rules</span>.<span class="property">fence</span> = <span class="title function_">renderCode</span>(md.<span class="property">renderer</span>.<span class="property">rules</span>.<span class="property">fence</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="添加样式"><a href="#添加样式" class="headerlink" title="添加样式"></a>添加样式</h1><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.code-enhance</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: flex;</span><br><span class="line">  <span class="attribute">flex-direction</span>: column;</span><br><span class="line">  <span class="attribute">border-radius</span>: <span class="number">7px</span>;</span><br><span class="line">  <span class="attribute">overflow</span>: hidden;</span><br><span class="line">  <span class="attribute">margin-top</span>: <span class="number">10px</span>;</span><br><span class="line"></span><br><span class="line">  <span class="selector-tag">&amp;</span><span class="selector-tag">-header</span> &#123;</span><br><span class="line">    <span class="attribute">background-color</span>: <span class="number">#e2e6ea</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">32px</span>;</span><br><span class="line">    <span class="attribute">box-sizing</span>: border-box;</span><br><span class="line">    <span class="attribute">padding</span>: <span class="number">0</span> <span class="number">16px</span>;</span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">12px</span>;</span><br><span class="line">    <span class="attribute">display</span>: flex;</span><br><span class="line">    <span class="attribute">justify-content</span>: space-between;</span><br><span class="line">    <span class="attribute">align-items</span>: center;</span><br><span class="line">    <span class="attribute">gap</span>: <span class="number">8px</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="selector-tag">&amp;</span><span class="selector-tag">-content</span> &#123;</span><br><span class="line">    <span class="attribute">background-color</span>: <span class="number">#fff</span>;</span><br><span class="line">    <span class="attribute">padding</span>: <span class="number">1em</span>;</span><br><span class="line"></span><br><span class="line">    <span class="selector-tag">pre</span> &#123;</span><br><span class="line">      <span class="attribute">margin</span>: <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="selector-tag">code</span> &#123;</span><br><span class="line">      <span class="attribute">padding</span>: <span class="number">0</span> <span class="meta">!important</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="selector-tag">&amp;</span><span class="selector-tag">-copy</span> &#123;</span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">12px</span>;</span><br><span class="line">    <span class="attribute">display</span>: inline-flex;</span><br><span class="line">    <span class="attribute">align-items</span>: center;</span><br><span class="line">    <span class="attribute">cursor</span>: pointer;</span><br><span class="line">    <span class="attribute">gap</span>: <span class="number">6px</span>;</span><br><span class="line">    <span class="attribute">line-height</span>: <span class="number">1.5</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="安装插件"><a href="#安装插件" class="headerlink" title="安装插件"></a>安装插件</h1><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> markdownIt <span class="keyword">from</span> <span class="string">&quot;markdown-it&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> markdownItCodeCopy <span class="keyword">from</span> <span class="string">&quot;./markdown-it-code-copy&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> md = <span class="title function_">markdownIt</span>().<span class="title function_">use</span>(markdownItCodeCopy);</span><br></pre></td></tr></table></figure>
+
+
+
+<div class="article-footer reveal fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div></section></div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2023/08/29/7252827e19c3/">TypeScript 从入门到入土 - 类型定义</a></div></section></div>
+
+
+
+
+
+
+  <div class='related-wrap md-text reveal' id="comments">
+    <section class='header cmt-title cap theme'>
+      快来参与讨论吧
+    </section>
+    <section class='body cmt-body giscus'>
+      
+
+<svg class="loading" style="vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2709"><path d="M832 512c0-176-144-320-320-320V128c211.2 0 384 172.8 384 384h-64zM192 512c0 176 144 320 320 320v64C300.8 896 128 723.2 128 512h64z" p-id="2710"></path></svg>
+
+<div id="giscus" data-repo="bijinfeng/bijinfeng.github.io" data-repo-id="R_kgDOHlXKwQ" data-category="General" data-category-id="DIC_kwDOHlXKwc4CT421" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous"></div>
+
+    </section>
+  </div>
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="sitemap"><div class="sitemap-group"><span class="fs14">博客</span><a href="/">近期</a><a href="/categories/">分类</a><a href="/tags">标签</a><a href="/archives/">归档</a></div><div class="sitemap-group"><span class="fs14">项目</span><a target="_blank" rel="noopener" href="https://rn-vant.vercel.app/">rn-vant</a></div><div class="sitemap-group"><span class="fs14">社交</span><a href="/friends/">友链</a><a target="_blank" rel="noopener" href="//about/#comments">留言板</a></div><div class="sitemap-group"><span class="fs14">更多</span><a target="_blank" rel="noopener" href="https://github.com/bijinfeng/">GitHub</a></div></div><div class="text"><p>本站由 <a href="/">@bijinfeng</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar">Stellar</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+
+      <div class='float-panel mobile-only blur' style='display:none'>
+  <button type='button' class='sidebar-toggle mobile' onclick='sidebar.toggle()'>
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"></path><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"></path></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class='scripts'>
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.19.0';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://gcore.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"codeblock":false,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.css","js":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".swiper-slide img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+  <script>
+  function loadJS() {
+    const els = document.querySelectorAll("#comments #giscus");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.log(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+    loadJS();
+  });
+</script>
+
+
+
+
+<!-- inject -->
+
+
+  </div>
+</body>
+</html>
