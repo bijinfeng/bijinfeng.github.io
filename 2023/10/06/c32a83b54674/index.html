@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang='zh-CN'>
+
+<head>
+  <meta name="generator" content="Hexo 6.3.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  <link rel='dns-prefetch' href='https://gcore.jsdelivr.net'>
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel='dns-prefetch' href='//unpkg.com'>
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>私有化部署 Sentry 及接入踩坑记录 - Kebai</title>
+
+  
+    <meta name="description" content="简介Sentry 是什么？中文翻译过来是「哨兵」的意思，没错，它是程序的哨兵，它可以监控我们在生产环境中项目的运行状态，一旦某段代码运行报错、或者发生异常，会第一时间将报错的信息：页面路由、异常文件、请求方式等一些非常详细的信息以消息或者邮件的方式通知我们，告诉我们：程序出错了。而我们可以从详细的报错信息中快速分析问题所在，从而快速地修复 Bug。 为什么是 Sentry？是的，在市场上有许多供应">
+<meta property="og:type" content="article">
+<meta property="og:title" content="私有化部署 Sentry 及接入踩坑记录">
+<meta property="og:url" content="https://bijinfeng.github.io/2023/10/06/c32a83b54674/index.html">
+<meta property="og:site_name" content="Kebai">
+<meta property="og:description" content="简介Sentry 是什么？中文翻译过来是「哨兵」的意思，没错，它是程序的哨兵，它可以监控我们在生产环境中项目的运行状态，一旦某段代码运行报错、或者发生异常，会第一时间将报错的信息：页面路由、异常文件、请求方式等一些非常详细的信息以消息或者邮件的方式通知我们，告诉我们：程序出错了。而我们可以从详细的报错信息中快速分析问题所在，从而快速地修复 Bug。 为什么是 Sentry？是的，在市场上有许多供应">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FvitCatEYDkOpEC4xen4MpmYZAN9.webp">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/Fqjp-FbY65rdlCMs3sFBLGQR0WZK.webp">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FjOE-h3LzscxNfzpc4MXtuFdprAr.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FoS3KcA5fKOxcMQNDRu5d1Ac2D8o.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FgeJMq6ItUjO6VE77cZvUSGrTdai.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/Fu3llotFUocdAFSYGRYV605lOd5Q.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FhcBqgTjgHadiZ6vRZUl430Hb1rC.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/Fr0gPm0IZVJCPD08bw9ssgBIURGb.png">
+<meta property="article:published_time" content="2023-10-06T19:06:15.000Z">
+<meta property="article:modified_time" content="2023-10-14T08:41:15.796Z">
+<meta property="article:author" content="bijinfeng">
+<meta property="article:tag" content="前端,React,Vue,博客,Typescript,全站">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FvitCatEYDkOpEC4xen4MpmYZAN9.webp">
+  
+  
+  
+  <meta name="keywords" content="前端,React,Vue,博客,Typescript,全站">
+
+  <!-- feed -->
+  
+
+  
+    
+<link rel="stylesheet" href="/css/main.css">
+
+  
+
+  
+    <link rel="shortcut icon" href="https://avatars.githubusercontent.com/u/29982703?v=4">
+  
+
+  
+
+  
+
+
+  
+    
+      <meta name="google-site-verification" content="I9QHLgxQl_2VmSI4QlV_TPhNvI4HsbcF-5x7jC_opMg" />
+    
+      <meta name="baidu-site-verification" content="codeva-NSbnX8KXtK" />
+    
+      <script src="https://js.sentry-cdn.com/c35c3d4f9668489aae96910ce676dab7.min.js" crossorigin="anonymous"></script>
+    
+      <script src="https://cdn.jsdelivr.net/npm/highlight.run@latest"></script>
+    
+      <script>window.H.init('ldw6nweo')</script>
+    
+      <script async src="https://analytics.umami.is/script.js" data-website-id="dd058429-ccb6-4ce1-bd34-f1d455cb338a"></script>
+    
+  
+</head>
+
+<body>
+  
+
+
+
+
+  <div class='l_body' id='start'>
+    <aside class='l_left' layout='post'>
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://avatars.githubusercontent.com/u/29982703?v=4" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">Kebai</div><div class="sub cap">Talk is cheap, show me the code.</div></a></div>
+
+<nav class="menu dis-select"></nav>
+</header>
+
+
+<div class="widgets">
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/blog/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"></path></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
+
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">私有化部署 Sentry 及接入踩坑记录</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-text">简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%AF-Sentry%EF%BC%9F"><span class="toc-text">为什么是 Sentry？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E7%A7%81%E6%9C%89%E5%8C%96%E9%83%A8%E7%BD%B2%EF%BC%9F"><span class="toc-text">如何私有化部署？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E6%8E%A5%E5%85%A5%E5%89%8D%E7%AB%AF-SDK"><span class="toc-text">如何接入前端 SDK?</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Electron"><span class="toc-text">Electron</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Vue"><span class="toc-text">Vue</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8A%E4%BC%A0-Source-Map"><span class="toc-text">上传 Source Map</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-text">参考</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text"></span></a></li></ol></div></div></widget>
+
+
+
+
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="https://github.com/bijinfeng" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="//gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/08a41b181ce68.svg"/></a><a class="social" href="https://qexo-omega-vert.vercel.app" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="//unpkg.com/qexo-static@1.4.0/assets/img/brand/favicon.ico" /></a><a class="social" href="https://analytics.umami.is/websites/dd058429-ccb6-4ce1-bd34-f1d455cb338a" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="//analytics.umami.is/favicon.ico" /></a></div></footer>
+
+    </aside>
+    <div class='l_main'>
+      
+
+      
+
+
+
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div><div id="post-meta">发布于&nbsp;<time datetime="2023-10-06T19:06:15.000Z">2023-10-07</time></div></div>
+
+<article class='md-text content post'>
+<h1 class="article-title"><span>私有化部署 Sentry 及接入踩坑记录</span></h1>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p><a href="https://link.zhihu.com/?target=https://sentry.io/welcome/">Sentry</a> 是什么？中文翻译过来是「哨兵」的意思，没错，它是程序的哨兵，它可以监控我们在生产环境中项目的运行状态，一旦某段代码运行报错、或者发生异常，会第一时间将报错的信息：页面路由、异常文件、请求方式等一些非常详细的信息以消息或者邮件的方式通知我们，告诉我们：程序出错了。而我们可以从详细的报错信息中快速分析问题所在，从而快速地修复 Bug。</p>
+<h2 id="为什么是-Sentry？"><a href="#为什么是-Sentry？" class="headerlink" title="为什么是 Sentry？"></a>为什么是 Sentry？</h2><p>是的，在市场上有许多供应商提供类似的一体化解决方案，国外有 <a href="https://link.zhihu.com/?target=https://www.bugsnag.com/">BugSnag</a>、 <a href="https://link.zhihu.com/?target=https://rollbar.com/">RollBar</a>，国内有 <a href="https://link.zhihu.com/?target=https://www.oneapm.com/">oneapm</a>、<a href="https://link.zhihu.com/?target=https://www.fundebug.com/">fundebug</a>，那为什么我们偏偏选择 Sentry 呢？<br>因为 Sentry 是 100% <a href="https://link.zhihu.com/?target=https://sentry.io/_/open-source/">开源</a>的，我们可以使用它的 <a href="https://link.zhihu.com/?target=https://sentry.io/welcome/">SaaS</a> 版的，除此之外我们也可以<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/287941396/edit#Fnztq">私有化部署</a>。<br>另外 Sentry 支持主流的编程语言，可以通过 <a href="https://link.zhihu.com/?target=https://docs.sentry.io/platforms/">这里</a> 查看所有支持的语言。<br>通过下面这张图可以看出，Sentry 在前端的近两年<a href="https://link.zhihu.com/?target=https://www.npmtrends.com/@sentry/browser-vs-rollbar-browser-vs-airbrake-js-vs-trackjs-vs-bugsnag-js-vs-raygun4js-vs-bugsnag-vs-rollbar">发展趋势</a>，以及与其它竞争者对比：</p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FvitCatEYDkOpEC4xen4MpmYZAN9.webp" fancybox="true"/></div></div>
+<p>可以看到 Sentry 的 npm 下载量基本是稳步上升，同时引入 Sentry 包体积还很小，打包后只有 20k：</p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/Fqjp-FbY65rdlCMs3sFBLGQR0WZK.webp" fancybox="true"/></div></div>
+
+<h2 id="如何私有化部署？"><a href="#如何私有化部署？" class="headerlink" title="如何私有化部署？"></a>如何私有化部署？</h2><p>Sentry 官方提供了基于云的 SaaS 服务，那么为什么还要私有化部署呢？这是因为如果对于数据隐私和安全有着更高的要求，或者需要更多的自定义和控制权，那么私有化部署 Sentry 是个更好的选择。</p>
+<p>Sentry 可以使用 Docker、Docker-compose、K8s 的方式部署在自己的服务器上。<br>关于私有化部署的方法这里给出参考文档，如有需要可以看看：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://develop.sentry.dev/self-hosted/">Self-Hosted Sentry</a></li>
+<li><a href="https://link.zhihu.com/?target=https://github.com/sentry-kubernetes/charts">Sentry 10 helm charts</a></li>
+</ul>
+<p>需要注意的是最新版本的 sentry 的功能很强大，但是同时带来的是对服务器的性能要求很高，因此如果只需要 sentry 最基本的功能，推荐部署 sentry 9.1.2 的版本，<br>下面是两个版本需要的资源和功能对比：<br>23.9.1</p>
+<ul>
+<li><p>Docker 19.03.6+</p>
+</li>
+<li><p>Compose 2.0.1+</p>
+</li>
+<li><p>4 CPU Cores</p>
+</li>
+<li><p>8 GB RAM</p>
+</li>
+<li><p>20 GB Free Disk Space</p>
+<p>9.1.2</p>
+</li>
+<li><p>Docker 17.05.0+</p>
+</li>
+<li><p>Compose 1.17.0+</p>
+</li>
+<li><p>3 GB RAM</p>
+</li>
+</ul>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FjOE-h3LzscxNfzpc4MXtuFdprAr.png" fancybox="true"/></div></div>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FoS3KcA5fKOxcMQNDRu5d1Ac2D8o.png" fancybox="true"/></div></div>
+
+<p>总结一下，如果你需要更完备的错误追踪和分析功能并且恰好财力雄厚，建议使用官方的 SaaS 服务或者私有化部署最新版本，否则还是建议部署 9.1.2 版本，该有的功能都有，够你使用了。</p>
+<h2 id="如何接入前端-SDK"><a href="#如何接入前端-SDK" class="headerlink" title="如何接入前端 SDK?"></a>如何接入前端 SDK?</h2><p>既然私有化部署了 sentry 的 9.1.2 版本，接下来就是在前端接入上报 SDK，然而<a target="_blank" rel="noopener" href="https://docs.sentry.io/platforms/">官方文档</a>上默认针对的都是最新版本，像 9.1.2 这样的上古版本接入文档早就淹没在浩瀚的历史变更记录中，互联网上更多的也是新版本的资料。经过不断的踩坑，终于是完成了 9.1.2 版本的 sdk 接入，由于精力有限，只完成了 Electron 和 Vue 平台的接入，其他平台的就不在此记录了。</p>
+<h3 id="Electron"><a href="#Electron" class="headerlink" title="Electron"></a>Electron</h3><ol>
+<li>安装 sdk</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pnpm add @sentry/electron</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>在主进程入口文件初始化 sentry（尽可能的提前初始化）</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> <span class="title class_">Sentry</span> <span class="keyword">from</span> <span class="string">&quot;@sentry/electron&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> packageJson <span class="keyword">from</span> <span class="string">&quot;../../../package.json&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="title class_">Sentry</span>.<span class="title function_">init</span>(&#123;</span><br><span class="line">  <span class="attr">dsn</span>: <span class="variable constant_">SENTRY_DSN</span>,</span><br><span class="line">  <span class="attr">sampleRate</span>: <span class="number">1</span>,</span><br><span class="line">  <span class="attr">release</span>: packageJson.<span class="property">version</span>,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="Vue"><a href="#Vue" class="headerlink" title="Vue"></a>Vue</h3><blockquote>
+<p>除了需要特定版本的 sdk，其他的可以<a target="_blank" rel="noopener" href="https://docs.sentry.io/platforms/javascript/guides/vue/">参考官方文档</a></p>
+</blockquote>
+<ol>
+<li>安装 sdk</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 最新版本的 sdk 不兼容 9.1.2 版本的 sentry，使用旧版本</span></span><br><span class="line">pnpm add @sentry/vue@5.30.0 -D</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>初始化 sdk</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> <span class="title class_">Sentry</span> <span class="keyword">from</span> <span class="string">&quot;@sentry/vue&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="title class_">Vue</span> <span class="keyword">from</span> <span class="string">&quot;vue&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="title class_">Sentry</span>.<span class="title function_">init</span>(&#123;</span><br><span class="line">  <span class="title class_">Vue</span>,</span><br><span class="line">  <span class="attr">dsn</span>: <span class="variable constant_">SENTRY_DSN</span>,</span><br><span class="line">  <span class="attr">release</span>: packageJson.<span class="property">version</span>,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h2 id="上传-Source-Map"><a href="#上传-Source-Map" class="headerlink" title="上传 Source Map"></a>上传 <strong>Source Map</strong></h2><p>接入 sdk 后，我们手动触发个错误，就可以看到在 sentry 上多出来一个新的 Issue，点开可以看到更详细的报错信息：</p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FgeJMq6ItUjO6VE77cZvUSGrTdai.png" fancybox="true"/></div></div>
+<p>但是这个报错信息对我们的意义却不是很大，因为根据这份报错信息我们没法锁定出问题的源码位置。可能会有小机灵鬼说，我明明看到了错误堆栈，里面有错误的文件名，行数和列数，为什么还是没办法锁定？</p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/Fu3llotFUocdAFSYGRYV605lOd5Q.png" fancybox="true"/></div></div>
+<p>这是因此现代前端部署的代码都是合并和压缩过的，就不是给人类读的，相信我没有超能力别指望能反推出源码。<br>这时就需要借助 source map 了，什么？不知道什么是 source map？建议先看外这篇文章<a target="_blank" rel="noopener" href="https://juejin.cn/post/7023537118454480904">《深入浅出之 Source Map》</a>再往下看。而且幸好的是 sentry 集成了 source map 的解析能力（在 9.1.2 这个版本也是有的，只是藏的有点深）</p>
+<p>上面看完了相信你也明白了 source map 的重要性，接下我们开始上传 source map 到 sentry：</p>
+<ol>
+<li>安装 webpack sdk</li>
+</ol>
+<p>sentry 针对不同的编译器有不同的上传 sdk，其他平台见<a target="_blank" rel="noopener" href="https://docs.sentry.io/platforms/javascript/guides/vue/sourcemaps/">官方文档</a>，或者使用 cli 上传，但是为了省事和简化流程，我们采用 sdk 的上传方式</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pnpm add @sentry/webpack-plugin@2.7.1 -D</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>配置 webpack 插件</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123; sentryWebpackPlugin &#125; = <span class="built_in">require</span>(<span class="string">&quot;@sentry/webpack-plugin&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> packageJson = <span class="built_in">require</span>(<span class="string">&quot;./package.json&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">  <span class="attr">productionSourceMap</span>: <span class="literal">true</span>, <span class="comment">// 生产环境生成 source map</span></span><br><span class="line">  <span class="attr">configureWebpack</span>: &#123;</span><br><span class="line">    <span class="attr">plugins</span>: [</span><br><span class="line">      <span class="title function_">sentryWebpackPlugin</span>(&#123;</span><br><span class="line">        <span class="attr">org</span>: <span class="string">&quot;xxxx&quot;</span>,</span><br><span class="line">        <span class="attr">project</span>: <span class="string">&quot;xxxx&quot;</span>,</span><br><span class="line">        <span class="attr">url</span>: <span class="string">&quot;xxxx&quot;</span>,</span><br><span class="line">        <span class="attr">authToken</span>: <span class="string">&quot;xxxx&quot;</span>,</span><br><span class="line">        <span class="attr">release</span>: &#123;</span><br><span class="line">          <span class="attr">name</span>: packageJson.<span class="property">version</span>,</span><br><span class="line">          <span class="attr">uploadLegacySourcemaps</span>: &#123;</span><br><span class="line">            <span class="attr">paths</span>: [<span class="string">&quot;./dist_electron/bundled&quot;</span>],</span><br><span class="line">          &#125;,</span><br><span class="line">        &#125;,</span><br><span class="line">      &#125;),</span><br><span class="line">    ],</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>更多配置参数见官方文档：<a target="_blank" rel="noopener" href="https://www.npmjs.com/package/@sentry/webpack-plugin">@sentry&#x2F;webpack-plugin</a>，这里着重介绍下需要注意的点：</p>
+<ul>
+<li>webpack 需要生成 source map，没有的话，sdk 就是无米而炊</li>
+<li>release.name 需要和上报 sdk 里的 release 字段保持一致，以便于将异常按照 release 进行分类</li>
+<li>uploadLegacySourcemaps 配置需要上传的文件目录</li>
+</ul>
+<p>以上配置完成后，运行打包命令，就可以在 sentry 中看到上传的 source map 了</p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FhcBqgTjgHadiZ6vRZUl430Hb1rC.png" fancybox="true"/></div></div>
+<p>有了 source map，sentry 就能根据 source map 解析出源码位置</p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/Fr0gPm0IZVJCPD08bw9ssgBIURGb.png" fancybox="true"/></div></div>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>sentry 是前端异常监控的不二选择，由于其是开源项目，我们可以选择私有化部署，而 9.1.2 版本就是考虑功能性和部署成本的最优解。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://juejin.cn/post/7023537118454480904#heading-23">https://juejin.cn/post/7023537118454480904#heading-23</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/287941396">https://zhuanlan.zhihu.com/p/287941396</a></li>
+</ul>
+<h2 id=""><a href="#" class="headerlink" title=""></a></h2>
+
+
+<div class="article-footer reveal fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div></section></div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2023/09/01/d24e5effb3b7/">markdown-it：添加代码复制功能</a></div></section></div>
+
+
+
+
+
+
+  <div class='related-wrap md-text reveal' id="comments">
+    <section class='header cmt-title cap theme'>
+      快来参与讨论吧
+    </section>
+    <section class='body cmt-body giscus'>
+      
+
+<svg class="loading" style="vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2709"><path d="M832 512c0-176-144-320-320-320V128c211.2 0 384 172.8 384 384h-64zM192 512c0 176 144 320 320 320v64C300.8 896 128 723.2 128 512h64z" p-id="2710"></path></svg>
+
+<div id="giscus" data-repo="bijinfeng/bijinfeng.github.io" data-repo-id="R_kgDOHlXKwQ" data-category="General" data-category-id="DIC_kwDOHlXKwc4CT421" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous"></div>
+
+    </section>
+  </div>
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="sitemap"><div class="sitemap-group"><span class="fs14">博客</span><a href="/">近期</a><a href="/categories/">分类</a><a href="/tags">标签</a><a href="/archives/">归档</a></div><div class="sitemap-group"><span class="fs14">项目</span><a target="_blank" rel="noopener" href="https://rn-vant.vercel.app/">rn-vant</a></div><div class="sitemap-group"><span class="fs14">社交</span><a href="/friends/">友链</a><a target="_blank" rel="noopener" href="//about/#comments">留言板</a></div><div class="sitemap-group"><span class="fs14">更多</span><a target="_blank" rel="noopener" href="https://github.com/bijinfeng/">GitHub</a></div></div><div class="text"><p>本站由 <a href="/">@bijinfeng</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar">Stellar</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+
+      <div class='float-panel mobile-only blur' style='display:none'>
+  <button type='button' class='sidebar-toggle mobile' onclick='sidebar.toggle()'>
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"></path><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"></path></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class='scripts'>
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.19.0';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://gcore.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"codeblock":false,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.css","js":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".swiper-slide img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+  <script>
+  function loadJS() {
+    const els = document.querySelectorAll("#comments #giscus");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.log(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+    loadJS();
+  });
+</script>
+
+
+
+
+<!-- inject -->
+
+
+  </div>
+</body>
+</html>
