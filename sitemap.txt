@@ -37,8 +37,8 @@ https://bijinfeng.github.io/categories/React/
 https://bijinfeng.github.io/categories/Remix/
 https://bijinfeng.github.io/categories/React/Electron/
 https://bijinfeng.github.io/categories/React-Native/
-https://bijinfeng.github.io/categories/React-Native/%E7%BB%84%E4%BB%B6%E5%BA%93/
 https://bijinfeng.github.io/categories/Typescript/
+https://bijinfeng.github.io/categories/React-Native/%E7%BB%84%E4%BB%B6%E5%BA%93/
 https://bijinfeng.github.io/categories/CSS/
 https://bijinfeng.github.io/categories/tools/
 https://bijinfeng.github.io/categories/Babel/
