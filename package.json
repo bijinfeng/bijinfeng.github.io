@@ -27,7 +27,7 @@
     "hexo-renderer-marked": "6.1.1",
     "hexo-renderer-stylus": "3.0.0",
     "hexo-server": "3.0.0",
-    "hexo-theme-stellar": "^1.19.0",
+    "hexo-theme-stellar": "^1.20.0",
     "js-yaml": "^4.1.0"
   },
   "yuqueConfig": {

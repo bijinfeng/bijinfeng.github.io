@@ -2237,10 +2237,10 @@ hexo-server@3.0.0:
     picocolors "^1.0.0"
     serve-static "^1.14.1"
 
-hexo-theme-stellar@^1.19.0:
-  version "1.19.0"
-  resolved "https://registry.yarnpkg.com/hexo-theme-stellar/-/hexo-theme-stellar-1.19.0.tgz#c0a76504931c1426203e968d103c423e40b7d632"
-  integrity sha512-vc1tioxJ9ctlNAWDbq8MKUT9+KeDdL8xSPw9S70CG4VThVRDoi0+YZs4AwSgZXmh4SeeiD2D/okAlG6gRaAqyw==
+hexo-theme-stellar@^1.20.0:
+  version "1.20.0"
+  resolved "https://registry.yarnpkg.com/hexo-theme-stellar/-/hexo-theme-stellar-1.20.0.tgz#95d45cb82fe7d6a5e9a2eb7eeb1b282db08a8f98"
+  integrity sha512-VaXBKECkCfqKKY5V3L5XYi3py0pNi2rNMbSZlHXtLUBqCHWvh56oF2EMuwoSjtzncdQt8nTXjMy2wlZrbT2KXQ==
   dependencies:
     hexo-renderer-ejs "^2.0.0"
     hexo-renderer-stylus "^2.1.0"
