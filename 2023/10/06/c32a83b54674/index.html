@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.26.3" theme-name="Stellar" theme-version="1.26.3">
   
-  <meta name="generator" content="Hexo 7.1.1">
+  <meta name="generator" content="Hexo 6.3.0">
   <meta http-equiv='x-dns-prefetch-control' content='on' />
   
   <meta name="renderer" content="webkit">
@@ -37,7 +37,7 @@
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FvAmgPTWJhxKC9DWBPiA_hDBf8RJ.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FrBt-L3sl7_cYb_HoPlnH7CpRHcV.png">
 <meta property="article:published_time" content="2023-10-06T19:06:15.000Z">
-<meta property="article:modified_time" content="2024-03-25T12:44:52.084Z">
+<meta property="article:modified_time" content="2024-03-25T12:44:31.542Z">
 <meta property="article:author" content="bijinfeng">
 <meta property="article:tag" content="前端,React,Vue,博客,Typescript,全站">
 <meta name="twitter:card" content="summary">
@@ -97,7 +97,7 @@
 
 <div class="bread-nav fs12"><div class="left"><div id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div>
-<div id="post-meta"><span class="author">发布于：</span><span class="created"><time datetime="2023-10-06T19:06:15.000Z">2023-10-07</time></span><span class="updated">，更新于：<time datetime="2024-03-25T12:44:52.084Z">2024-03-25</time></span></div></div>
+<div id="post-meta"><span class="author">发布于：</span><span class="created"><time datetime="2023-10-06T19:06:15.000Z">2023-10-07</time></span><span class="updated">，更新于：<time datetime="2024-03-25T12:44:31.542Z">2024-03-25</time></span></div></div>
 </div>
 <article class="md-text content"><h1 class="article-title"><span>私有化部署 Sentry 及接入踩坑记录</span></h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p><a href="https://link.zhihu.com/?target=https://sentry.io/welcome/">Sentry</a> 是什么？中文翻译过来是「哨兵」的意思，没错，它是程序的哨兵，它可以监控我们在生产环境中项目的运行状态，一旦某段代码运行报错、或者发生异常，会第一时间将报错的信息：页面路由、异常文件、请求方式等一些非常详细的信息以消息或者邮件的方式通知我们，告诉我们：程序出错了。而我们可以从详细的报错信息中快速分析问题所在，从而快速地修复 Bug。</p>
 <h2 id="为什么是-Sentry？"><a href="#为什么是-Sentry？" class="headerlink" title="为什么是 Sentry？"></a>为什么是 Sentry？</h2><p>是的，在市场上有许多供应商提供类似的一体化解决方案，国外有 <a href="https://link.zhihu.com/?target=https://www.bugsnag.com/">BugSnag</a>、 <a href="https://link.zhihu.com/?target=https://rollbar.com/">RollBar</a>，国内有 <a href="https://link.zhihu.com/?target=https://www.oneapm.com/">oneapm</a>、<a href="https://link.zhihu.com/?target=https://www.fundebug.com/">fundebug</a>，那为什么我们偏偏选择 Sentry 呢？<br>因为 Sentry 是 100% <a href="https://link.zhihu.com/?target=https://sentry.io/_/open-source/">开源</a>的，我们可以使用它的 <a href="https://link.zhihu.com/?target=https://sentry.io/welcome/">SaaS</a> 版的，除此之外我们也可以<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/287941396/edit#Fnztq">私有化部署</a>。<br>另外 Sentry 支持主流的编程语言，可以通过 <a href="https://link.zhihu.com/?target=https://docs.sentry.io/platforms/">这里</a> 查看所有支持的语言。<br>通过下面这张图可以看出，Sentry 在前端的近两年<a href="https://link.zhihu.com/?target=https://www.npmtrends.com/@sentry/browser-vs-rollbar-browser-vs-airbrake-js-vs-trackjs-vs-bugsnag-js-vs-raygun4js-vs-bugsnag-vs-rollbar">发展趋势</a>，以及与其它竞争者对比：<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FvitCatEYDkOpEC4xen4MpmYZAN9.webp"><br>可以看到 Sentry 的 npm 下载量基本是稳步上升，同时引入 Sentry 包体积还很小，打包后只有 20k：<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/Fqjp-FbY65rdlCMs3sFBLGQR0WZK.webp"></p>
