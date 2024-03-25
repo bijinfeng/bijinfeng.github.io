@@ -44,7 +44,7 @@ const util = {
       el.select();
       document.execCommand("Copy");
       if (msg && msg.length > 0) {
-        hud.toast(msg);
+        hud.toast(msg, 2500);
       }
     }
   },
@@ -59,17 +59,15 @@ const util = {
 
 const hud = {
   toast: (msg, duration) => {
-    duration = isNaN(duration) ? 2000 : duration;
+    const d = Number(isNaN(duration) ? 2000 : duration);
     var el = document.createElement('div');
     el.classList.add('toast');
+    el.classList.add('show');
     el.innerHTML = msg;
     document.body.appendChild(el);
-    setTimeout(function () {
-      var d = 0.5;
-      el.style.webkitTransition = '-webkit-transform ' + d + 's ease-in, opacity ' + d + 's ease-in';
-      el.style.opacity = '0';
-      setTimeout(function () { document.body.removeChild(el) }, d * 1000);
-    }, duration);
+
+    setTimeout(function(){ document.body.removeChild(el) }, d);
+    
   },
 
 }
@@ -126,7 +124,7 @@ const init = {
               highlightItem.addClass("active")
               const e0 = document.querySelector('.widgets')
               const e1 = document.querySelector('#data-toc a.toc-link[href="' + encodeURI(link) + '"]')
-              const offsetBottom = e1.getBoundingClientRect().bottom - e0.getBoundingClientRect().bottom + 100
+              const offsetBottom = e1.getBoundingClientRect().bottom - e0.getBoundingClientRect().bottom + 200
               const offsetTop = e1.getBoundingClientRect().top - e0.getBoundingClientRect().top - 64
               if (offsetTop < 0) {
                 e0.scrollBy(0, offsetTop)
@@ -199,13 +197,16 @@ init.registerTabsTag()
 // scrollreveal
 if (stellar.plugins.scrollreveal) {
   stellar.loadScript(stellar.plugins.scrollreveal.js).then(function () {
-    ScrollReveal().reveal("body .reveal", {
+    const slideUp = {
       distance: stellar.plugins.scrollreveal.distance,
       duration: stellar.plugins.scrollreveal.duration,
       interval: stellar.plugins.scrollreveal.interval,
       scale: stellar.plugins.scrollreveal.scale,
+      opacity: 0,
       easing: "ease-out"
-    });
+    }
+    ScrollReveal().reveal('.l_left .slide-up', slideUp)
+    ScrollReveal().reveal('.l_main .slide-up', slideUp)
   })
 }
 
@@ -244,9 +245,12 @@ if (stellar.plugins.stellar) {
       const els = document.getElementsByClassName('stellar-' + key + '-api');
       if (els != undefined && els.length > 0) {
         stellar.jQuery(() => {
-          stellar.loadScript(js, { defer: true });
-          if (key == 'timeline') {
-            stellar.loadScript(stellar.plugins.marked);
+          if (key == 'timeline' || 'memos' || 'marked') {
+            stellar.loadScript(stellar.plugins.marked).then(function () {
+              stellar.loadScript(js, { defer: true });
+            });
+          } else {
+            stellar.loadScript(js, { defer: true });
           }
         })
       }
@@ -282,13 +286,7 @@ if (stellar.plugins.swiper) {
 
 // preload
 if (stellar.plugins.preload) {
-  if (stellar.plugins.preload.service == 'instant_page') {
-    stellar.loadScript(stellar.plugins.preload.instant_page, {
-      defer: true,
-      type: 'module',
-      integrity: 'sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1'
-    })
-  } else if (stellar.plugins.preload.service == 'flying_pages') {
+  if (stellar.plugins.preload.service == 'flying_pages') {
     window.FPConfig = {
       delay: 0,
       ignoreKeywords: [],
@@ -301,21 +299,27 @@ if (stellar.plugins.preload) {
 
 // fancybox
 if (stellar.plugins.fancybox) {
-  let selector = 'img[fancybox]:not(.error)';
+  let selector = '[data-fancybox]:not(.error)';
   if (stellar.plugins.fancybox.selector) {
     selector += `, ${stellar.plugins.fancybox.selector}`
   }
-  if (document.querySelectorAll(selector).length !== 0) {
+  var needFancybox = document.querySelectorAll(selector).length !== 0;
+  if (!needFancybox) {
+    const els = document.getElementsByClassName('stellar-memos-api');
+    if (els != undefined && els.length > 0) {
+      needFancybox = true;
+    }
+  }
+  if (needFancybox) {
     stellar.loadCSS(stellar.plugins.fancybox.css);
     stellar.loadScript(stellar.plugins.fancybox.js, { defer: true }).then(function () {
       Fancybox.bind(selector, {
-        groupAll: true,
         hideScrollbar: false,
         Thumbs: {
           autoStart: false,
         },
-        caption: function (fancybox, carousel, slide) {
-          return slide.$trigger.alt || null
+        caption: (fancybox, slide) => {
+          return slide.triggerEl.alt || null
         }
       });
     })
@@ -339,7 +343,7 @@ if (stellar.search.service) {
           }
           path = stellar.config.root + path;
           const filter = $inputArea.attr('data-filter') || '';
-          searchFunc(path, filter, 'search-input', 'search-result');
+          searchFunc(path, filter, 'search-wrapper', 'search-input', 'search-result');
         });
         $inputArea.keydown(function(e) {
           if (e.which == 13) {
