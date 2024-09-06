@@ -24,10 +24,10 @@
     "hexo-generator-index": "3.0.0",
     "hexo-generator-sitemap": "^3.0.1",
     "hexo-generator-tag": "2.0.0",
-    "hexo-renderer-marked": "6.2.0",
-    "hexo-renderer-stylus": "3.0.0",
+    "hexo-renderer-marked": "6.3.0",
+    "hexo-renderer-stylus": "3.0.1",
     "hexo-server": "3.0.0",
-    "hexo-theme-stellar": "^1.26.3",
+    "hexo-theme-stellar": "^1.29.0",
     "js-yaml": "^4.1.0"
   },
   "yuqueConfig": {
@@ -52,6 +52,6 @@
   },
   "devDependencies": {
     "yuque-hexo": "^1.9.5",
-    "zx": "^7.2.3"
+    "zx": "^8.1.3"
   }
 }
