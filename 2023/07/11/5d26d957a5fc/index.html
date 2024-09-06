@@ -19,12 +19,12 @@
   <title>初探 Plasm 框架 - Kebai</title>
 
   
-    <meta name="description" content="Plasm 是什么？Plasmo 是个浏览器插件开发框架，号称浏览器扩展界的 Next.js ！ 其框架提供的特性如下：  一流的 React + Typescript 支持 声明式开发（自动生成 manifest.json） 将 UI 组件渲染到网页 扩展内置页面 扩展热重载 + React 模块热更新 .env* 文件 扩展储存 API 扩展通信 API 远程代码打包 (例如 Google A">
+    <meta name="description" content="Plasm 是什么？ Plasmo 是个浏览器插件开发框架，号称浏览器扩展界的 Next.js ！ 其框架提供的特性如下：  一流的 React + Typescript 支持 声明式开发（自动生成 manifest.json） 将 UI 组件渲染到网页 扩展内置页面 扩展热重载 + React 模块热更新 .env* 文件 扩展储存 API 扩展通信 API 远程代码打包 (例如 Google">
 <meta property="og:type" content="article">
 <meta property="og:title" content="初探 Plasm 框架">
 <meta property="og:url" content="https://bijinfeng.github.io/2023/07/11/5d26d957a5fc/index.html">
 <meta property="og:site_name" content="Kebai">
-<meta property="og:description" content="Plasm 是什么？Plasmo 是个浏览器插件开发框架，号称浏览器扩展界的 Next.js ！ 其框架提供的特性如下：  一流的 React + Typescript 支持 声明式开发（自动生成 manifest.json） 将 UI 组件渲染到网页 扩展内置页面 扩展热重载 + React 模块热更新 .env* 文件 扩展储存 API 扩展通信 API 远程代码打包 (例如 Google A">
+<meta property="og:description" content="Plasm 是什么？ Plasmo 是个浏览器插件开发框架，号称浏览器扩展界的 Next.js ！ 其框架提供的特性如下：  一流的 React + Typescript 支持 声明式开发（自动生成 manifest.json） 将 UI 组件渲染到网页 扩展内置页面 扩展热重载 + React 模块热更新 .env* 文件 扩展储存 API 扩展通信 API 远程代码打包 (例如 Google">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FkRUXIqrzFmdHJRERv4-RM0GOme_.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FhZZLcPTjWcXCd-2wJDl8AQtPTZ0.png">
@@ -40,7 +40,7 @@
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FhViC6lrFLw-Qkw9PWGvfSby4ybt.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FvBFsjKj_sVJHT7HTMEMl_H0v_wb.png">
 <meta property="article:published_time" content="2023-07-11T23:46:34.000Z">
-<meta property="article:modified_time" content="2024-03-25T12:46:31.258Z">
+<meta property="article:modified_time" content="2024-09-06T14:36:48.183Z">
 <meta property="article:author" content="bijinfeng">
 <meta property="article:tag" content="前端,React,Vue,博客,Typescript,全站">
 <meta name="twitter:card" content="summary">
@@ -100,9 +100,10 @@
 
 <div class="bread-nav fs12"><div class="left"><div id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div>
-<div id="post-meta"><span class="author">发布于：</span><span class="created"><time datetime="2023-07-11T23:46:34.000Z">2023-07-12</time></span><span class="updated">，更新于：<time datetime="2024-03-25T12:46:31.258Z">2024-03-25</time></span></div></div>
+<div id="post-meta"><span class="author">发布于：</span><span class="created"><time datetime="2023-07-11T23:46:34.000Z">2023-07-12</time></span><span class="updated">，更新于：<time datetime="2024-09-06T14:36:48.183Z">2024-09-06</time></span></div></div>
 </div>
-<article class="md-text content"><h1 class="article-title"><span>初探 Plasm 框架</span></h1><p>Plasm 是什么？<br><a target="_blank" rel="noopener" href="https://www.plasmo.com/">Plasmo</a> 是个浏览器插件开发框架，号称浏览器扩展界的 <a target="_blank" rel="noopener" href="https://nextjs.org/">Next.js</a> ！</p>
+<article class="md-text content"><h1 class="article-title"><span>初探 Plasm 框架</span></h1><p>Plasm 是什么？</p>
+<p><a target="_blank" rel="noopener" href="https://www.plasmo.com/">Plasmo</a> 是个浏览器插件开发框架，号称浏览器扩展界的 <a target="_blank" rel="noopener" href="https://nextjs.org/">Next.js</a> ！</p>
 <p>其框架提供的特性如下：</p>
 <ul>
 <li>一流的 <a target="_blank" rel="noopener" href="https://reactjs.org/">React</a> + <a target="_blank" rel="noopener" href="https://www.typescriptlang.org/">Typescript</a> 支持</li>
@@ -128,11 +129,14 @@
 <ul>
 <li>sharp 安装失败</li>
 </ul>
-<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FkRUXIqrzFmdHJRERv4-RM0GOme_.png"><br>解决方法：<a target="_blank" rel="noopener" href="https://sharp.pixelplumbing.com/install#chinese-mirror">https://sharp.pixelplumbing.com/install#chinese-mirror</a><br>sharp 的安装包在外网，在国内有可能会下载失败，添加个 npm 代理，使用国内的镜像</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FkRUXIqrzFmdHJRERv4-RM0GOme_.png"></p>
+<p>解决方法：<a target="_blank" rel="noopener" href="https://sharp.pixelplumbing.com/install#chinese-mirror">https://sharp.pixelplumbing.com/install#chinese-mirror</a></p>
+<p>sharp 的安装包在外网，在国内有可能会下载失败，添加个 npm 代理，使用国内的镜像</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm config <span class="built_in">set</span> sharp_binary_host <span class="string">&quot;https://npmmirror.com/mirrors/sharp&quot;</span></span><br><span class="line">npm config <span class="built_in">set</span> sharp_libvips_binary_host <span class="string">&quot;https://npmmirror.com/mirrors/sharp-libvips&quot;</span></span><br></pre></td></tr></table></figure>
 
 <blockquote>
-<p>这两条命令只能在 npm v9 以下的版本生效，用 v9 版本会报错<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FhZZLcPTjWcXCd-2wJDl8AQtPTZ0.png"></p>
+<p>这两条命令只能在 npm v9 以下的版本生效，用 v9 版本会报错</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FhZZLcPTjWcXCd-2wJDl8AQtPTZ0.png"></p>
 </blockquote>
 <h1 id="启动及调试插件"><a href="#启动及调试插件" class="headerlink" title="启动及调试插件"></a>启动及调试插件</h1><ol>
 <li>启动很简单使用 <code>pnpm run dev</code>命令即可启动一个开发服务器，启动成功后会在 <code>build</code>目录下生成开发产物：</li>
@@ -141,7 +145,7 @@
 <ol start="2">
 <li>打开 chrome 的插件管理页面（chrome:&#x2F;&#x2F;extensions&#x2F;），打开【开发者模式】开关，点击【加载已解压的扩展程序】，选择项目中的 <code>build/chrome-mv3-dev</code>目录：</li>
 </ol>
-<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FmmTO8CXgVQwJvx9jKRi2_4f9qmp.png"></p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FmmTO8CXgVQwJvx9jKRi2_4f9qmp.png"><font style="color:rgb(32, 33, 36);"><br></font></p>
 <ol start="3">
 <li>加载成功后可以将其固定到状态栏中，便于后续开发：</li>
 </ol>
@@ -161,14 +165,49 @@
 <th>代码位置</th>
 </tr>
 </thead>
-</table>
-<p>| extension pages<br>（这些页面是浏览器插件机制内的页面，和 Plasm 框架无关，并且在浏览器中也有实体按钮） | popup page | <img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FlMxxp0QW8VxzECwFcLMf6Tlha-u.png"> | 点击状态栏的插件图标后弹出，点击空白地方消失 | popup.tsx<br>或<br>popup&#x2F;index.tsx |<br>| | options page | <img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FujVJa3A6VKGWpdgS7m4I-tQfPW4.png"> | 右键点击插件图标，选择【选项】栏后，会打开个新页面，这个页面一般用作插件的配置页面 | options.tsx<br>或<br>options&#x2F;index.tsx |<br>| | new tab page | <img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FhaD6tooQCW5cXh79TgZoy5wvIfS.png"><br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FtDQxCwpG01-2YXaZmxyczVF1V2-.png"> | 在点击主页按钮或者新建 tab 页时会打开该页面，同时浏览器的启动页配置会变成插件<br>这个 page 在开发导航类的插件时会非常有用 | newtab.tsx<br>或<br>newtab&#x2F;index.tsx |<br>| | dev tools page | <img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/Fj3mt7x6-DL9asJuCst8dnzeJ2b4.png"> | 在开发者工具中会出现个新的 tab，这个的内容就是该页面 | devtools.tsx<br>或<br>devtools&#x2F;index.tsx |<br>| 框架页面<br>（这些页面都是框架提供的，通常以编程方式重定向到或打开这些页面） | tab pages | <img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FhViC6lrFLw-Qkw9PWGvfSby4ybt.png"> | 使用场景：</p>
-<ol>
-<li>首次安装插件时的欢迎页面</li>
-<li>登录鉴权页面</li>
-<li>需要更精细的路由控制时</li>
-</ol>
-<p>可以在以下 URL 的方式访问这些页面：<br><code>chrome-extension://&lt;extension-id&gt;/tabs/delta-flyer.html</code><br>| tabs 目录下 |<br>| | sandbox pages | <img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FvBFsjKj_sVJHT7HTMEMl_H0v_wb.png"> | 这个页面主要用在 iframe 里面，因为和主页面的上下文隔离，安全性更高，可以用来执行一些动态生成的代码 | sandbox.ts file<br>或<br>sandboxes&#x2F;<name>.ts |</p>
+<tbody><tr>
+<td>extension pages<br/>（这些页面是浏览器插件机制内的页面，和 Plasm 框架无关，并且在浏览器中也有实体按钮）</td>
+<td>popup page</td>
+<td><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FlMxxp0QW8VxzECwFcLMf6Tlha-u.png"></td>
+<td>点击状态栏的插件图标后弹出，点击空白地方消失</td>
+<td><font style="color:rgb(51, 65, 85);">popup.tsx</font><br/><font style="color:rgb(51, 65, 85);">或</font><br/><font style="color:rgb(51, 65, 85);">popup&#x2F;index.tsx</font></td>
+</tr>
+<tr>
+<td></td>
+<td>options page</td>
+<td><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FujVJa3A6VKGWpdgS7m4I-tQfPW4.png"></td>
+<td>右键点击插件图标，选择【选项】栏后，会打开个新页面，这个页面一般用作插件的配置页面</td>
+<td><font style="color:rgb(51, 65, 85);">options.tsx</font><br/><font style="color:rgb(51, 65, 85);">或</font><br/><font style="color:rgb(51, 65, 85);">options&#x2F;index.tsx</font></td>
+</tr>
+<tr>
+<td></td>
+<td>new tab page</td>
+<td><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FhaD6tooQCW5cXh79TgZoy5wvIfS.png"> <img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FtDQxCwpG01-2YXaZmxyczVF1V2-.png"></td>
+<td>在点击主页按钮或者新建 tab 页时会打开该页面，同时浏览器的启动页配置会变成插件<br/>这个 page 在开发导航类的插件时会非常有用</td>
+<td><font style="color:rgb(51, 65, 85);">newtab.tsx</font><br/><font style="color:rgb(51, 65, 85);">或</font><br/><font style="color:rgb(51, 65, 85);">newtab&#x2F;index.tsx</font></td>
+</tr>
+<tr>
+<td></td>
+<td>dev tools page</td>
+<td><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/Fj3mt7x6-DL9asJuCst8dnzeJ2b4.png"></td>
+<td>在开发者工具中会出现个新的 tab，这个的内容就是该页面</td>
+<td><font style="color:rgb(51, 65, 85);">devtools.tsx</font><br/>或<br/><font style="color:rgb(51, 65, 85);">devtools&#x2F;index.tsx</font></td>
+</tr>
+<tr>
+<td>框架页面<br/>（这些页面都是框架提供的，通常<font style="color:rgb(24, 32, 38);">以编程方式重定向到或打开这些页面</font>）</td>
+<td>tab pages</td>
+<td><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FhViC6lrFLw-Qkw9PWGvfSby4ybt.png"></td>
+<td>使用场景：<br/>1. 首次安装插件时的欢迎页面<br/>2. 登录鉴权页面<br/>3. 需要更精细的路由控制时<br/>可以在以下 URL 的方式访问这些页面：<br/><code>chrome-extension://&lt;extension-id&gt;/tabs/delta-flyer.html</code></td>
+<td><font style="color:rgb(51, 65, 85);">tabs 目录下</font></td>
+</tr>
+<tr>
+<td></td>
+<td>sandbox pages</td>
+<td><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FvBFsjKj_sVJHT7HTMEMl_H0v_wb.png"></td>
+<td>这个页面主要用在 iframe 里面，因为和主页面的上下文隔离，安全性更高，可以用来执行一些动态生成的代码</td>
+<td><font style="color:rgb(51, 65, 85);">sandbox.ts</font><font style="color:rgb(51, 65, 85);"> file</font><br/><font style="color:rgb(51, 65, 85);">或</font><br/><font style="color:rgb(51, 65, 85);">sandboxes&#x2F;<name>.ts</font></td>
+</tr>
+</tbody></table>
 <h1 id="各种-Scripts"><a href="#各种-Scripts" class="headerlink" title="各种 Scripts"></a>各种 Scripts</h1><p>上面介绍了各种 pages 的作用，现在又出现个多个 scripts 同样让人摸不着头脑，这里我们再来总结下他们的作用：</p>
 <table>
 <thead>
@@ -180,86 +219,93 @@
 </thead>
 <tbody><tr>
 <td>content script</td>
-<td>content script 会运行在各个 tab 的上下文中，有多少个 tab 页，该脚本就会执行多少次，并且各个 script 不会互相干扰，并且和页面自身的 JavaScript 保持隔离</td>
-<td></td>
+<td>content script 会运行在各个 tab 的上下文中，有多少个 tab 页，该脚本就会执行多少次，并且各个 script 不会互相干扰，并且和<font style="color:rgb(24, 32, 38);">页面自身的 JavaScript 保持隔离</font><br/><font style="color:rgb(24, 32, 38);">使用场景：</font><br/>1. <font style="color:rgb(24, 32, 38);">从当前网页抓取数据</font><br/>2. <font style="color:rgb(24, 32, 38);">从当前网页中选择、查找元素并设置样式</font><br/>3. <font style="color:rgb(24, 32, 38);">将 UI 元素注入当前网页</font><br/>4. <font style="color:rgb(24, 32, 38);">将代码注入“main work”上下文</font></td>
+<td><font style="color:rgb(51, 65, 85);">content.ts</font><br/><font style="color:rgb(51, 65, 85);">或者</font><br/><font style="color:rgb(51, 65, 85);">contents</font><font style="color:rgb(51, 65, 85);">&#x2F;<name>.ts</font></td>
+</tr>
+<tr>
+<td>background service worker</td>
+<td><font style="color:rgb(40, 44, 51);">是一种后台服务，它可以处理一些长时间运行的任务，例如下载文件、缓存数据、推送通知等。这种方式可以节省内存，提高用户体验性，同时在离线状态下，依然能提供一些离线服务</font><br/><font style="color:rgb(40, 44, 51);">每个 tab 下都会有一个独立的 background service worker。这是因为每个 tab 都是一个独立的浏览器窗口，而 service worker 只能在后台运行，不能直接与网页的内容直接进行交互</font></td>
+<td><font style="color:rgb(51, 65, 85);">background.ts</font><br/><font style="color:rgb(51, 65, 85);">或</font><br/><font style="color:rgb(51, 65, 85);">background</font><font style="color:rgb(51, 65, 85);">&#x2F;<name>.ts</font></td>
 </tr>
 </tbody></table>
-<p>使用场景：</p>
-<ol>
-<li>从当前网页抓取数据</li>
-<li>从当前网页中选择、查找元素并设置样式</li>
-<li>将 UI 元素注入当前网页</li>
-<li>将代码注入“main work”上下文<br>| content.ts<br>或者<br>contents&#x2F;<name>.ts |<br>| background service worker | 是一种后台服务，它可以处理一些长时间运行的任务，例如下载文件、缓存数据、推送通知等。这种方式可以节省内存，提高用户体验性，同时在离线状态下，依然能提供一些离线服务<br>每个 tab 下都会有一个独立的 background service worker。这是因为每个 tab 都是一个独立的浏览器窗口，而 service worker 只能在后台运行，不能直接与网页的内容直接进行交互 | background.ts<br>或<br>background&#x2F;<name>.ts |</li>
-</ol>
 <h1 id="通信-Message"><a href="#通信-Message" class="headerlink" title="通信 Message"></a>通信 Message</h1><p>Plasm 提供的 Message API 便于在各个组件之间的消息的发送，中继以及接收。官方文档介绍其 API 是声明式，类型安全，函数式以及基于 Promise，相比于我们自己封装，Plasm 提供的 API 更加的完善。</p>
 <p>Plasm 将 Message API 封装到一个单独的 package 中，使用之前需要安装：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pnpm install @plasmohq/messaging</span><br></pre></td></tr></table></figure>
 
 <p>Message API 的分类如下：</p>
 <blockquote>
-<p>下表中的单词缩写如下：<br>Extension Pages -&gt; Ext-Pages<br>Content Scripts -&gt; CS<br>Background Service Worker -&gt; BGSW</p>
+<p>下表中的单词缩写如下：</p>
+<p>Extension Pages -&gt; Ext-Pages</p>
+<p>Content Scripts -&gt; CS</p>
+<p>Background Service Worker -&gt; BGSW</p>
 </blockquote>
 <table>
 <thead>
 <tr>
-<th><strong>Messaging API</strong></th>
-<th><strong>From</strong></th>
-<th><strong>To</strong></th>
-<th><strong>One-time</strong></th>
-<th><strong>Long-lived</strong></th>
+<th><strong><font style="color:rgb(51, 65, 85);">Messaging API</font></strong></th>
+<th><strong><font style="color:rgb(51, 65, 85);">From</font></strong></th>
+<th><strong><font style="color:rgb(51, 65, 85);">To</font></strong></th>
+<th><strong><font style="color:rgb(51, 65, 85);">One-time</font></strong></th>
+<th><strong><font style="color:rgb(51, 65, 85);">Long-lived</font></strong></th>
 </tr>
 </thead>
 <tbody><tr>
 <td><a target="_blank" rel="noopener" href="https://docs.plasmo.com/framework/messaging#message-flow">Message Flow</a></td>
-<td>Ext-Pages&#x2F;CS</td>
-<td>BGSW</td>
-<td>Yes</td>
-<td>No</td>
+<td><font style="color:rgb(51, 65, 85);">Ext-Pages&#x2F;CS</font></td>
+<td><font style="color:rgb(51, 65, 85);">BGSW</font></td>
+<td><font style="color:rgb(51, 65, 85);">Yes</font></td>
+<td><font style="color:rgb(51, 65, 85);">No</font></td>
 </tr>
 <tr>
 <td><a target="_blank" rel="noopener" href="https://docs.plasmo.com/framework/messaging#relay-flow">Relay Flow</a></td>
-<td>Website</td>
-<td>CS&#x2F;BGSW</td>
-<td>Yes</td>
-<td>No</td>
+<td><font style="color:rgb(51, 65, 85);">Website</font></td>
+<td><font style="color:rgb(51, 65, 85);">CS&#x2F;BGSW</font></td>
+<td><font style="color:rgb(51, 65, 85);">Yes</font></td>
+<td><font style="color:rgb(51, 65, 85);">No</font></td>
 </tr>
 <tr>
 <td><a target="_blank" rel="noopener" href="https://docs.plasmo.com/framework/messaging#ports">Ports</a></td>
-<td>Ext-Pages&#x2F;CS</td>
-<td>BGSW</td>
-<td>No</td>
-<td>Yes</td>
+<td><font style="color:rgb(51, 65, 85);">Ext-Pages&#x2F;CS</font></td>
+<td><font style="color:rgb(51, 65, 85);">BGSW</font></td>
+<td><font style="color:rgb(51, 65, 85);">No</font></td>
+<td><font style="color:rgb(51, 65, 85);">Yes</font></td>
 </tr>
 <tr>
-<td>Ports</td>
-<td>BGSW</td>
-<td>Ext-Pages&#x2F;CS</td>
-<td>No</td>
-<td>Yes</td>
+<td><font style="color:rgb(51, 65, 85);">Ports</font></td>
+<td><font style="color:rgb(51, 65, 85);">BGSW</font></td>
+<td><font style="color:rgb(51, 65, 85);">Ext-Pages&#x2F;CS</font></td>
+<td><font style="color:rgb(51, 65, 85);">No</font></td>
+<td><font style="color:rgb(51, 65, 85);">Yes</font></td>
 </tr>
 <tr>
-<td>Ports + Relay</td>
-<td>BGSW</td>
-<td>WebPage</td>
-<td>Yes</td>
-<td>Yes</td>
+<td><font style="color:rgb(51, 65, 85);">Ports + Relay</font></td>
+<td><font style="color:rgb(51, 65, 85);">BGSW</font></td>
+<td><font style="color:rgb(51, 65, 85);">WebPage</font></td>
+<td><font style="color:rgb(51, 65, 85);">Yes</font></td>
+<td><font style="color:rgb(51, 65, 85);">Yes</font></td>
 </tr>
 </tbody></table>
-<h3 id="Message-Flow"><a href="#Message-Flow" class="headerlink" title="Message Flow"></a>Message Flow</h3><p>Message Flow 非常适合 extension pages，tab pages 或者 content scripts 等前台和 background service worker 后台服务的一次性通信。在将一些繁重的工作扔给后台处理和绕过 CORS 时用此通信方式就非常合适。</p>
-<p>具体使用方法见<a target="_blank" rel="noopener" href="https://docs.plasmo.com/framework/messaging#message-flow">官方文档该位置</a>，这里不过多介绍</p>
-<h3 id="Relay-Flow"><a href="#Relay-Flow" class="headerlink" title="Relay Flow"></a>Relay Flow</h3><blockquote>
+<h3 id="Message-Flow"><a href="#Message-Flow" class="headerlink" title="Message Flow"></a>Message Flow</h3><p>Message Flow 非常适合 <font style="color:rgb(51, 65, 85);">extension pages，tab pages 或者 content scripts 等前台和 background service worker 后台服务的一次性通信。在将一些繁重的工作扔给后台处理和绕过 CORS 时用此通信方式就非常合适。</font></p>
+<p><font style="color:rgb(51, 65, 85);"></font></p>
+<p><font style="color:rgb(51, 65, 85);">具体使用方法见</font><a target="_blank" rel="noopener" href="https://docs.plasmo.com/framework/messaging#message-flow">官方文档该位置</a>，这里不过多介绍</p>
+<p><font style="color:rgba(15,23,42,var(--tw-text-opacity));"></font></p>
+<h3 id="Relay-Flow"><a href="#Relay-Flow" class="headerlink" title="Relay Flow"></a><font style="color:rgba(15,23,42,var(--tw-text-opacity));">Relay Flow</font></h3><blockquote>
 <p>该 API 还不太稳定，谨慎使用</p>
 </blockquote>
-<p>看文档介绍该 API 用于 target webpage 和 background service worker 之间的通信，听着和上面的 Message Flow 很像。</p>
-<p>但是研究下官方的<a target="_blank" rel="noopener" href="https://github.com/PlasmoHQ/examples/tree/main/with-messaging">示例</a>，发现 Relay Flow 和 Message Flow 的作用截然不同。简单来说，如果 target webpage 也是你开发的，并且需要将 message 传递到配套的插件 background service worker 里，那么就可以将 content scripts 作为中转，完成消息的发送。</p>
-<p>该 API 的使用场景还是比较局限的，但是在某些场景下可能会有奇效。</p>
-<p>具体使用方法见<a target="_blank" rel="noopener" href="https://docs.plasmo.com/framework/messaging#relay-flow">官方文档该位置</a>，这里不过多介绍</p>
-<h3 id="Ports"><a href="#Ports" class="headerlink" title="Ports"></a>Ports</h3><blockquote>
+<p>看文档介绍该 API 用于 <font style="color:rgb(51, 65, 85);">target webpage </font>和 <font style="color:rgb(51, 65, 85);">background service worker 之间的通信，听着和上面的 Message Flow 很像。</font></p>
+<p><font style="color:rgb(51, 65, 85);"></font></p>
+<p><font style="color:rgb(51, 65, 85);">但是研究下官方的</font><a target="_blank" rel="noopener" href="https://github.com/PlasmoHQ/examples/tree/main/with-messaging">示例</a>，发现 Relay Flow 和 Message Flow 的作用截然不同。简单来说，如果 target webpage 也是你开发的，并且需要将 message 传递到配套的插件 <font style="color:rgb(51, 65, 85);">background service worker 里，那么就可以将 content scripts 作为中转，完成消息的发送。</font></p>
+<p><font style="color:rgb(51, 65, 85);"></font></p>
+<p><font style="color:rgb(51, 65, 85);">该 API 的使用场景还是比较局限的，但是在某些场景下可能会有奇效。</font></p>
+<p><font style="color:rgb(51, 65, 85);"></font></p>
+<p><font style="color:rgb(51, 65, 85);">具体使用方法见</font><a target="_blank" rel="noopener" href="https://docs.plasmo.com/framework/messaging#relay-flow">官方文档该位置</a>，这里不过多介绍</p>
+<h3 id="Ports"><a href="#Ports" class="headerlink" title="Ports"></a><font style="color:rgba(15,23,42,var(--tw-text-opacity));">Ports</font></h3><blockquote>
 <p>该 API 还不太稳定，谨慎使用</p>
 </blockquote>
-<p>Messaging Ports API 是对插件原生的 <a target="_blank" rel="noopener" href="https://developer.chrome.com/docs/extensions/mv3/messaging/#connect">port API</a> 的抽象，主要用于和 background service worker 建立长链接。</p>
-<p>具体使用方法见<a target="_blank" rel="noopener" href="https://docs.plasmo.com/framework/messaging#ports">官方文档该位置</a>，这里不过多介绍</p>
-<h1 id="存储-Storage"><a href="#存储-Storage" class="headerlink" title="存储 Storage"></a>存储 Storage</h1><h1 id="环境变量-Environment-Variables"><a href="#环境变量-Environment-Variables" class="headerlink" title="环境变量 Environment Variables"></a>环境变量 Environment Variables</h1>
+<p><font style="color:rgb(51, 65, 85);">Messaging Ports API 是对插件原生的 </font><a target="_blank" rel="noopener" href="https://developer.chrome.com/docs/extensions/mv3/messaging/#connect">port API</a> 的抽象，主要用于和 <font style="color:rgb(51, 65, 85);">background service worker 建立长链接。</font></p>
+<p><font style="color:rgb(51, 65, 85);"></font></p>
+<p><font style="color:rgb(51, 65, 85);">具体使用方法见</font><a target="_blank" rel="noopener" href="https://docs.plasmo.com/framework/messaging#ports">官方文档该位置</a>，这里不过多介绍</p>
+<h1 id="存储-Storage"><a href="#存储-Storage" class="headerlink" title="存储 Storage"></a>存储 Storage</h1><h1 id="环境变量-Environment-Variables"><a href="#环境变量-Environment-Variables" class="headerlink" title="环境变量 Environment Variables"></a>环境变量 <font style="color:rgba(15,23,42,var(--tw-text-opacity));">Environment Variables</font></h1>
 <div class="article-footer fs14">
     <section id="license">
       <div class="header"><span>许可协议</span></div>

@@ -37,7 +37,7 @@
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FvAmgPTWJhxKC9DWBPiA_hDBf8RJ.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FrBt-L3sl7_cYb_HoPlnH7CpRHcV.png">
 <meta property="article:published_time" content="2023-10-06T19:06:15.000Z">
-<meta property="article:modified_time" content="2024-03-25T12:46:06.790Z">
+<meta property="article:modified_time" content="2024-09-06T14:36:33.699Z">
 <meta property="article:author" content="bijinfeng">
 <meta property="article:tag" content="前端,React,Vue,博客,Typescript,全站">
 <meta name="twitter:card" content="summary">
@@ -97,27 +97,37 @@
 
 <div class="bread-nav fs12"><div class="left"><div id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div>
-<div id="post-meta"><span class="author">发布于：</span><span class="created"><time datetime="2023-10-06T19:06:15.000Z">2023-10-07</time></span><span class="updated">，更新于：<time datetime="2024-03-25T12:46:06.790Z">2024-03-25</time></span></div></div>
+<div id="post-meta"><span class="author">发布于：</span><span class="created"><time datetime="2023-10-06T19:06:15.000Z">2023-10-07</time></span><span class="updated">，更新于：<time datetime="2024-09-06T14:36:33.699Z">2024-09-06</time></span></div></div>
 </div>
-<article class="md-text content"><h1 class="article-title"><span>私有化部署 Sentry 及接入踩坑记录</span></h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p><a href="https://link.zhihu.com/?target=https://sentry.io/welcome/">Sentry</a> 是什么？中文翻译过来是「哨兵」的意思，没错，它是程序的哨兵，它可以监控我们在生产环境中项目的运行状态，一旦某段代码运行报错、或者发生异常，会第一时间将报错的信息：页面路由、异常文件、请求方式等一些非常详细的信息以消息或者邮件的方式通知我们，告诉我们：程序出错了。而我们可以从详细的报错信息中快速分析问题所在，从而快速地修复 Bug。</p>
-<h2 id="为什么是-Sentry？"><a href="#为什么是-Sentry？" class="headerlink" title="为什么是 Sentry？"></a>为什么是 Sentry？</h2><p>是的，在市场上有许多供应商提供类似的一体化解决方案，国外有 <a href="https://link.zhihu.com/?target=https://www.bugsnag.com/">BugSnag</a>、 <a href="https://link.zhihu.com/?target=https://rollbar.com/">RollBar</a>，国内有 <a href="https://link.zhihu.com/?target=https://www.oneapm.com/">oneapm</a>、<a href="https://link.zhihu.com/?target=https://www.fundebug.com/">fundebug</a>，那为什么我们偏偏选择 Sentry 呢？<br>因为 Sentry 是 100% <a href="https://link.zhihu.com/?target=https://sentry.io/_/open-source/">开源</a>的，我们可以使用它的 <a href="https://link.zhihu.com/?target=https://sentry.io/welcome/">SaaS</a> 版的，除此之外我们也可以<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/287941396/edit#Fnztq">私有化部署</a>。<br>另外 Sentry 支持主流的编程语言，可以通过 <a href="https://link.zhihu.com/?target=https://docs.sentry.io/platforms/">这里</a> 查看所有支持的语言。<br>通过下面这张图可以看出，Sentry 在前端的近两年<a href="https://link.zhihu.com/?target=https://www.npmtrends.com/@sentry/browser-vs-rollbar-browser-vs-airbrake-js-vs-trackjs-vs-bugsnag-js-vs-raygun4js-vs-bugsnag-vs-rollbar">发展趋势</a>，以及与其它竞争者对比：<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FvitCatEYDkOpEC4xen4MpmYZAN9.webp"><br>可以看到 Sentry 的 npm 下载量基本是稳步上升，同时引入 Sentry 包体积还很小，打包后只有 20k：<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/Fqjp-FbY65rdlCMs3sFBLGQR0WZK.webp"></p>
-<h2 id="如何私有化部署？"><a href="#如何私有化部署？" class="headerlink" title="如何私有化部署？"></a>如何私有化部署？</h2><p>Sentry 官方提供了基于云的 SaaS 服务，那么为什么还要私有化部署呢？这是因为如果对于数据隐私和安全有着更高的要求，或者需要更多的自定义和控制权，那么私有化部署 Sentry 是个更好的选择。</p>
-<p>Sentry 可以使用 Docker、Docker-compose、K8s 的方式部署在自己的服务器上。<br>关于私有化部署的方法这里给出参考文档，如有需要可以看看：</p>
+<article class="md-text content"><h1 class="article-title"><span>私有化部署 Sentry 及接入踩坑记录</span></h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p><a href="https://link.zhihu.com/?target=https://sentry.io/welcome/">Sentry</a><font style="color:rgb(18, 18, 18);"> 是什么？中文翻译过来是「哨兵」的意思，没错，它是程序的哨兵，它可以监控我们在生产环境中项目的运行状态，一旦某段代码运行报错、或者发生异常，会第一时间将报错的信息：页面路由、异常文件、请求方式等一些非常详细的信息以消息或者邮件的方式通知我们，告诉我们：程序出错了。而我们可以从详细的报错信息中快速分析问题所在，从而快速地修复 Bug。</font></p>
+<h2 id="为什么是-Sentry？"><a href="#为什么是-Sentry？" class="headerlink" title="为什么是 Sentry？"></a><font style="color:rgb(18, 18, 18);">为什么是 Sentry？</font></h2><p><font style="color:rgb(18, 18, 18);">是的，在市场上有许多供应商提供类似的一体化解决方案，国外有 </font><a href="https://link.zhihu.com/?target=https://www.bugsnag.com/">BugSnag</a><font style="color:rgb(18, 18, 18);">、 </font><a href="https://link.zhihu.com/?target=https://rollbar.com/">RollBar</a><font style="color:rgb(18, 18, 18);">，国内有 </font><a href="https://link.zhihu.com/?target=https://www.oneapm.com/">oneapm</a><font style="color:rgb(18, 18, 18);">、</font><a href="https://link.zhihu.com/?target=https://www.fundebug.com/">fundebug</a><font style="color:rgb(18, 18, 18);">，那为什么我们偏偏选择 Sentry 呢？</font></p>
+<p><font style="color:rgb(18, 18, 18);">因为 Sentry 是 100% </font><a href="https://link.zhihu.com/?target=https://sentry.io/_/open-source/">开源</a><font style="color:rgb(18, 18, 18);">的，我们可以使用它的 </font><a href="https://link.zhihu.com/?target=https://sentry.io/welcome/">SaaS</a><font style="color:rgb(18, 18, 18);"> 版的，除此之外我们也可以</font><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/287941396/edit#Fnztq">私有化部署</a><font style="color:rgb(18, 18, 18);">。</font></p>
+<p><font style="color:rgb(18, 18, 18);">另外 Sentry 支持主流的编程语言，可以通过 </font><a href="https://link.zhihu.com/?target=https://docs.sentry.io/platforms/"><font style="color:rgb(18, 18, 18);">这里</font></a><font style="color:rgb(18, 18, 18);"> 查看所有支持的语言。</font></p>
+<p><font style="color:rgb(18, 18, 18);">通过下面这张图可以看出，Sentry 在前端的近两年</font><a href="https://link.zhihu.com/?target=https://www.npmtrends.com/@sentry/browser-vs-rollbar-browser-vs-airbrake-js-vs-trackjs-vs-bugsnag-js-vs-raygun4js-vs-bugsnag-vs-rollbar"><font style="color:rgb(18, 18, 18);">发展趋势</font></a><font style="color:rgb(18, 18, 18);">，以及与其它竞争者对比：</font></p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FvitCatEYDkOpEC4xen4MpmYZAN9.webp"></p>
+<p><font style="color:rgb(18, 18, 18);">可以看到 Sentry 的 npm 下载量基本是稳步上升，同时引入 Sentry 包体积还很小，打包后只有 20k：</font></p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/Fqjp-FbY65rdlCMs3sFBLGQR0WZK.webp"></p>
+<h2 id="如何私有化部署？"><a href="#如何私有化部署？" class="headerlink" title="如何私有化部署？"></a><font style="color:rgb(18, 18, 18);">如何私有化部署？</font></h2><p>Sentry 官方提供了基于云的 SaaS 服务，那么为什么还要私有化部署呢？这是因为如果对于数据隐私和安全有着更高的要求，或者需要更多的自定义和控制权，那么私有化部署 Sentry 是个更好的选择。</p>
+<p><font style="color:rgb(18, 18, 18);">Sentry 可以使用 Docker、Docker-compose、K8s 的方式部署在自己的服务器上。</font></p>
+<p><font style="color:rgb(18, 18, 18);">关于私有化部署的方法这里给出参考文档，如有需要可以看看：</font></p>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://develop.sentry.dev/self-hosted/">Self-Hosted Sentry</a></li>
 <li><a href="https://link.zhihu.com/?target=https://github.com/sentry-kubernetes/charts">Sentry 10 helm charts</a></li>
 </ul>
-<p>需要注意的是最新版本的 sentry 的功能很强大，但是同时带来的是对服务器的性能要求很高，因此如果只需要 sentry 最基本的功能，推荐部署 sentry 9.1.2 的版本，<br>下面是两个版本需要的资源和功能对比：<br>23.9.1</p>
+<p><font style="color:rgb(18, 18, 18);"></font></p>
+<p><font style="color:rgb(18, 18, 18);">需要注意的是最新版本的 sentry 的功能很强大，但是同时带来的是对服务器的性能要求很高，因此如果只需要 sentry 最基本的功能，推荐部署 sentry 9.1.2 的版本，</font></p>
+<p><font style="color:rgb(18, 18, 18);">下面是两个版本需要的资源和功能对比：</font></p>
+<p>23.9.1</p>
 <ul>
-<li><p>Docker 19.03.6+</p>
+<li><p><font style="color:rgb(31, 35, 40);">Docker 19.03.6+</font></p>
 </li>
-<li><p>Compose 2.0.1+</p>
+<li><p><font style="color:rgb(31, 35, 40);">Compose 2.0.1+</font></p>
 </li>
-<li><p>4 CPU Cores</p>
+<li><p><font style="color:rgb(31, 35, 40);">4 CPU Cores</font></p>
 </li>
-<li><p>8 GB RAM</p>
+<li><p><font style="color:rgb(31, 35, 40);">8 GB RAM</font></p>
 </li>
-<li><p>20 GB Free Disk Space</p>
+<li><p><font style="color:rgb(31, 35, 40);">20 GB Free Disk Space</font></p>
 <p>9.1.2</p>
 </li>
 <li><p>Docker 17.05.0+</p>
@@ -127,9 +137,13 @@
 <li><p>3 GB RAM</p>
 </li>
 </ul>
-<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FjOE-h3LzscxNfzpc4MXtuFdprAr.png"><br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FoS3KcA5fKOxcMQNDRu5d1Ac2D8o.png"></p>
-<p>总结一下，如果你需要更完备的错误追踪和分析功能并且恰好财力雄厚，建议使用官方的 SaaS 服务或者私有化部署最新版本，否则还是建议部署 9.1.2 版本，该有的功能都有，够你使用了。</p>
-<h2 id="如何接入前端-SDK"><a href="#如何接入前端-SDK" class="headerlink" title="如何接入前端 SDK?"></a>如何接入前端 SDK?</h2><p>既然私有化部署了 sentry 的 9.1.2 版本，接下来就是在前端接入上报 SDK，然而<a target="_blank" rel="noopener" href="https://docs.sentry.io/platforms/">官方文档</a>上默认针对的都是最新版本，像 9.1.2 这样的上古版本接入文档早就淹没在浩瀚的历史变更记录中，互联网上更多的也是新版本的资料。经过不断的踩坑，终于是完成了 9.1.2 版本的 sdk 接入，由于精力有限，只完成了 Electron 和 Vue 平台的接入，其他平台的就不在此记录了。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FjOE-h3LzscxNfzpc4MXtuFdprAr.png"></p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FoS3KcA5fKOxcMQNDRu5d1Ac2D8o.png"></p>
+<font style="color:rgb(18, 18, 18);">  
+</font><font style="color:rgb(18, 18, 18);"> 总结一下，如果你需要更完备的错误追踪和分析功能并且恰好财力雄厚，建议使用官方的 SaaS 服务或者私有化部署最新版本，否则还是建议部署 9.1.2 版本，该有的功能都有，够你使用了。</font>
+
+<p><font style="color:rgb(18, 18, 18);"></font></p>
+<h2 id="如何接入前端-SDK"><a href="#如何接入前端-SDK" class="headerlink" title="如何接入前端 SDK?"></a><font style="color:rgb(18, 18, 18);">如何接入前端 SDK?</font></h2><p>既然私有化部署了 sentry 的 9.1.2 版本，接下来就是在前端接入上报 SDK，然而<a target="_blank" rel="noopener" href="https://docs.sentry.io/platforms/">官方文档</a>上默认针对的都是最新版本，像 9.1.2 这样的上古版本接入文档早就淹没在浩瀚的历史变更记录中，互联网上更多的也是新版本的资料。经过不断的踩坑，终于是完成了 9.1.2 版本的 sdk 接入，由于精力有限，只完成了 Electron 和 Vue 平台的接入，其他平台的就不在此记录了。</p>
 <h3 id="Electron"><a href="#Electron" class="headerlink" title="Electron"></a>Electron</h3><ol>
 <li>安装 sdk</li>
 </ol>
@@ -153,7 +167,12 @@
 </ol>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> <span class="title class_">Sentry</span> <span class="keyword">from</span> <span class="string">&quot;@sentry/vue&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="title class_">Vue</span> <span class="keyword">from</span> <span class="string">&quot;vue&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="title class_">Sentry</span>.<span class="title function_">init</span>(&#123;</span><br><span class="line">  <span class="title class_">Vue</span>,</span><br><span class="line">  <span class="attr">dsn</span>: <span class="variable constant_">SENTRY_DSN</span>,</span><br><span class="line">  <span class="attr">release</span>: packageJson.<span class="property">version</span>,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 
-<h2 id="上传-Source-Map"><a href="#上传-Source-Map" class="headerlink" title="上传 Source Map"></a>上传 <strong>Source Map</strong></h2><p>接入 sdk 后，我们手动触发个错误，就可以看到在 sentry 上多出来一个新的 Issue，点开可以看到更详细的报错信息：<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FgeJMq6ItUjO6VE77cZvUSGrTdai.png"><br>但是这个报错信息对我们的意义却不是很大，因为根据这份报错信息我们没法锁定出问题的源码位置。可能会有小机灵鬼说，我明明看到了错误堆栈，里面有错误的文件名，行数和列数，为什么还是没办法锁定？<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/Fu3llotFUocdAFSYGRYV605lOd5Q.png"><br>这是因此现代前端部署的代码都是合并和压缩过的，就不是给人类读的，相信我没有超能力别指望能反推出源码。<br>这时就需要借助 source map 了，什么？不知道什么是 source map？建议先看外这篇文章<a target="_blank" rel="noopener" href="https://juejin.cn/post/7023537118454480904">《深入浅出之 Source Map》</a>再往下看。而且幸好的是 sentry 集成了 source map 的解析能力（在 9.1.2 这个版本也是有的，只是藏的有点深）</p>
+<h2 id="上传-Source-Map"><a href="#上传-Source-Map" class="headerlink" title="上传 Source Map"></a>上传 <strong><font style="color:rgb(18, 18, 18);">Source Map</font></strong></h2><p>接入 sdk 后，我们手动触发个错误，就可以看到在 sentry 上多出来一个新的 Issue，点开可以看到更详细的报错信息：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FgeJMq6ItUjO6VE77cZvUSGrTdai.png"></p>
+<p>但是这个报错信息对我们的意义却不是很大，因为根据这份报错信息我们没法锁定出问题的源码位置。可能会有小机灵鬼说，我明明看到了错误堆栈，里面有错误的文件名，行数和列数，为什么还是没办法锁定？</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/Fu3llotFUocdAFSYGRYV605lOd5Q.png"></p>
+<p>这是因此现代前端部署的代码都是合并和压缩过的，就不是给人类读的，相信我没有超能力别指望能反推出源码。</p>
+<p>这时就需要借助 source map 了，什么？不知道什么是 source map？建议先看外这篇文章<a target="_blank" rel="noopener" href="https://juejin.cn/post/7023537118454480904">《深入浅出之 Source Map》</a>再往下看。而且幸好的是 sentry 集成了 source map 的解析能力（在 9.1.2 这个版本也是有的，只是藏的有点深）</p>
 <p>上面看完了相信你也明白了 source map 的重要性，接下我们开始上传 source map 到 sentry：</p>
 <ol>
 <li>安装 webpack sdk</li>
@@ -172,13 +191,19 @@
 <li>release.name 需要和上报 sdk 里的 release 字段保持一致，以便于将异常按照 release 进行分类</li>
 <li>uploadLegacySourcemaps 配置需要上传的文件目录</li>
 </ul>
-<p>以上配置完成后，运行打包命令，就可以在 sentry 中看到上传的 source map 了<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FhcBqgTjgHadiZ6vRZUl430Hb1rC.png"><br>有了 source map，sentry 就能根据 source map 解析出源码位置<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/Fr0gPm0IZVJCPD08bw9ssgBIURGb.png"></p>
+<p>以上配置完成后，运行打包命令，就可以在 sentry 中看到上传的 source map 了</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FhcBqgTjgHadiZ6vRZUl430Hb1rC.png"></p>
+<p>有了 source map，sentry 就能根据 source map 解析出源码位置</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/Fr0gPm0IZVJCPD08bw9ssgBIURGb.png"></p>
 <h2 id="自定用户信息"><a href="#自定用户信息" class="headerlink" title="自定用户信息"></a>自定用户信息</h2><p>在 sentry 的默认上报中，只会上报用户 ip 地址作为用户的身份标识，这对我们针对特定用户排查日志时，不能说毫无帮助，只能说聊胜于无，因此我们需要上报一些特定的字段用作用户的身份标识，比如 username，email，id 等等：</p>
 <figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> <span class="title class_">Sentry</span> <span class="keyword">from</span> <span class="string">&quot;@sentry/vue&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="title class_">Sentry</span>.<span class="title function_">init</span>(&#123;</span><br><span class="line">  <span class="comment">// 初始化参数</span></span><br><span class="line">  ...</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 自定义用户信息，setUser 的入参类型如下：</span></span><br><span class="line"><span class="comment">// export interface User &#123;</span></span><br><span class="line"><span class="comment">//     [key: string]: any;</span></span><br><span class="line"><span class="comment">//     id?: string;</span></span><br><span class="line"><span class="comment">//     ip_address?: string;</span></span><br><span class="line"><span class="comment">//     email?: string;</span></span><br><span class="line"><span class="comment">//     username?: string;</span></span><br><span class="line"><span class="comment">// &#125;</span></span><br><span class="line"><span class="title class_">Sentry</span>.<span class="title function_">setUser</span>(&#123; <span class="attr">id</span>: xxx, <span class="attr">username</span>: xxx, <span class="attr">email</span>: xxx &#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p>before：<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FvAmgPTWJhxKC9DWBPiA_hDBf8RJ.png"><br>after：<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FrBt-L3sl7_cYb_HoPlnH7CpRHcV.png"></p>
+<p>before：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FvAmgPTWJhxKC9DWBPiA_hDBf8RJ.png"></p>
+<p>after：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FrBt-L3sl7_cYb_HoPlnH7CpRHcV.png"></p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>sentry 是前端异常监控的不二选择，由于其是开源项目，我们可以选择私有化部署，而 9.1.2 版本就是考虑功能性和部署成本的最优解。</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a><font style="color:rgb(40, 45, 54);">参考</font></h2><ul>
 <li><a target="_blank" rel="noopener" href="https://juejin.cn/post/7023537118454480904#heading-23">https://juejin.cn/post/7023537118454480904#heading-23</a></li>
 <li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/287941396">https://zhuanlan.zhihu.com/p/287941396</a></li>
 </ul>

@@ -19,27 +19,26 @@
   <title>详解 Polyfill.io - Kebai</title>
 
   
-    <meta name="description" content="今天看了篇文章「用了 babel 还需要 polyfill 吗？？？」，文章中明确回答了用了 babel 后还需要 polyfill。babel 只是一个平台，本生不提供任何功能，需要实现各种特性，必须依赖各种插件。如果 babel 没有使用任何插件，那么代码经过 babel 编译后会原封不动的返回。 什么是 Polyfill ? A polyfill is a piece of code (us">
+    <meta name="description" content="tags:  Babel Polyfill  categories:   Babel Polyfill   今天看了篇文章「用了 babel 还需要 polyfill 吗？？？」，文章中明确回答了用了 babel 后还需要 polyfill。babel 只是一个平台，本生不提供任何功能，需要实现各种特性，必须依赖各种插件。如果 babel 没有使用任何插件，那么代码经过 babel 编译后会原封">
 <meta property="og:type" content="article">
 <meta property="og:title" content="详解 Polyfill.io">
 <meta property="og:url" content="https://bijinfeng.github.io/2023/03/22/4903aabec5c6/index.html">
 <meta property="og:site_name" content="Kebai">
-<meta property="og:description" content="今天看了篇文章「用了 babel 还需要 polyfill 吗？？？」，文章中明确回答了用了 babel 后还需要 polyfill。babel 只是一个平台，本生不提供任何功能，需要实现各种特性，必须依赖各种插件。如果 babel 没有使用任何插件，那么代码经过 babel 编译后会原封不动的返回。 什么是 Polyfill ? A polyfill is a piece of code (us">
+<meta property="og:description" content="tags:  Babel Polyfill  categories:   Babel Polyfill   今天看了篇文章「用了 babel 还需要 polyfill 吗？？？」，文章中明确回答了用了 babel 后还需要 polyfill。babel 只是一个平台，本生不提供任何功能，需要实现各种特性，必须依赖各种插件。如果 babel 没有使用任何插件，那么代码经过 babel 编译后会原封">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FlH1Iqs_oErK6FnANWNmNlxzPaiC.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/Fuyo67tgi3zW9tLEUEa5wFGVM3VB.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FhWrxDSfu6Rh2x5b4kSNaMWNBEz3.png">
 <meta property="article:published_time" content="2023-03-22T22:29:00.000Z">
-<meta property="article:modified_time" content="2024-03-25T12:46:37.346Z">
+<meta property="article:modified_time" content="2024-09-06T14:36:52.119Z">
 <meta property="article:author" content="bijinfeng">
-<meta property="article:tag" content="Babel">
-<meta property="article:tag" content="Polyfill">
+<meta property="article:tag" content="前端,React,Vue,博客,Typescript,全站">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FlH1Iqs_oErK6FnANWNmNlxzPaiC.png">
   
   
   
-  <meta name="keywords" content="Babel,Polyfill">
+  <meta name="keywords" content="前端,React,Vue,博客,Typescript,全站">
 
   <!-- feed -->
   
@@ -90,42 +89,60 @@
 
 
 <div class="bread-nav fs12"><div class="left"><div id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
-<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/Babel/">Babel</a> <span class="sep"></span> <a class="cap breadcrumb-link" href="/categories/Babel/Polyfill/">Polyfill</a></div>
-<div id="post-meta"><span class="author">发布于：</span><span class="created"><time datetime="2023-03-22T22:29:00.000Z">2023-03-23</time></span><span class="updated">，更新于：<time datetime="2024-03-25T12:46:37.346Z">2024-03-25</time></span></div></div>
+<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div>
+<div id="post-meta"><span class="author">发布于：</span><span class="created"><time datetime="2023-03-22T22:29:00.000Z">2023-03-23</time></span><span class="updated">，更新于：<time datetime="2024-09-06T14:36:52.119Z">2024-09-06</time></span></div></div>
 </div>
-<article class="md-text content"><h1 class="article-title"><span>详解 Polyfill.io</span></h1><p>今天看了篇文章「<a target="_blank" rel="noopener" href="https://juejin.cn/post/6845166891015602190">用了 babel 还需要 polyfill 吗？？？</a>」，文章中明确回答了用了 babel 后还需要 polyfill。babel 只是一个平台，本生不提供任何功能，需要实现各种特性，必须依赖各种插件。如果 babel 没有使用任何插件，那么代码经过 babel 编译后会原封不动的返回。</p>
+<article class="md-text content"><h1 class="article-title"><span>详解 Polyfill.io</span></h1><hr>
+<p>tags:</p>
+<ul>
+<li>Babel</li>
+<li>Polyfill</li>
+</ul>
+<p>categories: </p>
+<ul>
+<li>Babel</li>
+<li>Polyfill</li>
+</ul>
+<hr>
+<p>今天看了篇文章「<a target="_blank" rel="noopener" href="https://juejin.cn/post/6845166891015602190">用了 babel 还需要 polyfill 吗？？？</a>」，文章中明确回答了用了 babel 后还需要 polyfill。babel 只是一个平台，本生不提供任何功能，需要实现各种特性，必须依赖各种插件。如果 babel 没有使用任何插件，那么代码经过 babel 编译后会原封不动的返回。</p>
 <h2 id="什么是-Polyfill"><a href="#什么是-Polyfill" class="headerlink" title="什么是 Polyfill ?"></a>什么是 Polyfill ?</h2><blockquote>
-<p>A polyfill is a piece of code (usually JavaScript on the Web) used to provide modern functionality on older browsers that do not natively support it.</p>
+<p><font style="color:rgb(27, 27, 27);">A polyfill is a piece of code (usually JavaScript on the Web) used to provide modern functionality on older browsers that do not natively support it.</font></p>
 </blockquote>
-<p>polyfill 就是一段补丁代码，它能够让当前浏览器不支持的方法通过用支持的方法重写来获得支持。<br>比如 <a target="_blank" rel="noopener" href="https://caniuse.com/#feat=promises">IE11 不支持 Promise</a>，而我们又需要在项目里用到，写了这样的代码：</p>
+<p>polyfill 就是一段补丁代码，它能够让当前浏览器不支持的方法通过用<font style="color:rgb(37, 41, 51);">支持的方法重写来获得支持。</font></p>
+<p><font style="color:rgb(36, 41, 47);">比如 </font><a target="_blank" rel="noopener" href="https://caniuse.com/#feat=promises">IE11 不支持 Promise</a><font style="color:rgb(36, 41, 47);">，而我们又需要在项目里用到，写了这样的代码：</font></p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">  <span class="title class_">Promise</span>.<span class="title function_">resolve</span>(<span class="string">&quot;bar&quot;</span>).<span class="title function_">then</span>(<span class="keyword">function</span> (<span class="params">foo</span>) &#123;</span></span><br><span class="line"><span class="language-javascript">    <span class="variable language_">document</span>.<span class="title function_">write</span>(foo);</span></span><br><span class="line"><span class="language-javascript">  &#125;);</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-<p>这时在 IE 下运行就会报错了<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FlH1Iqs_oErK6FnANWNmNlxzPaiC.png"><br>然后在此之前加上补丁</p>
+<p><font style="color:rgb(36, 41, 47);">这时在 IE 下运行就会报错了</font><br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FlH1Iqs_oErK6FnANWNmNlxzPaiC.png"></p>
+<p><font style="color:rgb(36, 41, 47);">然后在此之前加上补丁</font></p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.min.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">  <span class="title class_">Promise</span>.<span class="title function_">resolve</span>(<span class="string">&quot;bar&quot;</span>).<span class="title function_">then</span>(<span class="keyword">function</span> (<span class="params">foo</span>) &#123;</span></span><br><span class="line"><span class="language-javascript">    <span class="variable language_">document</span>.<span class="title function_">write</span>(foo);</span></span><br><span class="line"><span class="language-javascript">  &#125;);</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-<p>刷新浏览器，就可以正常运行了<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/Fuyo67tgi3zW9tLEUEa5wFGVM3VB.png"></p>
-<h2 id="Polyfill-方案"><a href="#Polyfill-方案" class="headerlink" title="Polyfill 方案"></a>Polyfill 方案</h2><h3 id="core-js-babel-polyfill"><a href="#core-js-babel-polyfill" class="headerlink" title="core-js &#x2F; @babel&#x2F;polyfill"></a>core-js &#x2F; @babel&#x2F;polyfill</h3><blockquote>
-<p>Core-js 是 JavaScript 标准库中最流行也最常用的 polyfill，为最新的 ECMAScript 标准和提案提供支持，包括古老的 ES5 功能到迭代器助手等前沿选项；</p>
+<p><font style="color:rgb(36, 41, 47);">刷新浏览器，就可以正常运行了</font><br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/Fuyo67tgi3zW9tLEUEa5wFGVM3VB.png"></p>
+<h2 id="Polyfill-方案"><a href="#Polyfill-方案" class="headerlink" title="Polyfill 方案"></a>Polyfill 方案</h2><h3 id="core-js-babel-polyfill"><a href="#core-js-babel-polyfill" class="headerlink" title="core-js &#x2F; @babel&#x2F;polyfill"></a><font style="color:rgb(36, 41, 47);">core-js &#x2F; @babel&#x2F;polyfill</font></h3><blockquote>
+<p><font style="color:rgb(48, 48, 48);">Core-js 是 JavaScript 标准库中最流行也最常用的 polyfill，为最新的 ECMAScript 标准和提案提供支持，包括古老的 ES5 功能到迭代器助手等前沿选项；</font></p>
 </blockquote>
-<p><code>[@babel/polyfill](https://babeljs.io/docs/en/next/babel-polyfill.html)</code> 这是 <code>core-js</code>的一个包装器，引入的是 core-js 的 stable 特性，因此从 Babel 7.4.0 之后，这个包就不再维护了，取而代之的是直接引用 <code>core-js/stable</code>：<br>Babel 7.4.0 之前：</p>
+<p><code>[@babel/polyfill](https://babeljs.io/docs/en/next/babel-polyfill.html)</code> 这是 <code>core-js</code>的一个包装器，引入的是 core-js 的 stable 特性，因此从 <font style="color:rgb(68, 73, 80);">Babel 7.4.0 之后，这个包就不再维护了，取而代之的是直接引用 </font><code>&lt;font style=&quot;color:rgb(68, 73, 80);&quot;&gt;core-js/stable&lt;/font&gt;</code><font style="color:rgb(68, 73, 80);">：</font></p>
+<p><font style="color:rgb(68, 73, 80);">Babel 7.4.0 之前：</font></p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&quot;@babel/polyfill&quot;</span>;</span><br></pre></td></tr></table></figure>
 
-<p>Babel 7.4.0 之后改为：</p>
+<p><font style="color:rgb(68, 73, 80);">Babel 7.4.0 之后</font><font style="color:rgb(68, 73, 80);">改为：</font></p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&quot;core-js/stable&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;regenerator-runtime/runtime&quot;</span>;</span><br></pre></td></tr></table></figure>
 
-<p>因为 core-js 中 JavaScript 标准库的一个 polyfill，不仅支持最新的 ECMAScript 标准，而且连标准库提案都包含在内，因此引入这一个库，es6，es7 等新特性就可以随便写了，不然担心兼容性问题。</p>
-<p>但是与此同时，这也带来个很大的缺点，不管你浏览器是否支持，也不管你项目是否有用到，都全量引入了，这在一些性能和带宽严苛的环境下会带来很大的麻烦。</p>
-<h3 id="babel-preset-env"><a href="#babel-preset-env" class="headerlink" title="@babel&#x2F;preset-env"></a>@babel&#x2F;preset-env</h3><blockquote>
+<p>因为 <font style="color:rgb(36, 41, 47);">core-js 中 JavaScript 标准库的一个 polyfill，不仅支持最新的 ECMAScript 标准，而且连标准库提案都包含在内，因此引入这一个库，es6，es7 等新特性就可以随便写了，不然担心兼容性问题。</font></p>
+<p><font style="color:rgb(36, 41, 47);"></font></p>
+<p><font style="color:rgb(36, 41, 47);">但是与此同时，这也带来个很大的缺点，不管你浏览器是否支持，也不管你项目是否有用到，都全量引入了，这在一些性能和带宽严苛的环境下会带来很大的麻烦。</font></p>
+<p><font style="color:rgb(36, 41, 47);"></font></p>
+<h3 id="babel-preset-env"><a href="#babel-preset-env" class="headerlink" title="@babel&#x2F;preset-env"></a><font style="color:rgb(36, 41, 47);">@babel&#x2F;preset-env</font></h3><blockquote>
 <p>@babel&#x2F;preset-env 是 babel 的一组预设，其中就有 pollyfill 的相关配置</p>
 </blockquote>
-<p><a target="_blank" rel="noopener" href="https://babeljs.io/docs/en/next/babel-preset-env#usebuiltins">@babel&#x2F;preset-env</a> 有两种不同的模式，可以通过 <code>useBuiltIns</code>选项启用，其有三个参数：</p>
+<p><a target="_blank" rel="noopener" href="https://babeljs.io/docs/en/next/babel-preset-env#usebuiltins">@babel&#x2F;preset-env</a> 有两种不同的模式，可以通过 <code>&lt;font style=&quot;color:rgb(36, 41, 47);&quot;&gt;useBuiltIns&lt;/font&gt;</code><font style="color:rgb(36, 41, 47);">选项启用，其有三个参数：</font></p>
 <ul>
 <li>entry</li>
 <li>usage</li>
 <li>false</li>
 </ul>
 <p>其中，<code>entry</code>和 <code>usage</code>都可以优化 core-js 的引用，其区别在于：</p>
-<h4 id="useBuiltIns-entry"><a href="#useBuiltIns-entry" class="headerlink" title="useBuiltIns: entry"></a>useBuiltIns: entry</h4><p>使用该选项，<code>@babel/preset-env</code>将找到入口文件里引入的 core-js，并替换为 targets 浏览器&#x2F;环境需要的补丁列表<br>.babelrc 配置如下：</p>
+<h4 id="useBuiltIns-entry"><a href="#useBuiltIns-entry" class="headerlink" title="useBuiltIns: entry"></a><font style="color:rgb(36, 41, 47);">useBuiltIns: entry</font></h4><p>使用该选项，<code>&lt;font style=&quot;color:rgb(36, 41, 47);&quot;&gt;@babel/preset-env&lt;/font&gt;</code>将找到入口文件里引入的 core-js，并替换为 targets 浏览器&#x2F;环境需要的补丁列表</p>
+<p>.babelrc 配置如下：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;presets&quot;</span>: [</span><br><span class="line">    [<span class="string">&quot;@babel/env&quot;</span>, &#123;</span><br><span class="line">      <span class="attr">useBuiltIns</span>: <span class="string">&#x27;entry&#x27;</span>,</span><br><span class="line">      <span class="attr">targets</span>: &#123; <span class="attr">chrome</span>: <span class="number">72</span> &#125;</span><br><span class="line">    &#125;]</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>入口文件引入 core-js：</p>
@@ -137,7 +154,8 @@
 <p>如果转化目标是 chrome 73（完全支持 ES2019 标准库），将得到个更简短的引入：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&quot;core-js/modules/web.immediate&quot;</span>;</span><br></pre></td></tr></table></figure>
 
-<h4 id="useBuiltIns-usage"><a href="#useBuiltIns-usage" class="headerlink" title="useBuiltIns: usage"></a>useBuiltIns: usage</h4><p>当启用这个选项时，<code>@babel/preset-env</code>只会在每个文件顶部添加仅用于当前使用的、目标环境不支持的功能的 polyfills<br>例如：</p>
+<h4 id="useBuiltIns-usage"><a href="#useBuiltIns-usage" class="headerlink" title="useBuiltIns: usage"></a><font style="color:rgb(36, 41, 47);">useBuiltIns: usage</font></h4><p>当启用这个选项时，<code>&lt;font style=&quot;color:rgb(36, 41, 47);&quot;&gt;@babel/preset-env&lt;/font&gt;</code>只会在每个文件顶部添加仅用于当前使用的、目标环境不支持的功能的 polyfills</p>
+<p>例如：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> set = <span class="keyword">new</span> <span class="title class_">Set</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]);</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>].<span class="title function_">includes</span>(<span class="number">2</span>);</span><br></pre></td></tr></table></figure>
 
 <p>当转化目标是老旧的低版本浏览器，比如 <code>ie 11</code>，上面的代码将被转化为：</p>
@@ -146,13 +164,14 @@
 <p>当目标是 <code>chrome 72</code>时，不会导入任何 polyfills，因为目标环境不需要这些 polyfills：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> set = <span class="keyword">new</span> <span class="title class_">Set</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]);</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>].<span class="title function_">includes</span>(<span class="number">2</span>);</span><br></pre></td></tr></table></figure>
 
-<p>上面不管是 <code>entry</code>还是 <code>usage</code>都能够实现 polyfill 一定的按需引入，好是好，但是仔细想想，还是有不少问题的：</p>
+<p>上面不管是 <code>&lt;font style=&quot;color:rgb(36, 41, 47);&quot;&gt;entry&lt;/font&gt;</code>还是 <code>&lt;font style=&quot;color:rgb(36, 41, 47);&quot;&gt;usage&lt;/font&gt;</code>都能够实现 polyfill 一定的按需引入，好是好，但是仔细想想，还是有不少问题的：</p>
 <ul>
 <li>特性列表是按浏览器整理的，那怎么知道哪些特性我用了，哪些没有用到，没有用到的部分也引入了是不是也是冗余？</li>
 <li>补丁是打包到静态文件的，如果我配置 targets 为 chrome: 62, ie: 9，那意味着 chrome 62 也得载入 ie 9 相关的补丁，这也是一份冗余</li>
 <li>我们是基于 core-js 打的补丁，所以只会包含 ecmascript 规范里的内容，其他比如说 dom 里的补丁，就不在此列，应该如何处理？</li>
 </ul>
-<h3 id="手动引入"><a href="#手动引入" class="headerlink" title="手动引入"></a>手动引入</h3><p>前面的方案都是基于 babel 编译器的方案，虽然低效但是直观有用。如果是在一些特别在乎性能的场景，比如 H5 营销页面，宁可牺牲效率也要最求性能。那么可以手动引入 <a target="_blank" rel="noopener" href="https://github.com/zloirock/core-js/tree/v2/modules">core-js&#x2F;modules</a> 下的文件，缺啥加啥就好。</p>
+<p><font style="color:rgb(36, 41, 47);"></font></p>
+<h3 id="手动引入"><a href="#手动引入" class="headerlink" title="手动引入"></a><font style="color:rgb(36, 41, 47);">手动引入</font></h3><p>前面的方案都是基于 babel 编译器的方案，虽然低效但是直观有用。如果是在一些特别在乎性能的场景，比如 H5 营销页面，宁可牺牲效率也要最求性能。那么可以手动引入 <a target="_blank" rel="noopener" href="https://github.com/zloirock/core-js/tree/v2/modules">core-js&#x2F;modules</a> 下的文件，缺啥加啥就好。</p>
 <h3 id="在线补丁"><a href="#在线补丁" class="headerlink" title="在线补丁"></a>在线补丁</h3><p>上面啰嗦了一大堆，和本文的主题 Polyfill.io 有什么关系？前面都是为了解决如何引入特性列表的问题，有了特性列表，要做到按需下载，就需要用到在线补丁的服务了。这就到了本文的主题，<a target="_blank" rel="noopener" href="https://polyfill.io/">polyfill.io</a> - 目前最流行的在线补丁服务。</p>
 <p>你可以尝试在不同的浏览器下访问 <a target="_blank" rel="noopener" href="https://polyfill.io/v3/polyfill.min.js">https://polyfill.io/v3/polyfill.min.js</a> 这个文件，Polyfill.io 服务端会根据用户访问携带的浏览器 UA 返回不同的 pollfill 文件，真正做到了按需加载。你需要做的仅仅是在页面上引入这个文件：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src=<span class="string">&quot;https://polyfill.io/v3/polyfill.min.js&quot;</span>&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure>
@@ -161,18 +180,24 @@
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* Polyfill service v3.111.0</span></span><br><span class="line"><span class="comment"> * Disable minification (remove `.min` from URL path) for more info */</span></span><br></pre></td></tr></table></figure>
 
 <p>啥都没有，因为新版本的 Chrome 已经完整支持了 ECMAScript 标准和提案的所有特性，没啥需要 pollyfill 的。</p>
-<p>Polyfill.io 不仅提供了 CDN 服务，还开源了 <a target="_blank" rel="noopener" href="https://github.com/financial-times/polyfill-service">polyfill-service</a> 供我们自己搭建使用。针对国内访问 Polyfill.io 较慢的问题，可以使用阿里云的 polyfill 服务替换</p>
+<p><font style="color:rgb(48, 48, 48);"></font></p>
+<p><font style="color:rgb(36, 41, 47);">Po</font>lyfill.io 不仅提供了 CDN 服务，还开源了 <a target="_blank" rel="noopener" href="https://github.com/financial-times/polyfill-service">polyfill-service</a> 供我们自己搭建使用。针对国内访问 Polyfill.io 较慢的问题，可以使用阿里云的 polyfill 服务替换</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">https</span>:<span class="comment">//polyfill.alicdn.com/polyfill.min.js</span></span><br></pre></td></tr></table></figure>
 
 <blockquote>
-<p>阿里云不仅仅是 Polyfill.io，它还做了一些优化，在作者的 chrome 上访问上面的链接：<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FhWrxDSfu6Rh2x5b4kSNaMWNBEz3.png"><br>会加载一些额外的代码，这表现和 Polyfill.io 不一样，因此不能简单的把阿里云的 polyfill 当成 Polyfill.io 的平替，至于阿里云做了哪些优化，本文就不再讨论了，有机会另开文章介绍。</p>
+<p>阿里云不仅仅是 Polyfill.io，它还做了一些优化，在作者的 chrome 上访问上面的链接：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/bijinfeng/image-hosting/yuque/FhWrxDSfu6Rh2x5b4kSNaMWNBEz3.png"></p>
+<p>会加载一些额外的代码，这表现和 Polyfill.io 不一样，因此不能简单的把阿里云的 polyfill 当成 Polyfill.io 的平替，至于阿里云做了哪些优化，本文就不再讨论了，有机会另开文章介绍。</p>
 </blockquote>
+<p><font style="color:rgb(36, 41, 47);"></font></p>
 <p>当然改方案也不是完美的，最起码它有以下两个缺点：</p>
 <ul>
 <li>多了一次 http 请求</li>
 <li>针对国内乱七八糟的浏览器是否能够准确识别从而返回需要的 polyfill 代码就不得而知了</li>
 </ul>
-<h2 id="完整-Pollyfill-方案"><a href="#完整-Pollyfill-方案" class="headerlink" title="完整 Pollyfill 方案"></a>完整 Pollyfill 方案</h2><p>本文关于 Polyfill 方案的介绍大部分都是来自大佬们的文章，同时也包含了一些自己的思考。是时候来个总结，关于 Pollyfill 我认为 <strong>按需特性探测 + 在线补丁</strong> 才是一个比较完整的方案：<br>按需特性探测可以使用 <code>@babel/preset-env</code>配上 <code>targets</code>以及 <code>useBuiltIns: usage</code>，可以保障特性集的最小化。<br>在线补丁可以使用 Polyfill.io 的方案（大公司可以使用自己搭建的服务），可以保障遇到目标浏览器不支持的特性是能做到按需加载，给业务再做一层兜底。</p>
+<h2 id="完整-Pollyfill-方案"><a href="#完整-Pollyfill-方案" class="headerlink" title="完整 Pollyfill 方案"></a><font style="color:rgb(48, 48, 48);">完整 Pollyfill 方案</font></h2><p>本文关于 Polyfill 方案的介绍大部分都是来自大佬们的文章，同时也包含了一些自己的思考。是时候来个总结，关于 Pollyfill 我认为 <strong>按需特性探测 + 在线补丁</strong> 才是一个比较完整的方案：</p>
+<p>按需特性探测可以使用 <code>&lt;font style=&quot;color:rgb(36, 41, 47);&quot;&gt;@babel/preset-env&lt;/font&gt;</code>配上 <code>&lt;font style=&quot;color:rgb(36, 41, 47);&quot;&gt;targets&lt;/font&gt;</code>以及 <code>&lt;font style=&quot;color:rgb(36, 41, 47);&quot;&gt;useBuiltIns: usage&lt;/font&gt;</code>，可以保障特性集的最小化。</p>
+<p>在线补丁可以使用 Polyfill.io 的方案（大公司可以使用自己搭建的服务），可以保障遇到目标浏览器不支持的特性是能做到按需加载，给业务再做一层兜底。</p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
 <li><a target="_blank" rel="noopener" href="https://juejin.cn/post/6845166891015602190#heading-2">https://juejin.cn/post/6845166891015602190#heading-2</a></li>
 <li><a target="_blank" rel="noopener" href="https://github.com/sorrycc/blog/issues/80">https://github.com/sorrycc/blog/issues/80</a></li>
