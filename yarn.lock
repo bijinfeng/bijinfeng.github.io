@@ -2000,10 +2000,10 @@ hexo-generator-category@2.0.0:
   dependencies:
     hexo-pagination "3.0.0"
 
-hexo-generator-index@3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/hexo-generator-index/-/hexo-generator-index-3.0.0.tgz#4c9233731e027a6af6491886a4aafe08ffdaffe0"
-  integrity sha512-83AuNN4cWdLVi//3ugR8E3kR6rrOwhXZt+hOCm1IjtIGj353/GlrtpMHpqZHU5kqipzj4miy9dweVdukXglVWw==
+hexo-generator-index@4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/hexo-generator-index/-/hexo-generator-index-4.0.0.tgz#2f20cf9d231db30edbccd5be32c92c8aeb5d6d63"
+  integrity sha512-KeM7mOCKWINGFAk1E+CkjMMgqFIv8oaRbGxR7ipkQAp44o4aopkVftma4sdIplOq9WQEWfVYDUK5gEv9J3nzUg==
   dependencies:
     hexo-pagination "3.0.0"
 
@@ -2096,10 +2096,10 @@ hexo-server@3.0.0:
     picocolors "^1.0.0"
     serve-static "^1.14.1"
 
-hexo-theme-stellar@^1.29.0:
-  version "1.29.0"
-  resolved "https://registry.yarnpkg.com/hexo-theme-stellar/-/hexo-theme-stellar-1.29.0.tgz#71fdea34257e69ab6e78576d51d371da20ac52f1"
-  integrity sha512-FmtLEQRZUNNtJfxSeA2RVUSYD1eMwEC2CWANe0vMBvOZm/aRazxuEcY/SKJxfM4+RjLXUknHb6sooQlm21TQ+A==
+hexo-theme-stellar@^1.29.1:
+  version "1.29.1"
+  resolved "https://registry.yarnpkg.com/hexo-theme-stellar/-/hexo-theme-stellar-1.29.1.tgz#39974f9ea20c5af7d81ef27f61870f560188c666"
+  integrity sha512-6OetnuydRZ0ZYrpGeFj5D1kABLgRign6X7Jaz1xNwqso8S51X1cSZgSmdivaYPDYIDHvZD6czmErj1TS+gAlKg==
   dependencies:
     hexo-renderer-ejs "^2.0.0"
     hexo-renderer-stylus "^3.0.1"
@@ -2143,10 +2143,10 @@ hexo-util@^3.0.1, hexo-util@^3.1.0, hexo-util@^3.3.0:
     prismjs "^1.29.0"
     strip-indent "^3.0.0"
 
-hexo@7.2.0:
-  version "7.2.0"
-  resolved "https://registry.yarnpkg.com/hexo/-/hexo-7.2.0.tgz#0c2b0eeb3f16c557638b6dbd5956a425460d7d0f"
-  integrity sha512-RYIzl7jfG0i2jH/k5IZg4C1anyHfmKHNUsBKIn9LU0V3iQ0WQrwuOLFDJwaZDenqmzHYJhAVCGAkrBDfF/IlVg==
+hexo@7.3.0:
+  version "7.3.0"
+  resolved "https://registry.yarnpkg.com/hexo/-/hexo-7.3.0.tgz#a9a487874c5ed71c22e91e32dd5d825709a1474f"
+  integrity sha512-dOe8mzBKrvjubW5oBmyhcnQDpC+M2xmAMLae5K+o+SkHxyvAhShkS2VQZoTsOLIJKY6xilv7dzCjCvE7ol/NHQ==
   dependencies:
     abbrev "^2.0.0"
     archy "^1.0.0"
@@ -4930,10 +4930,10 @@ yuque-hexo@^1.9.5:
     upyun "^3.4.6"
     urllib "^2.29.1"
 
-zx@^8.1.3:
-  version "8.1.3"
-  resolved "https://registry.yarnpkg.com/zx/-/zx-8.1.3.tgz#037e2e49f8e50d7d8c9ecabbb1f947e54edc0eb2"
-  integrity sha512-fA44CRlggDOKeqt66aMwzLj1tb0zEQJmIjsSDXpmNjRRKaLFYkpeGE/zXnO05sJvSuzAlbVM50zexJJGMrIvuQ==
+zx@^8.2.4:
+  version "8.2.4"
+  resolved "https://registry.yarnpkg.com/zx/-/zx-8.2.4.tgz#28bc6a5c37d623b63a3a1c40198e0aaf9d2d136a"
+  integrity sha512-g9wVU+5+M+zVen/3IyAZfsZFmeqb6vDfjqFggakviz5uLK7OAejOirX+jeTOkyvAh/OYRlCgw+SdqzN7F61QVQ==
   optionalDependencies:
     "@types/fs-extra" ">=11"
     "@types/node" ">=20"
