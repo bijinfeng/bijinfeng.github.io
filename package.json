@@ -52,6 +52,6 @@
   },
   "devDependencies": {
     "yuque-hexo": "^1.9.5",
-    "zx": "^8.2.4"
+    "zx": "^8.5.5"
   }
 }
