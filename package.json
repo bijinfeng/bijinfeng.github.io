@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "cheerio": "1.0.0-rc.12",
-    "hexo": "7.3.0",
+    "hexo": "8.0.0",
     "hexo-generator-archive": "2.0.0",
     "hexo-generator-baidu-sitemap": "^0.1.9",
     "hexo-generator-category": "2.0.0",
