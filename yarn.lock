@@ -5037,7 +5037,7 @@ yuque-hexo@^1.9.5:
     upyun "^3.4.6"
     urllib "^2.29.1"
 
-zx@^8.8.1:
-  version "8.8.1"
-  resolved "https://registry.yarnpkg.com/zx/-/zx-8.8.1.tgz#5c30645d3383d961771d911c63defa6a6e58014c"
-  integrity sha512-qvsKBnvWHstHKCluKPlEgI/D3+mdiQyMoSSeFR8IX/aXzWIas5A297KxKgPJhuPXdrR6ma0Jzx43+GQ/8sqbrw==
+zx@^8.8.3:
+  version "8.8.3"
+  resolved "https://registry.yarnpkg.com/zx/-/zx-8.8.3.tgz#990eaf362cd473d243c52c2294a45bad1f68712e"
+  integrity sha512-8GWaBTVU6wzTdqO0v5qwGMUFLCYduW7UUxaliRD+FXGRfYM8KLDGL93idbdGFLomHDi18ZxCfhAJqYZB8rJNvw==
