@@ -17,14 +17,14 @@
   },
   "dependencies": {
     "cheerio": "1.1.2",
-    "hexo": "7.3.0",
+    "hexo": "8.0.0",
     "hexo-generator-archive": "2.0.0",
     "hexo-generator-baidu-sitemap": "^0.1.9",
     "hexo-generator-category": "2.0.0",
     "hexo-generator-index": "4.0.0",
     "hexo-generator-sitemap": "^3.0.1",
     "hexo-generator-tag": "2.0.0",
-    "hexo-renderer-marked": "6.3.0",
+    "hexo-renderer-marked": "7.0.1",
     "hexo-renderer-stylus": "3.0.1",
     "hexo-server": "3.0.0",
     "hexo-theme-stellar": "^1.33.1",
@@ -52,6 +52,6 @@
   },
   "devDependencies": {
     "yuque-hexo": "^1.9.5",
-    "zx": "^8.2.4"
+    "zx": "^8.8.1"
   }
 }
