@@ -1,12 +1,11 @@
 ---
 title: NestJS - 配置
-date: 2021-03-17 11:25:10
-tags:
+date: "2021-03-17 11:25:10"
+category: 前端开发
 ---
-
 应用程序通常运行在不同的环境，例如，开发有开发环境、测试环境，线上有预发布环境、生产环境，而运行在不同的环境，需要有不同的配置，例如数据库的配置等。
 
-<!-- more -->
+
 
 在`Node`中，外部定义的环境变量通过`procress.env`全局可见。在Node.js应用程序中，通常使用`.env`文件来配置这些环境变量，其中每个键代表一个特定的值，以代表每个环境。
 
@@ -105,7 +104,6 @@ ConfigModule.forRoot({
 
 自定义配置文件导出一个工厂函数，该函数返回一个配置对象。配置对象可以是任何任意嵌套的普通JavaScript对象。`process.env`对象将包含完全解析的环境变量key-value对（如上所述，.env文件和外部定义的变量被解析和合并）。由于你控制了返回的配置对象，你可以添加任何所需的逻辑来将值投射到一个适当的类型，设置默认值等。例如
 
-
 ```ts
 export default () => ({
   port: parseInt(process.env.PORT, 10) || 3000,
@@ -176,7 +174,6 @@ export default () => {
 ## 使用`ConfigService`
 
 要从`ConfigService`中访问配置值，我们首先得注入`ConfigService`，和使用其他`provider`一样，我们需要将其加入@Module的`imports`属性中（如果将`ConfigModule`配置成全局module，则可以忽略这一步）
-
 
 ```ts
 @Module({
@@ -314,7 +311,6 @@ export class DatabaseModule {}
 
 ## 校验环境变量
 
-
 如果所需的环境变量没有被提供或不符合某些验证规则，在应用程序启动时抛出异常是标准做法。`@nestjsconfig`包有两种不同的方式来实现这一点。
 
 - [Joi](https://github.com/sideway/joi)内置验证器。使用Joi，你可以定义一个对象模式，并对其进行JavaScript对象验证。
@@ -326,7 +322,7 @@ export class DatabaseModule {}
 $ yarn add joi
 ```
 
-> 最新版本的joi需要你运行Node v12或更高版本。旧版本的node请安装v16.1.8。这主要是在v17.0.2发布后，在构建的时候会出现错误。更多信息请参考其17.0.0发布说明(https://github.com/sideway/joi/issues/2262)。
+> 最新版本的joi需要你运行Node v12或更高版本。旧版本的node请安装v16.1.8。这主要是在v17.0.2发布后，在构建的时候会出现错误。更多信息请参考其17.0.0发布说明([https://github.com/sideway/joi/issues/2262)。](https://github.com/sideway/joi/issues/2262)。)
 
 现在我们可以定义一个Joi验证模式，并通过`forRoot()`方法的选项对象的`validationSchema`属性传递，如下图所示。
 
@@ -351,7 +347,6 @@ export class AppModule {}
 默认情况下，所有的 schema keys 都被认为是可选的。这里，我们为 `NODE_ENV`和`PORT`设置了默认值，如果我们不在环境(.env文件或进程环境)中提供这些变量，就会使用这些变量。另外，我们也可以使用 `required()` 验证方法来要求必须在环境 (.env 文件或进程环境) 中定义一个值。在这种情况下，如果我们没有在环境中提供变量，验证步骤将抛出一个异常。关于如何构造验证模式，请参见Joi验证方法。
 
 默认情况下，允许未知的环境变量（模式中键不存在的环境变量），并且不会触发验证异常。默认情况下，所有的验证错误都会被报告。你可以通过`forRoot()`选项对象的`validationOptions`键传递一个选项对象来改变这些行为。这个选项对象可以包含Joi验证选项提供的任何标准验证选项属性。例如，要反转上面的两个设置，可以传递这样的选项。
-
 
 ```ts
 import * as Joi from 'joi';
@@ -511,4 +506,5 @@ const configService = app.get(ConfigService);
 const port = configService.get('PORT');
 ```
 
-> 本文基本上是官文文档中有关配置部分的中文翻译（https://docs.nestjs.com/techniques/configuration），有时间再写个实战文章。
+> 本文基本上是官文文档中有关配置部分的中文翻译（[https://docs.nestjs.com/techniques/configuration），有时间再写个实战文章。](https://docs.nestjs.com/techniques/configuration），有时间再写个实战文章。)
+
